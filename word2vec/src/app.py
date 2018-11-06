@@ -1,5 +1,5 @@
 from .model_provider import loadModel
-from .embedding_calculator import calculateMeanOfWordEmbeddingsForText
+from .embedding_calculator import calculateMeanVectorOfWordEmbeddingsForText
 
 def run():
     articleString = "hello how are you"
