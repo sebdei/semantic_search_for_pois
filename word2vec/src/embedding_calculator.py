@@ -7,19 +7,30 @@ def getInitSumVector(model):
     return np.zeros(numberOfDimensions)
 
 # assumes, that text is already cleaned
-def calculateMeanOfWordEmbeddingsForText(articleString, model):
+def calculateMeanVectorOfWordEmbeddingsForText(articleString, model):
     wordsArray = articleString.split()
-    return calculateMeanOfWordEmbeddingsForArray(wordsArray, model)
+    return calculateMeanVectorOfWordEmbeddingsForArray(wordsArray, model)
 
-def calculateMeanOfWordEmbeddingsForArray(wordsArray, model):
+def calculateMeanVectorOfWordEmbeddingsForArray(wordsArray, model):
     sumVector = getInitSumVector(model)
     numberOfWords = len(wordsArray)
+    wordsNotFoundInModel = []
 
     if (numberOfWords > 0 ):
         for word in wordsArray:
             lowerCaseWord = word.lower()
-            wordVector = model[lowerCaseWord]
-            sumVector = np.add(sumVector, wordVector)
+
+            try:
+                wordVector = model[lowerCaseWord]
+                sumVector = np.add(sumVector, wordVector)
+
+            except KeyError:
+                wordsNotFoundInModel.append(word)
+                numberOfWords -= 1
+
+        if (len(wordsNotFoundInModel) > 0):
+            print("The following words were not found in model:")
+            print(wordsNotFoundInModel)
 
         meanVector = sumVector / numberOfWords
 

@@ -2,9 +2,9 @@ from .model_provider import loadModel
 from .embedding_calculator import calculateMeanOfWordEmbeddingsForText
 
 def run():
-    articleString = "suck it down dude"
+    articleString = "hello how are you"
 
     model = loadModel()
-    meanVectorOfArticle = calculateMeanOfWordEmbeddingsForText(articleString, model)
+    meanVectorOfArticle = calculateMeanVectorOfWordEmbeddingsForText(articleString, model)
 
     print(meanVectorOfArticle)
