@@ -1,2 +1,5 @@
 /venv
-/models/*
+/models/*.txt
+
+# pycache
+*.pyc
