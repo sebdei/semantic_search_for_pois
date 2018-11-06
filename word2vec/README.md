@@ -14,6 +14,11 @@ activate virtualenv with
 $ source venv/bin/activate
 ```
 
+install all dependencies 
+```
+$ pip install -r requirements.txt
+```
+
 deactivate virtualenv later with
 
 ```
