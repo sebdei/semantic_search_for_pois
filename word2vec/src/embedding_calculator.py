@@ -8,17 +8,19 @@ def getInitSumVector(model):
 
 # assumes, that text is already cleaned
 def calculateMeanOfWordEmbeddingsForText(articleString, model):
-    sumVector = getInitSumVector(model)
-
     wordsArray = articleString.split()
-    numberOfWordsInArticle = len(wordsArray)
+    return calculateMeanOfWordEmbeddingsForArray(wordsArray, model)
 
-    if (numberOfWordsInArticle > 0 ):
+def calculateMeanOfWordEmbeddingsForArray(wordsArray, model):
+    sumVector = getInitSumVector(model)
+    numberOfWords = len(wordsArray)
+
+    if (numberOfWords > 0 ):
         for word in wordsArray:
             lowerCaseWord = word.lower()
             wordVector = model[lowerCaseWord]
             sumVector = np.add(sumVector, wordVector)
 
-        meanVector = sumVector / numberOfWordsInArticle
+        meanVector = sumVector / numberOfWords
 
         return meanVector
