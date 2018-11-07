@@ -1,11 +1,11 @@
 import numpy as np
 
-GLOVE_MODEL_DIR = "models/glove.6B.50d.txt"
+GLOVE_MODEL_DIR = 'models/glove.6B.50d.txt'
 
 
 def loadModel():
     model = {}
-    print("loading word embedding model ...")
+    print('loading word embedding model ...')
 
     file = open(GLOVE_MODEL_DIR,'r')
 

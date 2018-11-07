@@ -1,8 +1,8 @@
 import numpy as np
 
 def getInitSumVector(model):
-    firstElementInModel = next(iter(model.values()))
-    numberOfDimensions = len(firstElementInModel)
+    firstElementValueInModel = next(iter(model.values()))
+    numberOfDimensions = len(firstElementValueInModel)
 
     return np.zeros(numberOfDimensions)
 
@@ -23,13 +23,12 @@ def calculateMeanVectorOfWordEmbeddingsForArray(wordsArray, model):
             try:
                 wordVector = model[lowerCaseWord]
                 sumVector = np.add(sumVector, wordVector)
-
             except KeyError:
-                wordsNotFoundInModel.append(word)
+                wordsNotFoundInModel.append(lowerCaseWord)
                 numberOfWords -= 1
 
         if (len(wordsNotFoundInModel) > 0):
-            print("The following words were not found in model:")
+            print('The following words were not found in model:')
             print(wordsNotFoundInModel)
 
         meanVector = sumVector / numberOfWords
