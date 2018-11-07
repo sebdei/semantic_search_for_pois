@@ -1,36 +1,36 @@
 import numpy as np
 
-def getInitSumVector(model):
-    firstElementValueInModel = next(iter(model.values()))
-    numberOfDimensions = len(firstElementValueInModel)
+def get_init_sum_vector(model):
+    first_element_value_in_model = next(iter(model.values()))
+    number_of_dimensions = len(first_element_value_in_model)
 
-    return np.zeros(numberOfDimensions)
+    return np.zeros(number_of_dimensions)
 
 # assumes, that text is already cleaned
-def calculateMeanVectorOfWordEmbeddingsForText(articleString, model):
-    wordsArray = articleString.split()
-    return calculateMeanVectorOfWordEmbeddingsForArray(wordsArray, model)
+def calculate_mean_vector_of_word_embeddings_for_text(article_string, model):
+    words_array = article_string.split()
+    return calculate_mean_vector_of_word_embeddings_for_array(words_array, model)
 
-def calculateMeanVectorOfWordEmbeddingsForArray(wordsArray, model):
-    sumVector = getInitSumVector(model)
-    numberOfWords = len(wordsArray)
-    wordsNotFoundInModel = []
+def calculate_mean_vector_of_word_embeddings_for_array(words_array, model):
+    sum_vector = get_init_sum_vector(model)
+    number_of_words = len(words_array)
+    words_not_found_in_model = []
 
-    if (numberOfWords > 0 ):
-        for word in wordsArray:
-            lowerCaseWord = word.lower()
+    if (number_of_words > 0 ):
+        for word in words_array:
+            lower_case_word = word.lower()
 
             try:
-                wordVector = model[lowerCaseWord]
-                sumVector = np.add(sumVector, wordVector)
+                word_vector = model[lower_case_word]
+                sum_vector = np.add(sum_vector, word_vector)
             except KeyError:
-                wordsNotFoundInModel.append(lowerCaseWord)
-                numberOfWords -= 1
+                words_not_found_in_model.append(lower_case_word)
+                number_of_words -= 1
 
-        if (len(wordsNotFoundInModel) > 0):
+        if (len(words_not_found_in_model) > 0):
             print('The following words were not found in model:')
-            print(wordsNotFoundInModel)
+            print(words_not_found_in_model)
 
-        meanVector = sumVector / numberOfWords
+        mean_vector = np.divide(sum_vector, number_of_words)
 
-        return meanVector
+        return mean_vector

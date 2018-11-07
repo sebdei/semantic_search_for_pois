@@ -1,10 +1,10 @@
-from .model_provider import loadModel
-from .embedding_calculator import calculateMeanVectorOfWordEmbeddingsForText
+from .model_provider import load_model
+from .embedding_calculator import calculate_mean_vector_of_word_embeddings_for_text
 
 def run():
-    articleString = 'suck it down dude'
+    article_string = 'suck it down dude'
 
-    model = loadModel()
-    meanVectorOfArticle = calculateMeanVectorOfWordEmbeddingsForText(articleString, model)
+    model = load_model()
+    mean_vector_of_article = calculate_mean_vector_of_word_embeddings_for_text(article_string, model)
 
-    print(meanVectorOfArticle)
+    print(mean_vector_of_article)
