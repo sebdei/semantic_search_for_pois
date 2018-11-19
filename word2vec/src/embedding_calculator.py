@@ -1,4 +1,9 @@
 import numpy as np
+import re
+
+def eliminate_dublicates(words_array):
+    unique_words_set = set()
+    return [x for x in words_array if x not in unique_words_set and not unique_words_set.add(x)]
 
 def get_init_sum_vector(model):
     first_element_value_in_model = next(iter(model.values()))
@@ -6,9 +11,12 @@ def get_init_sum_vector(model):
 
     return np.zeros(number_of_dimensions)
 
-# assumes, that text is already cleaned
 def calculate_mean_vector_of_word_embeddings_for_text(article_string, model):
-    words_array = article_string.split()
+    stripped_string = re.sub('[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/]', ' ', article_string)
+    words_array = stripped_string.split()
+
+    unique_word_array = eliminate_dublicates(words_array)
+
     return calculate_mean_vector_of_word_embeddings_for_array(words_array, model)
 
 def calculate_mean_vector_of_word_embeddings_for_array(words_array, model):
