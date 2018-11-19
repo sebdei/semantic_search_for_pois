@@ -11,14 +11,6 @@ def get_init_sum_vector(model):
 
     return np.zeros(number_of_dimensions)
 
-def calculate_mean_vector_of_word_embeddings_for_text(article_string, model):
-    stripped_string = re.sub('[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/]', ' ', article_string)
-    words_array = stripped_string.split()
-
-    unique_word_array = eliminate_dublicates(words_array)
-
-    return calculate_mean_vector_of_word_embeddings_for_array(words_array, model)
-
 def calculate_mean_vector_of_word_embeddings_for_array(words_array, model):
     sum_vector = get_init_sum_vector(model)
     number_of_words = len(words_array)
@@ -42,3 +34,11 @@ def calculate_mean_vector_of_word_embeddings_for_array(words_array, model):
         mean_vector = np.divide(sum_vector, number_of_words)
 
         return mean_vector
+
+def calculate_mean_vector_of_word_embeddings_for_text(article_string, model):
+    stripped_string = re.sub('[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/]', ' ', article_string)
+    words_array = stripped_string.split()
+
+    unique_word_array = eliminate_dublicates(words_array)
+
+    return calculate_mean_vector_of_word_embeddings_for_array(words_array, model)
