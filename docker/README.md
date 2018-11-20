@@ -1,6 +1,6 @@
 # Docker
 
-This is just a naive docker-compose setup that currently only contains a postgres service. 
+This is just a naive docker-compose setup that currently only contains a postgres service and a dummy python environment.
 
 To run the docker container, you need to [install Docker](https://docs.docker.com/install/) (including docker-compose) and start the Docker daemon. Then, open this folder in the command line run the following command:
 

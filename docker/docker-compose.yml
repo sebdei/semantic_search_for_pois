@@ -9,3 +9,8 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - 5433:5432  # expose postgres port to be able to access it from the host machine, but use 5433 to avoid collisions
+  
+  py:
+    image: python:3
+    tty: true
+    
