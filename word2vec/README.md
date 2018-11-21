@@ -5,7 +5,7 @@ Installation
 - cd into folder and create a virtualenv with
 
 ```
-$ virtualenv venv
+$ python3 -m venv venv
 ```
 
 activate virtualenv with
@@ -14,9 +14,14 @@ activate virtualenv with
 $ source venv/bin/activate
 ```
 
-install all dependencies 
+install all dependencies
 ```
-$ pip install -r requirements.txt
+(venv)$ pip install -r requirements.txt
+```
+
+store current dependencies in requirements.txt
+```
+pip freeze > requirements.txt
 ```
 
 deactivate virtualenv later with
