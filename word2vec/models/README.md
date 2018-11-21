@@ -1,5 +1,3 @@
-make sure you downloaded pretrained models
-
 Glove models
 ------------
 ```
