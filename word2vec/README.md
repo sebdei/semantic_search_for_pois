@@ -18,6 +18,10 @@ install all dependencies
 ```
 (venv)$ pip install -r requirements.txt
 ```
+start main.py with
+```
+$ python3 main.py
+```
 
 store current dependencies in requirements.txt
 ```
