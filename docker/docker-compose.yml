@@ -12,5 +12,6 @@ services:
   
   py:
     image: python:3
-    tty: true
-    
+    tty: true # do not exit immediately
+    depends_on:
+      - db
