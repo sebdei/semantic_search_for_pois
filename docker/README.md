@@ -5,7 +5,7 @@ This is just a naive docker-compose setup that currently only contains a postgre
 To run the docker container, you need to [install Docker](https://docs.docker.com/install/) (including docker-compose) and start the Docker daemon. Then, open this folder in the command line run the following command:
 
 ```{sh}
-docker-compose -f docker-compose.yml up -d
+docker-compose up -d
 ```
 
 Alternatively, it can be started without docker-compose using ```docker stack```:

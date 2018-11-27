@@ -12,6 +12,8 @@ services:
   
   py:
     image: python:3
-    tty: true # do not exit immediately
+    tty: true # allocate a TTY do not exit immediately
     depends_on:
       - db
+    volumes:
+      - ../:/src # bind all source folders to the /src-directory in the container
