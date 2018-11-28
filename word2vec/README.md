@@ -1,6 +1,7 @@
 Installation
 ------------
 
+
 - make sure you installed pip and virtualenv
 - cd into folder and create a virtualenv with
 
