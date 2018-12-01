@@ -19,7 +19,7 @@ def assure_model_exists():
         zip = zipfile.ZipFile(os.path.join(GLOVE_MODEL_BASE_DIR, GLOVE_MODEL_ZIP_NAME), 'r')
         zip.extract(GLOVE_MODEL_TXT_NAME, GLOVE_MODEL_BASE_DIR)
 
-def load_model():
+def provide_glove_model():
     assure_model_exists()
 
     model = {}
