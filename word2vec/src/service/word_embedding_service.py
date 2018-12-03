@@ -3,7 +3,7 @@ import re
 
 def eliminate_dublicates(words_array):
     unique_words_set = set()
-    return [x for x in words_array if x not in unique_words_set and not unique_words_set.add(x)]
+    return [ x for x in words_array if x not in unique_words_set and not unique_words_set.add(x) ]
 
 def get_init_sum_vector(model):
     first_element_value_in_model = next(iter(model.values()))
