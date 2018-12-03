@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 from .model_provider import provide_glove_model
 
-nltk.download('stopwords') #stopwords
+nltk.download('stopwords')
 nltk.download('wordnet') # lemmatization
 
 def clean_article(article, glove_model):

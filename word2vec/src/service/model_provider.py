@@ -23,16 +23,15 @@ def assure_model_exists():
 def provide_glove_model():
     assure_model_exists()
 
-    model = {}
-    print('loading word embedding model ...')
+    print('providing word embedding model ...')
 
     file = open(os.path.join(GLOVE_MODEL_BASE_DIR, GLOVE_MODEL_TXT_NAME),'r')
+    model = {}
 
     for line in file:
         split_line = line.split()
         word = split_line[0]
-        embedding = np.array([float(val) for val in split_line[1:]])
-        model[word] = embedding
+        model[word] = np.array([ float(val) for val in split_line[1:] ])
 
     print('model successfully loaded')
 
