@@ -38,7 +38,7 @@ def determine_tf_idfs_for_list_of_articles(articles, glove_model):
     return result
 
 def determine_word_embeddings_for_feature_vector(feature_vector, glove_model):
-    return pd.DataFrame([glove_model[word] for word in feature_vector], index=feature_vector)
+    return pd.DataFrame([glove_model[word] for word in feature_vector], index = feature_vector)
 
 def determine_weighted_word_embeddings_for_articles(articles):
     glove_model = provide_glove_model()
