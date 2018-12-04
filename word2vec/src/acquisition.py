@@ -2,6 +2,7 @@ from urllib.request import urlretrieve
 from src.service import persistence_service
 import os
 import pandas
+import re
 
 DATA_BASE_PATH = 'data/'
 CSV_NAME = 'open_data_berlin_cultural_institutes.xlsx'
@@ -19,33 +20,55 @@ def perform_acqusition():
     assure_csv_file()
 
     data_frame = pandas.read_excel(os.path.join(DATA_BASE_PATH, CSV_NAME))
+    data_frame2= process_data_frame(data_frame)
+    load_data_frame_into_postgres(data_frame2)
 
+  #  print(data_frame2)
     for index, row in data_frame.iterrows():
-        row['Institution']
+   #     print(index, row['Institution'])
         row['Adresse']
         row['Lat']
         row['Lon']
   #  return data_frame
 
-def split_address_format(df):
-        df['address_with_number'], df['zipcode']=df['Adresse'].str.split(',',1).str
-        df['zipcode'].replace({'[^0-9]': ''},inplace=True, regex=True)
-        df['street_number'] = df['address_with_number'].str.extract('(\\d+.?\\d*)')
-        df['street_name']=df['address_with_number']
-        df['street_name'].replace({'[\\s0-9]{2,}.*|\\d.*':''}, inplace=True, regex=True)
+def split_address(address):
+        address_with_number, zip_code = (address.split(',',1)+[None])[:2]
+        street_name=re.sub('[\s0-9]{2,}.*|\d.*','',address_with_number)
+        street_number=re.search(r'(\d+.?\d*.?)',address_with_number)
+        if street_number is None:
+                street_number=None
+        else:
+                street_number=street_number.group(0).strip()
+        if zip_code is None:
+                zip_code=None
+        else:
+                zip_code=re.sub('[^0-9]', '',zip_code)
+                zip_code=zip_code.strip()
+        street_name=street_name.strip()
+        return street_name, street_number, zip_code
 
-def remove_cols(df):
-        df.drop(['Adresse', 'address_with_number'],axis=1,inplace=True)
-        df1 = df[['Institution', 'zipcode', 'street_name', 'street_number', 'Lat', 'Lon']]
- 
-def reorder_cols(df):
-    df1=df[['Institution', 'zipcode', 'street_name', 'street_number', 'Lat', 'Lon']]
-    df1.rename(index=str, columns={"Institution": "institution", "zipcode":"zipcode",'street_number':'street_number', 'street_name':'street_name',"Lat": "lat", "Lon":"lon"},inplace=True)
-    return df1
- 
-def process_data_frame():
-        df=perform_acqusition()
-        df.usecols(0,1,2,3)
-        return df
+def process_data_frame(df):
+        print(df)
+        columns=['name', 'street_name', 'street_number', 'zip_code', 'long','lat']
+        data_frame2=pandas.DataFrame(columns=columns)
+        for index, row in df.iterrows():
+                new_row=[]
+                street_name,street_number,zip_code=split_address(row['Adresse'])
+                new_row.append(row['Institution'])
+                new_row.append(street_name)
+                new_row.append(street_number)
+                new_row.append(zip_code)
+                new_row.append(row['Lon'])
+                new_row.append(row['Lat'])
+                data_frame3=pandas.DataFrame([new_row], columns=columns)
+                data_frame2=data_frame2.append(data_frame3, ignore_index=True)
+        print(data_frame2)
+        return data_frame2
+
+def load_data_frame_into_postgres(df):
+        for index, row in df.iterrows():
+                persistence_service.insert_into_points_of_interests(row['name'], row['street_name'], row['street_number'], row['zip_code'], row['long'], row['lat'], None, None)
 
 
+
+                
