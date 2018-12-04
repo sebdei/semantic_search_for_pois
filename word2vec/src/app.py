@@ -1,4 +1,4 @@
-from .api import flask
+# from .api import flask
 
 from src.service import word2vec_preprocess
 from src.service.word_embedding_service import calculate_mean_vector_of_word_embeddings_for_array
