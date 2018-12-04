@@ -23,14 +23,6 @@ def perform_acqusition():
     data_frame2= process_data_frame(data_frame)
     load_data_frame_into_postgres(data_frame2)
 
-  #  print(data_frame2)
-    for index, row in data_frame.iterrows():
-   #     print(index, row['Institution'])
-        row['Adresse']
-        row['Lat']
-        row['Lon']
-  #  return data_frame
-
 def split_address(address):
         address_with_number, zip_code = (address.split(',',1)+[None])[:2]
         street_name=re.sub('[\s0-9]{2,}.*|\d.*','',address_with_number)
@@ -48,21 +40,13 @@ def split_address(address):
         return street_name, street_number, zip_code
 
 def process_data_frame(df):
-        print(df)
         columns=['name', 'street_name', 'street_number', 'zip_code', 'long','lat']
         data_frame2=pandas.DataFrame(columns=columns)
         for index, row in df.iterrows():
-                new_row=[]
                 street_name,street_number,zip_code=split_address(row['Adresse'])
-                new_row.append(row['Institution'])
-                new_row.append(street_name)
-                new_row.append(street_number)
-                new_row.append(zip_code)
-                new_row.append(row['Lon'])
-                new_row.append(row['Lat'])
+                new_row=[row['Institution'],street_name,street_number,zip_code,row['Lon'],row['Lat']]
                 data_frame3=pandas.DataFrame([new_row], columns=columns)
                 data_frame2=data_frame2.append(data_frame3, ignore_index=True)
-        print(data_frame2)
         return data_frame2
 
 def load_data_frame_into_postgres(df):
