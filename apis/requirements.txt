@@ -1,0 +1,15 @@
+Click==7.0
+itsdangerous==1.1.0
+Jinja2==2.10
+MarkupSafe==1.1.0
+numpy==1.15.4
+scipy==1.1.0
+Werkzeug==0.14.1
+python-google-places==1.4.1
+xlrd
+openpyxl
+azure-cognitiveservices-search-websearch
+nltk
+beautifulsoup4
+html2text
+lxml
