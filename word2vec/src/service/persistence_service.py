@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2 import sql
 
 initial_schema = (  "CREATE TABLE points_of_interests ("
                     "id serial PRIMARY KEY, "
@@ -39,9 +40,11 @@ def get_all_points_of_interests():
     return cur.fetchall()
 
 def insert_into_points_of_interests(name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec):
-    cur.execute(("INSERT INTO points_of_interests"
-                 "(id, name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec)"
-                 "VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s)"), [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec])
+    cur.execute(
+        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s)")
+            .format(sql.Identifier('points_of_interests')),
+    [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec]
+    )
     conn.commit()
 
 def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec):
