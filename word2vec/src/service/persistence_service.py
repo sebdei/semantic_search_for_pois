@@ -2,13 +2,12 @@ import psycopg2
 from psycopg2 import sql
 
 def create_connection():
-    conn = psycopg2.connect("dbname='postgres' user='seb' host='localhost'")
+    conn = psycopg2.connect("dbname='admin' user='admin' host='localhost' port=5433 password='admin'")
     cur = conn.cursor()
 
     return cur, conn
 
 cur, conn = create_connection()
-
 
 initial_schema = (  "CREATE TABLE points_of_interests ("
                     "id serial PRIMARY KEY, "
