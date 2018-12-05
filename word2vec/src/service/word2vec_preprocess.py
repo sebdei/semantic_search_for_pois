@@ -28,12 +28,12 @@ def clean_article(article, glove_model):
     return ' '.join(valid_words)
 
 def determine_tf_idfs_for_list_of_articles(articles, glove_model):
-    cleaned_articles = [ clean_article(article['text'], glove_model) for article in articles ]
+    cleaned_articles = articles.apply(lambda row: clean_article(row['text'], glove_model), axis = 1).values
 
     tf_idf_vectorizer = TfidfVectorizer()
     tf_idf_vector = tf_idf_vectorizer.fit_transform(cleaned_articles)
 
-    result = pd.DataFrame(tf_idf_vector.toarray(), index = [ article['id'] for article in articles ])
+    result = pd.DataFrame(tf_idf_vector.toarray(), index = articles['id'])
     result.columns = tf_idf_vectorizer.get_feature_names()
 
     return result
