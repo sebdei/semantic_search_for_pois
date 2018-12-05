@@ -1,12 +1,20 @@
 from urllib.request import urlretrieve
-from src.service import persistence_service
 import os
 import pandas as pd
 import re
 
+from src.service import persistence_service
+
 DATA_BASE_PATH = 'data/'
 CSV_NAME = 'open_data_berlin_cultural_institutes.xlsx'
 CSV_URL = 'http://www.berlin.de/sen/kultur/_assets/statistiken/kultureinrichtungen_alle.xlsx'
+
+LONG = 'long'
+LAT = 'lat'
+STREET_NAME = 'street_name'
+STREET_NUMBER = 'street_number'
+NAME = 'name'
+ZIP_CODE = 'zip_code'
 
 def assure_csv_file():
     if not os.path.exists('data'):
@@ -16,7 +24,7 @@ def assure_csv_file():
         print('downloading CSV file...')
         response = urlretrieve(CSV_URL, DATA_BASE_PATH + CSV_NAME)
 
-def perform_acqusition():
+def perform_init_acqusition():
     assure_csv_file()
 
     source_data_frame = pd.read_excel(os.path.join(DATA_BASE_PATH, CSV_NAME))
@@ -41,11 +49,11 @@ def split_address(address):
 
     return street_name, street_number, zip_code
 
-def process_init_data_frame(df):
-    columns = ['name', 'street_name', 'street_number', 'zip_code', 'long','lat']
+def process_init_data_frame(source_data_frame):
+    columns = [ NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT ]
     init_data_frame = pd.DataFrame(columns = columns)
 
-    for index, row in df.iterrows():
+    for index, row in source_data_frame.iterrows():
         street_name, street_number, zip_code = split_address(row['Adresse'])
         new_panda_row = pd.Series([ row['Institution'], street_name, street_number, zip_code, row['Lon'], row['Lat'] ], columns)
 
@@ -54,5 +62,9 @@ def process_init_data_frame(df):
     return init_data_frame
 
 def load_init_data_frame_into_postgres(df):
+    persistence_service.create_initial_schema()
+
     for index, row in df.iterrows():
-        persistence_service.insert_into_points_of_interests(row['name'], row['street_name'], row['street_number'], row['zip_code'], row['long'], row['lat'], None, None)
+        persistence_service.insert_into_points_of_interests(row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT], None, None)
+
+perform_init_acqusition()
