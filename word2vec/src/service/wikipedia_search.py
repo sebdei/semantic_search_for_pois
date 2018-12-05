@@ -32,7 +32,7 @@ def get_wikipedia_text(query):
 
     return wiki_text
 
-def perform_wikipedia_loopup():
+def perform_wikipedia_lookup():
     columns = ['id', 'name', 'street_name', 'street_number', 'zip_code', 'long', 'lat', 'opening_hours', 'word2vec']
     dataframe = pd.DataFrame(get_all_points_of_interests(), columns = columns)[['id', 'name']]
 

@@ -10,7 +10,7 @@ def run():
     # persistence_service.create_initial_schema()
     # perform_acqusition()
 
-    dataframe = wikipedia_search.perform_wikipedia_loopup()
+    dataframe = wikipedia_search.perform_wikipedia_lookup()
     weighted_word_matrix = word2vec_preprocess.determine_weighted_word_embeddings_for_articles(dataframe)
 
     for index, row in weighted_word_matrix.iterrows():
