@@ -66,5 +66,3 @@ def load_init_data_frame_into_postgres(df):
 
     for index, row in df.iterrows():
         persistence_service.insert_into_points_of_interests(row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT], None, None)
-
-perform_init_acqusition()
