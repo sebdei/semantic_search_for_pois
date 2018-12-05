@@ -1,6 +1,15 @@
 import psycopg2
 from psycopg2 import sql
 
+def create_connection():
+    conn = psycopg2.connect("dbname='postgres' user='seb' host='localhost'")
+    cur = conn.cursor()
+
+    return cur, conn
+
+cur, conn = create_connection()
+
+
 initial_schema = (  "CREATE TABLE points_of_interests ("
                     "id serial PRIMARY KEY, "
                     "name character varying, "
@@ -12,14 +21,6 @@ initial_schema = (  "CREATE TABLE points_of_interests ("
                     "opening_hours character varying, "
                     "weighted_word2vec json"
                     ");")
-
-def create_connection():
-    conn = psycopg2.connect("dbname='admin' user='admin' host='localhost' port=5433 password='admin'")
-    cur = conn.cursor()
-
-    return cur, conn
-
-cur, conn = create_connection()
 
 def create_initial_schema():
     cur.execute(initial_schema)
@@ -43,15 +44,15 @@ def insert_into_points_of_interests(name, street_name, street_number, zip_code, 
     cur.execute(
         sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s)")
             .format(sql.Identifier('points_of_interests')),
-    [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec]
+            [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec]
     )
     conn.commit()
 
 def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec):
-    cur.execute(("UPDATE points_of_interests SET "
-    "name= %s, street_name=%s, street_number=%s, zip_code=%s, long=%s, lat=%s, opening_hours=%s, weighted_word2vec=%s"
-    " WHERE id =%s"
-    ), [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec,id])
+    cur.execute((   "UPDATE points_of_interests SET "
+                    "name= %s, street_name=%s, street_number=%s, zip_code=%s, long=%s, lat=%s, opening_hours=%s, weighted_word2vec=%s"
+                    " WHERE id =%s"
+                ), [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec,id])
     conn.commit()
 
 def update_weighted_word2vec_by_id(id, word2vec_json):
