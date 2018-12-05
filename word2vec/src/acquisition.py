@@ -25,7 +25,7 @@ def perform_acqusition():
     load_init_data_frame_into_postgres(init_data_frame)
 
 def split_address(address):
-    address_with_number, zip_code = (address.split(',',1)+[None])[:2]
+    address_with_number, zip_code = (address.split(',', 1) + [None])[:2]
     street_name = re.sub('[\s0-9]{2,}.*|\d.*','', address_with_number)
     street_number = re.search(r'(\d+.?\d*.?)', address_with_number)
 
@@ -41,7 +41,7 @@ def split_address(address):
 
     return street_name, street_number, zip_code
 
-def process_data_frame(df):
+def process_init_data_frame(df):
     columns = ['name', 'street_name', 'street_number', 'zip_code', 'long','lat']
     init_data_frame = pd.DataFrame(columns = columns)
 
