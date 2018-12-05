@@ -1,5 +1,5 @@
 from urllib.request import urlretrieve
-# from src.service import persistence_service
+from src.service import persistence_service
 import os
 import pandas as pd
 import re
@@ -17,13 +17,12 @@ def assure_csv_file():
         response = urlretrieve(CSV_URL, DATA_BASE_PATH + CSV_NAME)
 
 def perform_acqusition():
-    print('perform_acqusition')
     assure_csv_file()
 
     source_data_frame = pd.read_excel(os.path.join(DATA_BASE_PATH, CSV_NAME))
-    processed_data_frame = process_data_frame(source_data_frame)
+    init_data_frame = process_init_data_frame(source_data_frame)
 
-    load_data_frame_into_postgres(processed_data_frame)
+    load_init_data_frame_into_postgres(init_data_frame)
 
 def split_address(address):
     address_with_number, zip_code = (address.split(',',1)+[None])[:2]
@@ -44,16 +43,16 @@ def split_address(address):
 
 def process_data_frame(df):
     columns = ['name', 'street_name', 'street_number', 'zip_code', 'long','lat']
-    processed_data_frame = pd.DataFrame(columns=columns)
+    init_data_frame = pd.DataFrame(columns = columns)
 
     for index, row in df.iterrows():
         street_name, street_number, zip_code = split_address(row['Adresse'])
         new_panda_row = pd.Series([ row['Institution'], street_name, street_number, zip_code, row['Lon'], row['Lat'] ], columns)
 
-        processed_data_frame =  processed_data_frame.append([new_panda_row], ignore_index=True)
+        init_data_frame =  init_data_frame.append([new_panda_row], ignore_index = True)
 
-    return processed_data_frame
+    return init_data_frame
 
-def load_data_frame_into_postgres(df):
+def load_init_data_frame_into_postgres(df):
     for index, row in df.iterrows():
         persistence_service.insert_into_points_of_interests(row['name'], row['street_name'], row['street_number'], row['zip_code'], row['long'], row['lat'], None, None)

@@ -13,6 +13,8 @@ services:
   py:
     image: python:3
     tty: true # allocate a TTY do not exit immediately
+    build: ../word2vec/
+
     depends_on:
       - db
     volumes:
