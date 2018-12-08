@@ -1,4 +1,5 @@
 from flask import request
+from flask import jsonify
 
 from src.service import classifier_service
 
@@ -10,12 +11,6 @@ def init(app):
     def classify():
         body = request.json
 
-        arrayOfDicts = classifier_service.classify(body['userinput'])
+        result = classifier_service.classify(body['query'])
 
-        # work in progress
-        result = ''
-        for dict in arrayOfDicts:
-            str(dict)
-            result += str(dict)
-
-        return result
+        return result.to_json(orient='index')

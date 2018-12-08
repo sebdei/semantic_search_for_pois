@@ -12,9 +12,12 @@ from src.service.word2vec_preprocess import word2vec_preprocess
 
 import pandas as pd
 
+from src.api import flask
+
 def run():
+    flask.bindRoutes()
     # acquisition.init_acqusition()
-    word2vec_preprocess.init_word_embeddings_calculation_for_articles()
+    # word2vec_preprocess.init_word_embeddings_calculation_for_articles()
 
     # -- similarity --
 

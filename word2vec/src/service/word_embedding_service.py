@@ -35,8 +35,8 @@ def calculate_mean_vector_of_word_embeddings_for_array(words_array, model):
 
         return mean_vector
 
-def calculate_mean_vector_of_word_embeddings_for_text(article_string, model):
-    stripped_string = re.sub('[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/]', ' ', article_string)
+def calculate_mean_vector_of_word_embeddings_for_text(string, model):
+    stripped_string = re.sub('[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/]', ' ', string)
     words_array = stripped_string.split()
 
     unique_word_array = eliminate_dublicates(words_array)
