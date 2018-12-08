@@ -1,27 +1,23 @@
 from . import acquisition
 
-from src.service import wikipedia_search
-from src.service import persistence_service
-from src.service import word2vec_preprocess
-
-from src.service import model_provider
-from src.service import similarity_service
+# from src.service import wikipedia_search
+# from src.service import word2vec_preprocess
+#
+# from src.service import model_provider
+# from src.service import similarity_service
 from src.service import word_embedding_service
+
+from src.service.persistency import pandas_persistency_service
+from src.service.word2vec_preprocess import word2vec_preprocess
 
 import pandas as pd
 
 def run():
-    acquisition.perform_init_acqusition()
-
-    dataframe = wikipedia_search.perform_wikipedia_lookup()
-    weighted_word_matrix = word2vec_preprocess.determine_weighted_word_embeddings_for_articles(dataframe)
-
-    for index, row in weighted_word_matrix.iterrows():
-        persistence_service.update_weighted_word2vec_by_id(index, row.get_values().tolist())
+    # acquisition.init_acqusition()
+    word2vec_preprocess.init_word_embeddings_calculation_for_articles()
 
     # -- similarity --
-    # columns = ['id', 'name', 'street_name', 'street_number', 'zip_code', 'long', 'lat', 'opening_hours', 'weighted_word2vec']
-    # dataframe = pd.DataFrame(persistence_service.get_all_points_of_interests(), columns = columns)[['id', 'name', 'weighted_word2vec']]
+
     #
     # model = model_provider.provide_glove_model()
     #

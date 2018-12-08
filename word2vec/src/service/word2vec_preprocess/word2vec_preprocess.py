@@ -4,7 +4,11 @@ import nltk
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from .model_provider import provide_glove_model
+from src.service.persistency import pandas_persistency_service
+from src.service.persistency import persistence_service
+from src.service.model_provider import provide_glove_model
+
+from .wikipedia_search import perform_wikipedia_lookup
 
 nltk.download('stopwords')
 nltk.download('wordnet') # lemmatization
@@ -33,7 +37,8 @@ def determine_tf_idfs_for_list_of_articles(articles, glove_model):
     tf_idf_vectorizer = TfidfVectorizer()
     tf_idf_vector = tf_idf_vectorizer.fit_transform(cleaned_articles)
 
-    result = pd.DataFrame(tf_idf_vector.toarray(), index = articles['id'])
+    result = pd.DataFrame(tf_idf_vector.toarray(), index = articles.index.values)
+    print(result)
     result.columns = tf_idf_vectorizer.get_feature_names()
 
     return result
@@ -50,3 +55,12 @@ def determine_weighted_word_embeddings_for_articles(articles):
     word_embedding_matrix =  determine_word_embeddings_for_feature_vector(feature_vector, glove_model)
 
     return tf_idf_matrix.dot(word_embedding_matrix)
+
+def init_word_embeddings_calculation_for_articles():
+    dataframe = pandas_persistency_service.get_all_points_of_interests_as_dataframe()
+    dataframe_with_texts = perform_wikipedia_lookup(dataframe)
+
+    weighted_word_matrix = determine_weighted_word_embeddings_for_articles(dataframe_with_texts)
+
+    for index, row in weighted_word_matrix.iterrows():
+        persistence_service.update_weighted_word2vec_by_id(index, row.get_values().tolist())

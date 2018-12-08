@@ -2,8 +2,6 @@ import wikipedia
 import string
 import pandas as pd
 
-from .persistence_service import get_all_points_of_interests
-
 def clean_query(query):
     exclude = set(string.punctuation)
     no_punctuation = ''.join(ch for ch in query if ch not in exclude)
@@ -32,10 +30,7 @@ def get_wikipedia_text(query):
 
     return wiki_text
 
-def perform_wikipedia_lookup():
-    columns = ['id', 'name', 'street_name', 'street_number', 'zip_code', 'long', 'lat', 'opening_hours', 'word2vec']
-    dataframe = pd.DataFrame(get_all_points_of_interests(), columns = columns)[['id', 'name']]
-
+def perform_wikipedia_lookup(dataframe):
     dataframe['text'] = dataframe.apply(lambda row: get_wikipedia_text(row['name']), axis = 1)
 
     return dataframe
