@@ -38,7 +38,6 @@ def determine_tf_idfs_for_list_of_articles(articles, glove_model):
     tf_idf_vector = tf_idf_vectorizer.fit_transform(cleaned_articles)
 
     result = pd.DataFrame(tf_idf_vector.toarray(), index = articles.index.values)
-    print(result)
     result.columns = tf_idf_vectorizer.get_feature_names()
 
     return result
