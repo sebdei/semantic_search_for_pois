@@ -1,28 +1,20 @@
 import psycopg2
+import os
 from psycopg2 import sql
 
 def create_connection():
-    conn = psycopg2.connect("dbname='admin' user='admin' host='localhost' port=5433 password='admin'")
+    db_connection = os.getenv('DB_CONNECTION', "dbname='admin' user='admin' host='localhost' port=5433 password='admin'")
+    conn = psycopg2.connect(db_connection)
     cur = conn.cursor()
 
     return cur, conn
 
 cur, conn = create_connection()
 
-initial_schema = (  "CREATE TABLE points_of_interests ("
-                    "id serial PRIMARY KEY, "
-                    "name character varying, "
-                    "street_name character varying, "
-                    "street_number character varying, "
-                    "zip_code character varying, "
-                    "long numeric, "
-                    "lat numeric, "
-                    "opening_hours character varying, "
-                    "weighted_word2vec json"
-                    ");")
+poi_schema = open(os.path.join(os.path.dirname(__file__), 'resources/points_of_interests.sql')).read()
 
 def create_initial_schema():
-    cur.execute(initial_schema)
+    cur.execute(poi_schema)
     conn.commit()
 
 def delete_from_points_of_interests(id):

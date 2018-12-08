@@ -16,3 +16,4 @@ six==1.11.0
 sklearn==0.0
 Werkzeug==0.14.1
 xlrd==1.1.0
+wikipedia==1.4.0

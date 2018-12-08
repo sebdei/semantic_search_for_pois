@@ -34,7 +34,7 @@ def perform_init_acqusition():
 
 def split_address(address):
     address_with_number, zip_code = (address.split(',', 1) + [None])[:2]
-    street_name = re.sub('[\s0-9]{2,}.*|\d.*','', address_with_number)
+    street_name = re.sub(r'[\s0-9]{2,}.*|\d.*','', address_with_number)
     street_number = re.search(r'(\d+.?\d*.?)', address_with_number)
 
     if street_number is not None:

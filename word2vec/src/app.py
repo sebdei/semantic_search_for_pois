@@ -1,5 +1,4 @@
-# from .api import flask
-from .acquisition import perform_acqusition
+from . import acquisition
 
 from src.service import wikipedia_search
 from src.service import persistence_service
@@ -12,7 +11,7 @@ from src.service import word_embedding_service
 import pandas as pd
 
 def run():
-    # perform_acqusition()
+    acquisition.perform_init_acqusition()
 
     dataframe = wikipedia_search.perform_wikipedia_lookup()
     weighted_word_matrix = word2vec_preprocess.determine_weighted_word_embeddings_for_articles(dataframe)
