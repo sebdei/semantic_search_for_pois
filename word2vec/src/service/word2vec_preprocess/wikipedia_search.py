@@ -5,8 +5,8 @@ import re
 
 def clean_query(query):
     exclude = set(string.punctuation)
-    no_punctuation = ''.join(ch for ch in query if ch not in exclude)
-
+    no_punctuation = ''.join((ch if ch not in exclude else ' ') for ch in query)
+    no_punctuation = re.sub(r'\s+', ' ', no_punctuation)
     return no_punctuation
 
 def get_wikipedia_text(query):
@@ -22,6 +22,7 @@ def get_wikipedia_text(query):
 
     foundArticle = False
     wiki_text = ''
+    wiki_title = ''
 
     while not foundArticle and len(wiki_titles) > 0:
         wiki_title = wiki_titles.pop(0) # take first element
@@ -30,12 +31,17 @@ def get_wikipedia_text(query):
         else:
             wiki_page = wikipedia.page(title = wiki_title)
             
-            exclude_people_regex = re.compile(r'\d+ births')
+            exclude_people_regex = re.compile(r'\d+ births|Year of birth missing .*')
             category_matches = [cat for cat in wiki_page.categories if len(exclude_people_regex.findall(cat)) > 0]
 
             if len(category_matches) == 0:
                 wiki_text = wiki_page.content
                 foundArticle = True
+
+    if wiki_text == '':
+        print('Found none.')
+    else:
+        print('Found ' + wiki_title)
 
     return wiki_text
 
