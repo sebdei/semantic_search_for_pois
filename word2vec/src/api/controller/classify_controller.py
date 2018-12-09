@@ -1,9 +1,8 @@
 from flask import request
 from flask import jsonify
+import json
 
 from src.service import classifier_service
-
-import numpy as np
 
 def init(app):
 
@@ -11,6 +10,6 @@ def init(app):
     def classify():
         body = request.json
 
-        result = classifier_service.classify(body['query'])
+        similarArticle = classifier_service.classify(body['query'])
 
-        return result.to_json(orient='index')
+        return similarArticle.to_json(orient='records')
