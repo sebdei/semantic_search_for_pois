@@ -1,6 +1,7 @@
 import wikipedia
 import string
 import pandas as pd
+import re
 
 def clean_query(query):
     exclude = set(string.punctuation)
@@ -15,18 +16,26 @@ def get_wikipedia_text(query):
     results_with_berlin = wikipedia.search(search_query + " Berlin")
     results_without_berlin = wikipedia.search(search_query)
 
-    if len(results_with_berlin) == 0 and len(results_without_berlin) == 0:
-        # do further search
-        wiki_page = "Berlin" # dummy for now
-    elif len(results_with_berlin) == 0:
-        wiki_page = results_without_berlin[0]
-    elif len(results_without_berlin) == 0:
-        wiki_page = results_with_berlin[0]
-    else:
-        # prefer result with "Berlin"
-        wiki_page = results_with_berlin[0]
+    wiki_titles = []
+    wiki_titles.extend(results_with_berlin)
+    wiki_titles.extend(results_without_berlin)
 
-    wiki_text = wikipedia.page(title = wiki_page).content
+    foundArticle = False
+    wiki_text = ''
+
+    while not foundArticle and len(wiki_titles) > 0:
+        wiki_title = wiki_titles.pop(0) # take first element
+        if wiki_title == 'Berlin':
+            continue
+        else:
+            wiki_page = wikipedia.page(title = wiki_title)
+            
+            exclude_people_regex = re.compile(r'\d+ births')
+            category_matches = [cat for cat in wiki_page.categories if len(exclude_people_regex.findall(cat)) > 0]
+
+            if len(category_matches) == 0:
+                wiki_text = wiki_page.content
+                foundArticle = True
 
     return wiki_text
 
