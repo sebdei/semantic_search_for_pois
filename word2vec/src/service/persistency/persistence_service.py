@@ -12,9 +12,11 @@ def create_connection():
 cur, conn = create_connection()
 
 poi_schema = open(os.path.join(os.path.dirname(__file__), 'resources/points_of_interests.sql')).read()
+osm_schema = open(os.path.join(os.path.dirname(__file__), 'resources/osm_points_of_interests.sql')).read()
 
 def create_initial_schema():
     cur.execute(poi_schema)
+    cur.execute(osm_schema)
     conn.commit()
 
 def delete_from_points_of_interests(id):
@@ -36,6 +38,16 @@ def insert_into_points_of_interests(name, street_name, street_number, zip_code, 
         sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s)")
             .format(sql.Identifier('points_of_interests')),
             [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec]
+    )
+    conn.commit()
+
+def insert_into_osm_pois(addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
+        opening_hours, amenity, url, name, name_de, leisure, long, lat, building, wikipedia, source, osm_id):
+    cur.execute(
+        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+            .format(sql.Identifier('osm_points_of_interests')),
+            [addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
+            opening_hours, amenity, url, name, name_de, leisure, long, lat, building, wikipedia, source, osm_id]
     )
     conn.commit()
 
