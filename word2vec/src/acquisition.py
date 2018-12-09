@@ -4,6 +4,7 @@ import pandas as pd
 import re
 
 from src.service.persistency import persistence_service
+from src.service.persistency import pandas_persistency_service
 
 DATA_BASE_PATH = 'data/'
 CSV_NAME = 'open_data_berlin_cultural_institutes.xlsx'
@@ -15,6 +16,8 @@ STREET_NAME = 'street_name'
 STREET_NUMBER = 'street_number'
 NAME = 'name'
 ZIP_CODE = 'zip_code'
+
+columns = [ NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT ]
 
 def init_acqusition():
     assure_csv_file()
@@ -35,11 +38,13 @@ def assure_csv_file():
 def load_init_data_frame_into_postgres(df):
     persistence_service.create_initial_schema()
 
+    pandas_persistency_service.insert_data_frame_into_odb_pois(df)
+
+    # will be removed soon:
     for index, row in df.iterrows():
         persistence_service.insert_into_points_of_interests(row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT], None, None)
 
 def process_init_data_frame(source_data_frame):
-    columns = [ NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT ]
     init_data_frame = pd.DataFrame(columns = columns)
 
     for index, row in source_data_frame.iterrows():

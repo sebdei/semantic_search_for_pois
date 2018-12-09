@@ -88,6 +88,8 @@ out;
 
 api = overpy.Overpass()
 
+# could possibly be extended by https://wiki.openstreetmap.org/wiki/Key:tourism
+
 def import_osm_points_of_interest():
 
     osm_data_frame = pd.DataFrame(columns = COLUMNS)
