@@ -3,7 +3,8 @@ import os
 from psycopg2 import sql
 
 def create_connection():
-    db_connection = os.getenv('DB_CONNECTION', "dbname='postgres' user='seb' host='localhost'")
+    db_connection = os.getenv('DB_CONNECTION', "dbname='admin' user='admin' host='localhost' port=5433 password='admin'")
+
     conn = psycopg2.connect(db_connection)
     cur = conn.cursor()
 
