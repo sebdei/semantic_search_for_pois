@@ -1,3 +1,6 @@
+-- CREATE script for core points of interests table
+-- 
+
 CREATE TABLE IF NOT EXISTS points_of_interests (
     id serial PRIMARY KEY, 
     name character varying, 
