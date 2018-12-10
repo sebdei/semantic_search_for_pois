@@ -5,7 +5,7 @@ from .persistency import pandas_persistency_service
 
 def classify(userinput):
     userInputMeanWordEmbeddings = calculate_mean_vector_of_word_embeddings_for_text(userinput)
-    articles = pandas_persistency_service.get_all_points_of_interests_as_dataframe()
+    articles = pandas_persistency_service.get_all_points_of_interests_as_df()
 
     cosineSimilarities = determine_similar_items_with_cosine_similarity(userInputMeanWordEmbeddings, articles)
 

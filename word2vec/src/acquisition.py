@@ -38,11 +38,7 @@ def assure_csv_file():
 def load_init_data_frame_into_postgres(df):
     persistence_service.create_initial_schema()
 
-    pandas_persistency_service.insert_data_frame_into_odb_pois(df)
-
-    # will be removed soon:
-    for index, row in df.iterrows():
-        persistence_service.insert_into_points_of_interests(row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT], None, None)
+    pandas_persistency_service.insert_df_into_odb_pois(df)
 
 def process_init_data_frame(source_data_frame):
     init_data_frame = pd.DataFrame(columns = columns)
