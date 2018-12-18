@@ -56,7 +56,7 @@ def determine_weighted_word_embeddings_for_articles(articles):
     return tf_idf_matrix.dot(word_embedding_matrix)
 
 def init_word_embeddings_calculation_for_articles():
-    dataframe = pandas_persistency_service.get_all_points_of_interests_as_dataframe()
+    dataframe = pandas_persistency_service.get_all_points_of_interests_as_df()
     dataframe_with_texts = perform_wikipedia_lookup(dataframe)
 
     weighted_word_matrix = determine_weighted_word_embeddings_for_articles(dataframe_with_texts)
