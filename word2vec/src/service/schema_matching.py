@@ -140,28 +140,7 @@ def select_close_pois(poi_df, lat, lng):
     d = 0.005
     return poi_df.loc[lambda x: (x['lat'] < lat + d) & (x['lat'] > lat - d) & (x['long'] < lng + d) & (x['long'] > lng - d)]
 
-# Distance Helpers, currently unused
-
-def degrees_to_radians(deg):
-    return deg * math.pi / 180
-
-EARTH_RADIUS = 6_371_000 # in meters
-
-# see https://stackoverflow.com/questions/365826/calculate-distance-between-2-gps-coordinates
-
-def distance_in_meters(lat_1, lng_1, lat_2, lng_2):
-    d_lat = degrees_to_radians(lat_2 - lat_1)
-    d_lng = degrees_to_radians(lng_2 - lng_1)
-
-    r_lat_1 = degrees_to_radians(lat_1)
-    r_lat_2 = degrees_to_radians(lat_2)
-
-    a = (math.sin(d_lat / 2) ** 2) + (math.sin(d_lng / 2) ** 2) * math.cos(r_lat_1) * math.cos(r_lat_2)
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-
-    return EARTH_RADIUS * c
-
-# Miscellaneous Helpers
+# Miscellaneous
 
 def clean_name(query):
     exclude = set(string.punctuation)
