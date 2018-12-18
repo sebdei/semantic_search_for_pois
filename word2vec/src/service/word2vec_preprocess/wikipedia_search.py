@@ -30,7 +30,7 @@ def get_wikipedia_text(query):
             continue
         else:
             wiki_page = wikipedia.page(title = wiki_title)
-            
+
             exclude_people_regex = re.compile(r'\d+ births|Year of birth missing .*')
             category_matches = [cat for cat in wiki_page.categories if len(exclude_people_regex.findall(cat)) > 0]
 
@@ -48,4 +48,6 @@ def get_wikipedia_text(query):
 def perform_wikipedia_lookup(dataframe):
     dataframe['text'] = dataframe.apply(lambda row: get_wikipedia_text(row['name']), axis = 1)
 
-    return dataframe
+    dataframe_with_texts = dataframe[dataframe.text != '']
+
+    return dataframe_with_texts
