@@ -13,12 +13,7 @@ def get_wikipedia_text(query):
     search_query = clean_query(query)
     print('lookup wikipedia for searchquery >>' + search_query + '<<')
 
-    results_with_berlin = wikipedia.search(search_query + " Berlin")
-    results_without_berlin = wikipedia.search(search_query)
-
-    wiki_titles = []
-    wiki_titles.extend(results_with_berlin)
-    wiki_titles.extend(results_without_berlin)
+    wiki_titles = wikipedia.search(search_query)
 
     foundArticle = False
     wiki_text = ''
@@ -29,8 +24,12 @@ def get_wikipedia_text(query):
         if wiki_title == 'Berlin':
             continue
         else:
-            wiki_page = wikipedia.page(title = wiki_title)
-
+            try:
+                wiki_page = wikipedia.page(title = wiki_title)
+            except Exception as e:
+                print('there was an error fetching a page:', wiki_title, e)
+                continue
+            
             exclude_people_regex = re.compile(r'\d+ births|Year of birth missing .*')
             category_matches = [cat for cat in wiki_page.categories if len(exclude_people_regex.findall(cat)) > 0]
 

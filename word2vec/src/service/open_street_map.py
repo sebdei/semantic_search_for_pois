@@ -141,3 +141,4 @@ def import_osm_points_of_interest():
             osm_data_frame = osm_data_frame.append([row], sort = False)
 
     pandas_persistency_service.insert_df_into_osm_pois(osm_data_frame)
+    print("Loaded", len(osm_data_frame), "POIs from OSM into DB")

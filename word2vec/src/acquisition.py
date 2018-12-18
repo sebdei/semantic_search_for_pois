@@ -27,6 +27,8 @@ def init_acqusition():
 
     load_init_data_frame_into_postgres(init_data_frame)
 
+    print("Loaded", len(init_data_frame), "POIs from ODB into DB")
+
 def assure_csv_file():
     if not os.path.exists('data'):
         os.makedirs('data')
