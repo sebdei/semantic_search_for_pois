@@ -41,11 +41,11 @@ leisures = [
 
 amenities = [
     "theatre",
-    "pub",
+#    "pub",
     "cinema",
-    "biergarten",
-    "cafe",
-    "restaurant",
+#    "biergarten",
+#    "cafe",
+#    "restaurant",
     "arts_centre",
     "fountain",
     "planetarium"

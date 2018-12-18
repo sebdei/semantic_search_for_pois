@@ -27,13 +27,13 @@ OSM_ID = 'osm_id'
 # points of interests
 
 def get_all_points_of_interests_as_df():
-    columns = [ID, NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT, OPENING_HOURS, WEIGHTED_WORD2VEC]
+    columns = [ID, NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT, OPENING_HOURS, WEIGHTED_WORD2VEC, SOURCE]
     
     return pd.DataFrame(get_all_points_of_interests(), columns = columns).set_index(ID)
 
 def insert_df_into_points_of_interests(df):
     for idx, row in df.iterrows():
-        insert_into_points_of_interests(row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT], row[OPENING_HOURS], row[WEIGHTED_WORD2VEC])
+        insert_into_points_of_interests(row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT], row[OPENING_HOURS], row[WEIGHTED_WORD2VEC], row[SOURCE])
 
 # OSM POIs
 

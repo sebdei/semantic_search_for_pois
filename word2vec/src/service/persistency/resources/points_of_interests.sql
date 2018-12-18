@@ -10,5 +10,6 @@ CREATE TABLE IF NOT EXISTS points_of_interests (
     long numeric, 
     lat numeric, 
     opening_hours character varying, 
-    weighted_word2vec json
+    weighted_word2vec json,
+    source character varying
 );

@@ -29,6 +29,10 @@ def delete_from_points_of_interests(id):
     cur.execute("DELETE FROM points_of_interests WHERE id=%s", [id])
     conn.commit()
 
+def truncate_points_of_interests():
+    cur.execute("TRUNCATE TABLE points_of_interests")
+    conn.commit()
+
 def get_points_of_interests_by_id(id):
     cur.execute("SELECT * FROM points_of_interests WHERE id= %s", [id])
 
@@ -39,19 +43,19 @@ def get_all_points_of_interests():
 
     return cur.fetchall()
 
-def insert_into_points_of_interests(name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec):
+def insert_into_points_of_interests(name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec, source):
     cur.execute(
-        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s)")
+        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
             .format(sql.Identifier('points_of_interests')),
-            [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec]
+            [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec, source]
     )
     conn.commit()
 
-def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec):
+def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec, source):
     cur.execute((   "UPDATE points_of_interests SET "
-                    "name= %s, street_name=%s, street_number=%s, zip_code=%s, long=%s, lat=%s, opening_hours=%s, weighted_word2vec=%s"
+                    "name= %s, street_name=%s, street_number=%s, zip_code=%s, long=%s, lat=%s, opening_hours=%s, weighted_word2vec=%s, source=%s"
                     " WHERE id =%s"
-                ), [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec,id])
+                ), [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec,source,id])
     conn.commit()
 
 def update_weighted_word2vec_by_id(id, word2vec_json):
