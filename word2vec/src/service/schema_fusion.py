@@ -4,7 +4,7 @@ import math
 import string
 import pandas as pd
 import re
-from py_stringmatching import Levenshtein, SmithWaterman, Affine
+from py_stringmatching import SmithWaterman
 
 ID = 'id'
 LONG = 'long'
