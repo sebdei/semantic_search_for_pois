@@ -1,22 +1,11 @@
 from .persistency import pandas_persistency_service as pps
 from .persistency import persistence_service as ps
+from .persistency.data_model import *
 import math
 import string
 import pandas as pd
 import re
 from py_stringmatching import SmithWaterman
-
-ID = 'id'
-LONG = 'long'
-LAT = 'lat'
-STREET_NAME = 'street_name'
-STREET_NUMBER = 'street_number'
-NAME = 'name'
-OPENING_HOURS = 'opening_hours'
-WEIGHTED_WORD2VEC = 'weighted_word2vec'
-SOURCE = 'source'
-ZIP_CODE = 'zip_code'
-POI_COLUMNS = [ID, NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT, OPENING_HOURS, WEIGHTED_WORD2VEC, SOURCE]
 
 def import_into_poi_table():
     # Truncate current POIs, get empty dataframe
@@ -40,9 +29,9 @@ def import_into_poi_table():
 
 def prepare_odb_pois(odb_pois):
     # add missing columns
-    odb_pois['opening_hours'] = None
-    odb_pois['weighted_word2vec'] = None
-    odb_pois['source'] = 'odb'
+    odb_pois[OPENING_HOURS] = None
+    odb_pois[WEIGHTED_WORD2VEC] = None
+    odb_pois[SOURCE] = 'odb'
 
     return odb_pois
 
@@ -56,31 +45,31 @@ def import_odb_pois(poi_df, odb_df):
 def prepare_osm_pois(osm_df):
     # remove places without name
     before = len(osm_df)
-    osm_df = osm_df[osm_df['name'].notnull()]
+    osm_df = osm_df[osm_df[NAME].notnull()]
     after = len(osm_df)
-    print('removed',before-after,'POIs from OSM Data where the name in null.')
+    print('removed', before-after, 'POIs from OSM Data where the name in null.')
     return osm_df
     
 def import_osm_pois(poi_df, osm_df):
     sw = SmithWaterman()
 
     for idx, osm_row in osm_df.iterrows():
-        lat = float(osm_row['lat'])
-        lng = float(osm_row['long'])
+        lat = float(osm_row[LAT])
+        lng = float(osm_row[LONG])
         close_pois = select_close_pois(poi_df, lat, lng)
 
         merged = False
 
         if len(close_pois) != 0:
-            name = clean_name(str(osm_row['name']))
+            name = clean_name(str(osm_row[NAME]))
             
             for idx, maybe_duplicate in close_pois.iterrows():
-                dup_name = clean_name(str(maybe_duplicate['name']))
+                dup_name = clean_name(str(maybe_duplicate[NAME]))
 
                 score = sw.get_raw_score(name, dup_name) / max(len(name), len(dup_name))
 
-                if osm_row['name_de'] != None:
-                    name_de = clean_name(str(osm_row['name_de']))
+                if osm_row[NAME_DE] != None:
+                    name_de = clean_name(str(osm_row[NAME_DE]))
 
                     score_de = sw.get_raw_score(name_de, dup_name) / max(len(name_de), len(dup_name))
                     score = max(score, score_de)
@@ -98,22 +87,22 @@ def import_osm_pois(poi_df, osm_df):
 
 def convert_osm_to_poi(osm_row):
     poi_row = pd.Series([None] * len(POI_COLUMNS), POI_COLUMNS)
-    poi_row['name'] = osm_row['name']
-    poi_row['street_name'] = osm_row['addr_street']
-    poi_row['street_number'] = osm_row['addr_housenumber']
-    poi_row['zip_code'] = osm_row['addr_postcode']
-    poi_row['long'] = osm_row['long']
-    poi_row['lat'] = osm_row['lat']
-    poi_row['opening_hours'] = osm_row['opening_hours']
-    poi_row['weighted_word2vec'] = None
-    poi_row['source'] = osm_row['source'] + '(' + osm_row['osm_id'] + ')'
+    poi_row[NAME] = osm_row[NAME]
+    poi_row[STREET_NAME] = osm_row[ADDR_STREET]
+    poi_row[STREET_NUMBER] = osm_row[ADDR_HOUSENUMBER]
+    poi_row[ZIP_CODE] = osm_row[ADDR_POSTCODE]
+    poi_row[LONG] = osm_row[LONG]
+    poi_row[LAT] = osm_row[LAT]
+    poi_row[OPENING_HOURS] = osm_row[OPENING_HOURS]
+    poi_row[WEIGHTED_WORD2VEC] = None
+    poi_row[SOURCE] = osm_row[SOURCE] + '(' + osm_row[OSM_ID] + ')'
 
     return poi_row
 
 # Merging Helpers
 
 def merge_osm_conflict(osm_row, poi_row):
-    print('merging', poi_row['name'], 'and', osm_row['name'])
+    print('merging', poi_row[NAME], 'and', osm_row[NAME])
 
     osm_poi_row = convert_osm_to_poi(osm_row)
 
@@ -124,21 +113,21 @@ def consolidate_rows(row_1, row_2):
     Returns the combination of row_1 and row_2, preferring row_1's data
     """
     consolidated_row = pd.Series()
-    consolidated_row['name'] = row_1['name'] or row_2['name']
-    consolidated_row['street_name'] = row_1['street_name'] or row_2['street_name']
-    consolidated_row['street_number'] = row_1['street_number'] or row_2['street_number']
-    consolidated_row['zip_code'] = row_1['zip_code'] or row_2['zip_code']
-    consolidated_row['long'] = row_1['long'] or row_2['long']
-    consolidated_row['lat'] = row_1['lat'] or row_2['lat']
-    consolidated_row['opening_hours'] = row_1['opening_hours'] or row_2['opening_hours']
-    consolidated_row['weighted_word2vec'] = row_1['weighted_word2vec'] or row_2['weighted_word2vec']
-    consolidated_row['source'] = row_1['source'] + ';' + row_2['source']
+    consolidated_row[NAME] = row_1[NAME] or row_2[NAME]
+    consolidated_row[STREET_NAME] = row_1[STREET_NAME] or row_2[STREET_NAME]
+    consolidated_row[STREET_NUMBER] = row_1[STREET_NUMBER] or row_2[STREET_NUMBER]
+    consolidated_row[ZIP_CODE] = row_1[ZIP_CODE] or row_2[ZIP_CODE]
+    consolidated_row[LONG] = row_1[LONG] or row_2[LONG]
+    consolidated_row[LAT] = row_1[LAT] or row_2[LAT]
+    consolidated_row[OPENING_HOURS] = row_1[OPENING_HOURS] or row_2[OPENING_HOURS]
+    consolidated_row[WEIGHTED_WORD2VEC] = row_1[WEIGHTED_WORD2VEC] or row_2[WEIGHTED_WORD2VEC]
+    consolidated_row[SOURCE] = row_1[SOURCE] + ';' + row_2[SOURCE]
 
     return consolidated_row
 
 def select_close_pois(poi_df, lat, lng):
     d = 0.005
-    return poi_df.loc[lambda x: (x['lat'] < lat + d) & (x['lat'] > lat - d) & (x['long'] < lng + d) & (x['long'] > lng - d)]
+    return poi_df.loc[lambda x: (x[LAT] < lat + d) & (x[LAT] > lat - d) & (x[LONG] < lng + d) & (x[LONG] > lng - d)]
 
 # Miscellaneous
 

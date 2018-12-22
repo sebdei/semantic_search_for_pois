@@ -1,27 +1,7 @@
 import overpy
 import pandas as pd
 from .persistency import pandas_persistency_service
-
-ADDR_CITY = "addr_city"
-ADDR_COUNTRY = "addr_country"
-ADDR_HOUSENUMBER = "addr_housenumber"
-ADDR_POSTCODE = "addr_postcode"
-ADDR_STREET = "addr_street"
-OPENING_HOURS = "opening_hours"
-AMENITY = "amenity"
-URL = "url"
-NAME = "name"
-NAME_DE = "name_de"
-LEISURE = "leisure"
-LONG = "long"
-LAT = "lat"
-BUILDING = "building"
-WIKIPEDIA = "wikipedia"
-SOURCE = "source"
-OSM_ID = "osm_id"
-
-COLUMNS = [ADDR_CITY, ADDR_COUNTRY, ADDR_HOUSENUMBER, ADDR_POSTCODE, ADDR_STREET,
-OPENING_HOURS, AMENITY, URL, NAME, NAME_DE, LEISURE, LONG, LAT, BUILDING, WIKIPEDIA, SOURCE, OSM_ID]
+from .persistency.data_model import *
 
 # https://taginfo.openstreetmap.org/keys/leisure#values
 
@@ -92,7 +72,7 @@ api = overpy.Overpass()
 
 def import_osm_points_of_interest():
 
-    osm_data_frame = pd.DataFrame(columns = COLUMNS)
+    osm_data_frame = pd.DataFrame(columns = OSM_COLUMNS)
 
     # query for ways
 
@@ -102,7 +82,7 @@ def import_osm_points_of_interest():
         print('Found %d ways for leisure %s' % (len(r.get_ways()), leisure))
 
         for way in r.get_ways():
-            row = pd.Series([None] * len(COLUMNS), COLUMNS)
+            row = pd.Series([None] * len(OSM_COLUMNS), OSM_COLUMNS)
             
             for tag in way.tags.keys():
                 if tag in tag_schema_assignment.keys():
@@ -125,7 +105,7 @@ def import_osm_points_of_interest():
         print('Found %d nodes for amenity %s' % (len(r.get_nodes()), amenity))
 
         for node in r.get_nodes():
-            row = pd.Series([None] * len(COLUMNS), COLUMNS)
+            row = pd.Series([None] * len(OSM_COLUMNS), OSM_COLUMNS)
             
             for tag in node.tags.keys():
                 if tag in tag_schema_assignment.keys():

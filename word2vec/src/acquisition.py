@@ -5,19 +5,11 @@ import re
 
 from src.service.persistency import persistence_service
 from src.service.persistency import pandas_persistency_service
+from src.service.persistency.data_model import *
 
 DATA_BASE_PATH = 'data/'
 CSV_NAME = 'open_data_berlin_cultural_institutes.xlsx'
 CSV_URL = 'http://www.berlin.de/sen/kultur/_assets/statistiken/kultureinrichtungen_alle.xlsx'
-
-LONG = 'long'
-LAT = 'lat'
-STREET_NAME = 'street_name'
-STREET_NUMBER = 'street_number'
-NAME = 'name'
-ZIP_CODE = 'zip_code'
-
-columns = [ NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT ]
 
 def init_acqusition():
     assure_csv_file()
@@ -43,11 +35,11 @@ def load_init_data_frame_into_postgres(df):
     pandas_persistency_service.insert_df_into_odb_pois(df)
 
 def process_init_data_frame(source_data_frame):
-    init_data_frame = pd.DataFrame(columns = columns)
+    init_data_frame = pd.DataFrame(columns = ODB_COLUMNS)
 
     for index, row in source_data_frame.iterrows():
         street_name, street_number, zip_code = split_address(row['Adresse'])
-        new_panda_row = pd.Series([ row['Institution'], street_name, street_number, zip_code, row['Lon'], row['Lat'] ], columns)
+        new_panda_row = pd.Series([ None, row['Institution'], street_name, street_number, zip_code, row['Lon'], row['Lat'] ], ODB_COLUMNS)
 
         init_data_frame =  init_data_frame.append([new_panda_row], ignore_index = True)
 
