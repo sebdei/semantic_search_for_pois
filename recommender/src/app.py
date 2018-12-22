@@ -18,9 +18,9 @@ from src.service.schema_fusion import import_into_poi_table
 
 def run():
     # flask.bindRoutes()
-    acquisition.init_acqusition()
-    import_osm_points_of_interest()
-    import_into_poi_table()
+    # acquisition.init_acqusition()
+    # import_osm_points_of_interest()
+    # import_into_poi_table()
     
     embedding_preprocess.init_word_embeddings_calculation_for_articles()
 
