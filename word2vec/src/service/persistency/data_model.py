@@ -7,7 +7,7 @@ STREET_NAME = 'street_name'
 STREET_NUMBER = 'street_number'
 NAME = 'name'
 OPENING_HOURS = 'opening_hours'
-WEIGHTED_WORD2VEC = 'weighted_word2vec'
+FEATURE_VECTOR = 'feature_vector'
 ZIP_CODE = 'zip_code'
 ADDR_CITY = 'addr_city'
 ADDR_COUNTRY = 'addr_country'
@@ -25,7 +25,7 @@ OSM_ID = 'osm_id'
 
 # POI columns
 
-POI_COLUMNS = [ID, NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT, OPENING_HOURS, WEIGHTED_WORD2VEC, SOURCE]
+POI_COLUMNS = [ID, NAME, STREET_NAME, STREET_NUMBER, ZIP_CODE, LONG, LAT, OPENING_HOURS, FEATURE_VECTOR, SOURCE]
 
 # ODB columns
 

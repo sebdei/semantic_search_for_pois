@@ -30,7 +30,7 @@ def import_into_poi_table():
 def prepare_odb_pois(odb_pois):
     # add missing columns
     odb_pois[OPENING_HOURS] = None
-    odb_pois[WEIGHTED_WORD2VEC] = None
+    odb_pois[FEATURE_VECTOR] = None
     odb_pois[SOURCE] = 'odb'
 
     return odb_pois
@@ -94,7 +94,7 @@ def convert_osm_to_poi(osm_row):
     poi_row[LONG] = osm_row[LONG]
     poi_row[LAT] = osm_row[LAT]
     poi_row[OPENING_HOURS] = osm_row[OPENING_HOURS]
-    poi_row[WEIGHTED_WORD2VEC] = None
+    poi_row[FEATURE_VECTOR] = None
     poi_row[SOURCE] = osm_row[SOURCE] + '(' + osm_row[OSM_ID] + ')'
 
     return poi_row
@@ -120,7 +120,7 @@ def consolidate_rows(row_1, row_2):
     consolidated_row[LONG] = row_1[LONG] or row_2[LONG]
     consolidated_row[LAT] = row_1[LAT] or row_2[LAT]
     consolidated_row[OPENING_HOURS] = row_1[OPENING_HOURS] or row_2[OPENING_HOURS]
-    consolidated_row[WEIGHTED_WORD2VEC] = row_1[WEIGHTED_WORD2VEC] or row_2[WEIGHTED_WORD2VEC]
+    consolidated_row[FEATURE_VECTOR] = row_1[FEATURE_VECTOR] or row_2[FEATURE_VECTOR]
     consolidated_row[SOURCE] = row_1[SOURCE] + ';' + row_2[SOURCE]
 
     return consolidated_row

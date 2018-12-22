@@ -43,23 +43,23 @@ def get_all_points_of_interests():
 
     return cur.fetchall()
 
-def insert_into_points_of_interests(name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec, source):
+def insert_into_points_of_interests(name, street_name, street_number, zip_code, long, lat, opening_hours, feature_vector, source):
     cur.execute(
         sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
             .format(sql.Identifier('points_of_interests')),
-            [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec, source]
+            [name, street_name, street_number, zip_code, long, lat, opening_hours, feature_vector, source]
     )
     conn.commit()
 
-def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec, source):
+def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, feature_vector, source):
     cur.execute((   "UPDATE points_of_interests SET "
-                    "name= %s, street_name=%s, street_number=%s, zip_code=%s, long=%s, lat=%s, opening_hours=%s, weighted_word2vec=%s, source=%s"
+                    "name= %s, street_name=%s, street_number=%s, zip_code=%s, long=%s, lat=%s, opening_hours=%s, feature_vector=%s, source=%s"
                     " WHERE id =%s"
-                ), [name, street_name, street_number, zip_code, long, lat, opening_hours, weighted_word2vec,source,id])
+                ), [name, street_name, street_number, zip_code, long, lat, opening_hours, feature_vector,source,id])
     conn.commit()
 
-def update_weighted_word2vec_by_id(id, word2vec_json):
-    cur.execute("UPDATE points_of_interests SET  weighted_word2vec = array_to_json(%s) WHERE id= %s", [word2vec_json, id])
+def update_feature_vector_by_id(id, feature_vector_json):
+    cur.execute("UPDATE points_of_interests SET feature_vector = array_to_json(%s) WHERE id= %s", [feature_vector_json, id])
     conn.commit()
 
 # OSM Points of Interest

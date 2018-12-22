@@ -6,7 +6,7 @@ from .data_model import *
 
 def insert_df_into_points_of_interests(df):
     for _, row in df.iterrows():
-        insert_into_points_of_interests(row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT], row[OPENING_HOURS], row[WEIGHTED_WORD2VEC], row[SOURCE])
+        insert_into_points_of_interests(row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT], row[OPENING_HOURS], row[FEATURE_VECTOR], row[SOURCE])
 
 def get_all_points_of_interests_as_df():
     return pd.DataFrame(get_all_points_of_interests(), columns = POI_COLUMNS).set_index(ID)

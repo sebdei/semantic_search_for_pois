@@ -62,4 +62,4 @@ def init_word_embeddings_calculation_for_articles():
     weighted_word_matrix = determine_weighted_word_embeddings_for_articles(dataframe_with_texts)
 
     for index, row in weighted_word_matrix.iterrows():
-        persistence_service.update_weighted_word2vec_by_id(index, row.get_values().tolist())
+        persistence_service.update_feature_vector_by_id(index, row.get_values().tolist())
