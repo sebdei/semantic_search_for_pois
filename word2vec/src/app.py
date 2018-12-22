@@ -7,7 +7,7 @@ from . import acquisition
 # from src.service import similarity_service
 # from src.service import word_embedding_service
 
-# from src.service.persistency import pandas_persistency_service
+# from src.service.persistency import pandas_persistence_service
 from src.service.word2vec_preprocess import word2vec_preprocess
 from src.service.open_street_map import import_osm_points_of_interest
 from src.service.schema_fusion import import_into_poi_table

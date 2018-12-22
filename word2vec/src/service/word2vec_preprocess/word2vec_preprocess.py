@@ -4,7 +4,7 @@ import nltk
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from src.service.persistency import pandas_persistency_service
+from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
 from src.service.model_provider import provide_glove_model
 
@@ -56,7 +56,7 @@ def determine_weighted_word_embeddings_for_articles(articles):
     return tf_idf_matrix.dot(word_embedding_matrix)
 
 def init_word_embeddings_calculation_for_articles():
-    dataframe = pandas_persistency_service.get_all_points_of_interests_as_df()
+    dataframe = pandas_persistence_service.get_all_points_of_interests_as_df()
     dataframe_with_texts = perform_wikipedia_lookup(dataframe)
 
     weighted_word_matrix = determine_weighted_word_embeddings_for_articles(dataframe_with_texts)

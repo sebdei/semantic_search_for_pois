@@ -1,4 +1,4 @@
-from .persistency import pandas_persistency_service as pps
+from .persistency import pandas_persistence_service as pps
 from .persistency import persistence_service as ps
 from .persistency.data_model import *
 import math

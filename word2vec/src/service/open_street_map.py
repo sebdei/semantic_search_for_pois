@@ -1,6 +1,6 @@
 import overpy
 import pandas as pd
-from .persistency import pandas_persistency_service
+from .persistency import pandas_persistence_service
 from .persistency.data_model import *
 
 # https://taginfo.openstreetmap.org/keys/leisure#values
@@ -120,5 +120,5 @@ def import_osm_points_of_interest():
 
             osm_data_frame = osm_data_frame.append([row], sort = False)
 
-    pandas_persistency_service.insert_df_into_osm_pois(osm_data_frame)
+    pandas_persistence_service.insert_df_into_osm_pois(osm_data_frame)
     print("Loaded", len(osm_data_frame), "POIs from OSM into DB")

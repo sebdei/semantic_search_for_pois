@@ -4,7 +4,7 @@ import pandas as pd
 import re
 
 from src.service.persistency import persistence_service
-from src.service.persistency import pandas_persistency_service
+from src.service.persistency import pandas_persistence_service
 from src.service.persistency.data_model import *
 
 DATA_BASE_PATH = 'data/'
@@ -32,7 +32,7 @@ def assure_csv_file():
 def load_init_data_frame_into_postgres(df):
     persistence_service.create_initial_schema()
 
-    pandas_persistency_service.insert_df_into_odb_pois(df)
+    pandas_persistence_service.insert_df_into_odb_pois(df)
 
 def process_init_data_frame(source_data_frame):
     init_data_frame = pd.DataFrame(columns = ODB_COLUMNS)
