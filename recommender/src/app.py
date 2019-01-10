@@ -9,6 +9,7 @@ from . import acquisition
 
 # from src.service.persistency import pandas_persistence_service
 from src.service.embedding_preprocess import embedding_preprocess
+from src.service.embedding_preprocess import visitBerlin_search
 from src.service.open_street_map import import_osm_points_of_interest
 from src.service.schema_fusion import import_into_poi_table
 
@@ -22,7 +23,11 @@ def run():
     # import_osm_points_of_interest()
     # import_into_poi_table()
     
-    embedding_preprocess.init_word_embeddings_calculation_for_articles()
+    visitBerlinApi = visitBerlin_search.VisitBerlin()
+    print(visitBerlinApi.find('Maxim Gorki Theater'))
+    dataframe = visitBerlinApi.perform_visitBerlin_lookup()
+
+    #embedding_preprocess.init_word_embeddings_calculation_for_articles()
 
     # -- similarity --
 

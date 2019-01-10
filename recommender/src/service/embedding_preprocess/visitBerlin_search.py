@@ -6,7 +6,8 @@ import re
 import urllib
 from bs4 import BeautifulSoup
 import html2text
-from .persistence_service import get_all_points_of_interests
+from src.service.persistency.persistence_service import get_all_points_of_interests
+#from .persistence_service import get_all_points_of_interests
 
 # -------- code from sebastian ---------
 from urllib.request import urlretrieve
@@ -47,7 +48,7 @@ class VisitBerlin:
 	def initializeArticles(self):
 
 		# setup connection to google places api
-		subscription_key = "df77ddcd467a4c399dc8995de0422bd1"
+		subscription_key = "8539f7d32c9d40848fcb61bd34febfb5"
 
 		# instantiate the client.
 		client = WebSearchAPI(CognitiveServicesCredentials(subscription_key))
