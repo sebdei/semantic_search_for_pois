@@ -4,7 +4,7 @@ import os
 from urllib.request import urlretrieve
 
 GLOVE_MODEL_BASE_DIR = 'models'
-GLOVE_MODEL_TXT_NAME = 'glove.6B.50d.txt'
+GLOVE_MODEL_TXT_NAME = 'glove.6B.200d.txt'
 GLOVE_MODEL_ZIP_NAME = 'glove.6B.zip'
 GLOVE_MODEL_URL = 'http://nlp.stanford.edu/data/glove.6B.zip'
 

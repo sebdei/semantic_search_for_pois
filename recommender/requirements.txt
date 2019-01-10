@@ -44,3 +44,7 @@ Werkzeug==0.14.1
 wikipedia==1.4.0
 wrapt==1.10.11
 xlrd==1.1.0
+wikipedia==1.4.0
+flask-cors==3.0.7
+overpy==0.4
+py_stringmatching==0.4.0
