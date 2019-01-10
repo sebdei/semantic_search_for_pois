@@ -21,6 +21,17 @@ initial_schema = (  "CREATE TABLE points_of_interests ("
                     "weighted_word2vec json"
                     ");")
 
+<<<<<<< Updated upstream
+=======
+def create_connection():
+    conn = psycopg2.connect("dbname='jensmechelhoff' user='jensmechelhoff' host='localhost'")
+    cur = conn.cursor()
+
+    return cur, conn
+
+cur, conn = create_connection()
+
+>>>>>>> Stashed changes
 def create_initial_schema():
     cur.execute(initial_schema)
     conn.commit()
