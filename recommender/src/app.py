@@ -1,5 +1,3 @@
-from . import acquisition
-
 # from src.service import wikipedia_search
 # from src.service import embedding_preprocess
 #
@@ -10,7 +8,8 @@ from . import acquisition
 # from src.service.persistency import pandas_persistence_service
 from src.service.embedding_preprocess import embedding_preprocess
 from src.service.embedding_preprocess import visitBerlin_search
-from src.service.open_street_map import import_osm_points_of_interest
+from src.service.acquisition.open_street_map import import_osm_points_of_interest
+from src.service.acquisition.open_data_berlin import import_odb_points_of_interest
 from src.service.schema_fusion import import_into_poi_table
 
 # import pandas as pd
@@ -19,9 +18,10 @@ from src.service.schema_fusion import import_into_poi_table
 
 def run():
     # flask.bindRoutes()
-    # acquisition.init_acqusition()
-    # import_osm_points_of_interest()
-    # import_into_poi_table()
+
+    import_odb_points_of_interest()
+    import_osm_points_of_interest()
+    import_into_poi_table()
     
     visitBerlin = visitBerlin_search.VisitBerlin()
     visitBerlin.initializeArticles()

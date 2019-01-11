@@ -1,7 +1,7 @@
 import overpy
 import pandas as pd
-from .persistency import pandas_persistence_service
-from .persistency.data_model import *
+from ..persistency import pandas_persistence_service
+from ..persistency.data_model import *
 
 # https://taginfo.openstreetmap.org/keys/leisure#values
 

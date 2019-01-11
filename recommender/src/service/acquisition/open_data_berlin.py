@@ -3,15 +3,15 @@ import os
 import pandas as pd
 import re
 
-from src.service.persistency import persistence_service
-from src.service.persistency import pandas_persistence_service
-from src.service.persistency.data_model import *
+from ..persistency import persistence_service
+from ..persistency import pandas_persistence_service
+from ..persistency.data_model import *
 
 DATA_BASE_PATH = 'data/'
 CSV_NAME = 'open_data_berlin_cultural_institutes.xlsx'
 CSV_URL = 'http://www.berlin.de/sen/kultur/_assets/statistiken/kultureinrichtungen_alle.xlsx'
 
-def init_acqusition():
+def import_odb_points_of_interest():
     assure_csv_file()
 
     source_data_frame = pd.read_excel(os.path.join(DATA_BASE_PATH, CSV_NAME))
