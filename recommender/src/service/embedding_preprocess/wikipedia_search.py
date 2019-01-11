@@ -12,7 +12,7 @@ def clean_query(query):
     no_punctuation = re.sub(r'\s+', ' ', no_punctuation)
     return no_punctuation
 
-def get_wikipedia_text(query):
+def execute_wikipedia_query(query):
     search_query = clean_query(query)
     print('lookup wikipedia for searchquery >>' + search_query + '<<')
 
@@ -21,10 +21,11 @@ def get_wikipedia_text(query):
     foundArticle = False
     wiki_text = ''
     wiki_title = ''
+    wiki_link = ''
 
     while not foundArticle and len(wiki_titles) > 0:
         wiki_title = wiki_titles.pop(0) # take first element
-        sim = sw.get_raw_score(wiki_title, query) / max(len(wiki_title), len(query))
+        sim = sw.get_raw_score(wiki_title, search_query) / max(len(wiki_title), len(search_query))
         if sim < 0.5: # low sim --> probably a false positive --> continue
             continue
         else:
@@ -35,18 +36,12 @@ def get_wikipedia_text(query):
                 continue
             
             wiki_text = wiki_page.content
+            wiki_link = wiki_page.url
             foundArticle = True
 
-    if wiki_text == '':
+    if not foundArticle:
         print('Found none.')
+        return None, None, None
     else:
         print('Found ' + wiki_title)
-
-    return wiki_text
-
-def perform_wikipedia_lookup(dataframe):
-    dataframe['text'] = dataframe.apply(lambda row: get_wikipedia_text(row['name']), axis = 1)
-
-    dataframe_with_texts = dataframe[dataframe.text != '']
-
-    return dataframe_with_texts
+        return wiki_title, wiki_link, wiki_text

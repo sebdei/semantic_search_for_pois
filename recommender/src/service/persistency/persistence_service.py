@@ -111,3 +111,41 @@ def get_all_odb_pois():
 def truncate_odb_pois():
     cur.execute("TRUNCATE TABLE odb_points_of_interests CASCADE")
     conn.commit()
+
+# Queried wikipedia data
+
+def get_queried_pois_wikipedia():
+    cur.execute("SELECT poi_id FROM query_data_wikipedia")
+    return cur.fetchall()
+
+def insert_query_data_wikipedia(poi_id, wiki_title, wiki_url, wiki_text):
+    cur.execute(
+        sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s)")
+            .format(sql.Identifier('query_data_wikipedia')),
+            [poi_id, wiki_title, wiki_url, wiki_text]
+    )
+    conn.commit()
+
+def get_wikipedia_data():
+    cur.execute("SELECT * FROM query_data_wikipedia")
+
+    return cur.fetchall()
+
+# Queried visitberlin data
+
+def get_queried_pois_visitberlin():
+    cur.execute("SELECT poi_id FROM query_data_visitberlin")
+    return cur.fetchall()
+
+def insert_query_data_visitberlin(poi_id, visitberlin_title, visitberlin_url, visitberlin_text):
+    cur.execute(
+        sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s)")
+            .format(sql.Identifier('query_data_visitberlin')),
+            [poi_id, visitberlin_title, visitberlin_url, visitberlin_text]
+    )
+    conn.commit()
+
+def get_visitberlin_data():
+    cur.execute("SELECT * FROM query_data_visitberlin")
+
+    return cur.fetchall()

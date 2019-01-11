@@ -137,10 +137,10 @@ class VisitBerlin:
 
 				print("{}: {}".format(search_term, foundPage.url))
 
-				return (foundPage.url, cleanedHtml)
+				return foundPage.name, foundPage.url, cleanedHtml
 
 		# if content div was not found
 		if not validWebpageFound:
 			print(search_term+": No webpage")
 
-			return (None, None)
+			return None, None, None
