@@ -2,6 +2,9 @@ import wikipedia
 import string
 import pandas as pd
 import re
+from py_stringmatching import SmithWaterman
+
+sw = SmithWaterman()
 
 def clean_query(query):
     exclude = set(string.punctuation)
@@ -21,7 +24,8 @@ def get_wikipedia_text(query):
 
     while not foundArticle and len(wiki_titles) > 0:
         wiki_title = wiki_titles.pop(0) # take first element
-        if wiki_title == 'Berlin':
+        sim = sw.get_raw_score(wiki_title, query) / max(len(wiki_title), len(query))
+        if sim < 0.5: # low sim --> probably a false positive --> continue
             continue
         else:
             try:
@@ -30,12 +34,8 @@ def get_wikipedia_text(query):
                 print('there was an error fetching a page:', wiki_title, e)
                 continue
             
-            exclude_people_regex = re.compile(r'\d+ births|Year of birth missing .*')
-            category_matches = [cat for cat in wiki_page.categories if len(exclude_people_regex.findall(cat)) > 0]
-
-            if len(category_matches) == 0:
-                wiki_text = wiki_page.content
-                foundArticle = True
+            wiki_text = wiki_page.content
+            foundArticle = True
 
     if wiki_text == '':
         print('Found none.')
