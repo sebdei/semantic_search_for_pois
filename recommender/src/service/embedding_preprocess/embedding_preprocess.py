@@ -10,7 +10,7 @@ from src.service.model_provider import provide_glove_model
 from src.service.persistency.data_model import *
 
 from .wikipedia_search import execute_wikipedia_query
-from . import visitBerlin_search as vbSearch
+from .visitBerlin_search import execute_visitberlin_query
 
 nltk.download('stopwords')
 nltk.download('wordnet') # lemmatization
@@ -83,11 +83,9 @@ def execute_visitberlin_queries():
     already_queried_tuples = ps.get_queried_pois_visitberlin()
     already_queries_ids = [i[0] for i in already_queried_tuples]
 
-    vbClient = vbSearch.VisitBerlin()
-
     for index, row in df.iterrows():
         if index not in already_queries_ids:
-            vb_title, vb_url, vb_text = vbClient.execute_visitberlin_query(row['name'])            
+            vb_title, vb_url, vb_text = execute_visitberlin_query(row['name'])            
             ps.insert_query_data_visitberlin(index, vb_title, vb_url, vb_text)
 
 def create_integrated_text_df():
