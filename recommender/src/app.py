@@ -23,9 +23,10 @@ def run():
     # import_osm_points_of_interest()
     # import_into_poi_table()
     
-    visitBerlinApi = visitBerlin_search.VisitBerlin()
-    print(visitBerlinApi.find('Maxim Gorki Theater'))
-    dataframe = visitBerlinApi.perform_visitBerlin_lookup()
+    visitBerlin = visitBerlin_search.VisitBerlin()
+    visitBerlin.initializeArticles()
+    print(visitBerlin.find('Maxim Gorki Theater'))
+    dataframe = visitBerlin.perform_visitBerlin_lookup()
 
     #embedding_preprocess.init_word_embeddings_calculation_for_articles()
 
