@@ -66,7 +66,7 @@ class VisitBerlin:
 		for locationIndex, row in locationsBerlin.iterrows():
 
 			# create bing request
-			query = row['Institution'] + " visitberlin.de" #definition of the query
+			query = row['Institution'] + " site:visitberlin.de/en" #definition of the query
 			searchResponse = client.web.search(query=query, setLang="GB", count=20) #execute the query on the bing web search api
 
 			# write location name into result dataframe
@@ -82,12 +82,7 @@ class VisitBerlin:
 					foundPage = searchResponse.web_pages.value[searchResultIndex]
 
 					# => Step 1: Evaluate if current found webpage is interesting ...
-
-					# 1a: URL contains /en/ AND visitberlin.de
-					if "/en/" not in foundPage.url or "visitberlin.de" not in foundPage.url:
-						continue
-
-					# 1b: URL's last parts is (somehow) similar to the searched point of interest
+					# URL's last parts is (somehow) similar to the searched point of interest
 					urlParts = foundPage.url.split("/") #split the url
 					lastUrlPart = urlParts[-1] #get the last part of the url
 					stripped_lastUrlPart = re.sub('[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/\d]', ' ', lastUrlPart) #get rid of special symbols
