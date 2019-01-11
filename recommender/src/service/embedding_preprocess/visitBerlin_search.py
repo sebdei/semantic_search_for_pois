@@ -14,10 +14,6 @@ import pandas
 
 class VisitBerlin:
 
-	DATA_BASE_PATH = 'data/'
-	CSV_NAME = 'open_data_berlin_cultural_institutes.xlsx'
-	CSV_URL = 'http://www.berlin.de/sen/kultur/_assets/statistiken/kultureinrichtungen_alle.xlsx'
-
 	def __init__(self):
 		# subscription key for Bing, needs to be renewed regularly
 		subscription_key = "8539f7d32c9d40848fcb61bd34febfb5"
@@ -25,58 +21,10 @@ class VisitBerlin:
 		# instantiate the client.
 		self.client = WebSearchAPI(CognitiveServicesCredentials(subscription_key))
 
-	def assure_csv_file(self):
-		if not os.path.exists('data'):
-			os.makedirs('data')
-
-		if not os.path.exists(self.DATA_BASE_PATH + self.CSV_NAME):
-			print('downloading CSV file...')
-			response = urlretrieve(self.CSV_URL, self.DATA_BASE_PATH + self.CSV_NAME)
-
-	def initializeArticles(self):
-		# read locations excel from berlin.de
-		self.assure_csv_file()
-		print('berlinLocations ... loaded')
-		locationsBerlin  = pandas.read_excel(os.path.join(self.DATA_BASE_PATH, self.CSV_NAME))
-
-		# initialize dataframe for method's result
-		resultingDataFrame = pandas.DataFrame(index=range(0, len(locationsBerlin)-1), columns=['id','institution','textFromVisitBerlin'])
-		resultingDataFrame.fillna(0) 
-
-		# interate over all locations and find corresponding opening hours
-		for locationIndex, row in locationsBerlin.iterrows():
-			# write into result dataframe
-			url, text_content = self.execute_visitberlin_query(row['Institution'])
-			resultingDataFrame.loc[locationIndex,'institution'] = row['Institution']
-			
-			if text_content is not None:
-				resultingDataFrame.loc[locationIndex,'textFromVisitBerlin'] = text_content 
-
-
-		#writer = pandas.ExcelWriter('output.xlsx')
-		#locationsBerlin.to_excel(writer,'Sheet1')
-		#writer.save()
-
-		self.data = resultingDataFrame
-
 	def cleanhtml(self, raw_html):
 		cleanr = re.compile('<.*?>')
 		cleantext = re.sub(cleanr, '', raw_html)
 		return cleantext
-
-	def find(self, name):
-		for locationIndex in range(0, len(self.data)):
-			if self.data.loc[locationIndex, 'institution'] == name:
-				return self.data.loc[locationIndex, 'textFromVisitBerlin']
-		return None
-
-	def perform_visitBerlin_lookup(self):
-		columns = data_model.POI_COLUMNS
-		dataframe = pandas.DataFrame(get_all_points_of_interests(), columns = columns)[['id', 'name']]
-
-		dataframe['text'] = dataframe.apply(lambda row: self.find(row['name']), axis = 1)
-
-		return dataframe
 
 	def execute_visitberlin_query(self, search_term):
 		# create bing request
