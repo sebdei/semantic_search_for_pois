@@ -31,6 +31,7 @@ def assure_csv_file():
 
 def load_init_data_frame_into_postgres(df):
     persistence_service.create_initial_schema()
+    persistence_service.truncate_odb_pois()
 
     pandas_persistence_service.insert_df_into_odb_pois(df)
 

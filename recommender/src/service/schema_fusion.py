@@ -32,6 +32,7 @@ def prepare_odb_pois(odb_pois):
     odb_pois[OPENING_HOURS] = None
     odb_pois[FEATURE_VECTOR] = None
     odb_pois[SOURCE] = 'odb'
+    odb_pois[IS_BUILDING] = True # implicitly true for this dataset
 
     return odb_pois
 
@@ -47,7 +48,7 @@ def prepare_osm_pois(osm_df):
     before = len(osm_df)
     osm_df = osm_df[osm_df[NAME].notnull()]
     after = len(osm_df)
-    print('removed', before-after, 'POIs from OSM Data where the name in null.')
+    print('removed', before-after, 'POIs from OSM Data where the name is null.')
     return osm_df
     
 def import_osm_pois(poi_df, osm_df):
@@ -94,6 +95,8 @@ def convert_osm_to_poi(osm_row):
     poi_row[LONG] = osm_row[LONG]
     poi_row[LAT] = osm_row[LAT]
     poi_row[OPENING_HOURS] = osm_row[OPENING_HOURS]
+    # IS_BUILDING: either BUILDING is defined or it is a osm node (and not a osm way)
+    poi_row[IS_BUILDING] = (osm_row[BUILDING] is not None and len(osm_row[BUILDING]) > 0) or (osm_row[SOURCE] == 'osm:node')
     poi_row[FEATURE_VECTOR] = None
     poi_row[SOURCE] = osm_row[SOURCE] + '(' + osm_row[OSM_ID] + ')'
 
@@ -120,6 +123,7 @@ def consolidate_rows(row_1, row_2):
     consolidated_row[LONG] = row_1[LONG] or row_2[LONG]
     consolidated_row[LAT] = row_1[LAT] or row_2[LAT]
     consolidated_row[OPENING_HOURS] = row_1[OPENING_HOURS] or row_2[OPENING_HOURS]
+    consolidated_row[IS_BUILDING] = row_1[IS_BUILDING] or row_2[IS_BUILDING]
     consolidated_row[FEATURE_VECTOR] = row_1[FEATURE_VECTOR] or row_2[FEATURE_VECTOR]
     consolidated_row[SOURCE] = row_1[SOURCE] + ';' + row_2[SOURCE]
 

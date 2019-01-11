@@ -43,17 +43,17 @@ def get_all_points_of_interests():
 
     return cur.fetchall()
 
-def insert_into_points_of_interests(name, street_name, street_number, zip_code, long, lat, opening_hours, feature_vector, source):
+def insert_into_points_of_interests(name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source):
     cur.execute(
-        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
             .format(sql.Identifier('points_of_interests')),
-            [name, street_name, street_number, zip_code, long, lat, opening_hours, feature_vector, source]
+            [name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source]
     )
     conn.commit()
 
-def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, feature_vector, source):
+def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source):
     cur.execute((   "UPDATE points_of_interests SET "
-                    "name= %s, street_name=%s, street_number=%s, zip_code=%s, long=%s, lat=%s, opening_hours=%s, feature_vector=%s, source=%s"
+                    "name= %s, street_name=%s, street_number=%s, zip_code=%s, long=%s, lat=%s, opening_hours=%s, is_building=%s, feature_vector=%s, source=%s"
                     " WHERE id =%s"
                 ), [name, street_name, street_number, zip_code, long, lat, opening_hours, feature_vector,source,id])
     conn.commit()
@@ -79,6 +79,10 @@ def get_all_osm_pois():
 
     return cur.fetchall()
 
+def truncate_osm_pois():
+    cur.execute("TRUNCATE TABLE osm_points_of_interests")
+    conn.commit()
+
 # ODB Points of Interest
 
 def insert_into_odb_pois(name, street_name, street_number, zip_code, long, lat):
@@ -93,3 +97,7 @@ def get_all_odb_pois():
     cur.execute("SELECT * FROM odb_points_of_interests")
 
     return cur.fetchall()
+
+def truncate_odb_pois():
+    cur.execute("TRUNCATE TABLE odb_points_of_interests")
+    conn.commit()

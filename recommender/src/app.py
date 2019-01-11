@@ -19,8 +19,8 @@ from src.service.schema_fusion import import_into_poi_table
 def run():
     # flask.bindRoutes()
 
-    import_odb_points_of_interest()
-    import_osm_points_of_interest()
+    # import_odb_points_of_interest()
+    # import_osm_points_of_interest()
     import_into_poi_table()
     
     visitBerlin = visitBerlin_search.VisitBerlin()

@@ -1,6 +1,8 @@
 import overpy
+import time
 import pandas as pd
 from ..persistency import pandas_persistence_service
+from ..persistency import persistence_service
 from ..persistency.data_model import *
 
 # https://taginfo.openstreetmap.org/keys/leisure#values
@@ -77,7 +79,13 @@ def import_osm_points_of_interest():
     # query for ways
 
     for leisure in leisures:
-        r = api.query(str.format(way_query_template % leisure))
+        try:
+            r = api.query(str.format(way_query_template % leisure))
+        except:
+            # try again after a short break
+            time.sleep(15)
+            print('Trying again in a few seconds ...')
+            r = api.query(str.format(way_query_template % leisure))
 
         print('Found %d ways for leisure %s' % (len(r.get_ways()), leisure))
 
@@ -100,7 +108,12 @@ def import_osm_points_of_interest():
     # query for nodes
 
     for amenity in amenities:
-        r = api.query(str.format(node_query_template % amenity))
+        try:
+            r = api.query(str.format(node_query_template % amenity))
+        except:
+            print('Something went wrong, trying again in a few seconds ...')
+            time.sleep(5)
+            r = api.query(str.format(node_query_template % amenity))
 
         print('Found %d nodes for amenity %s' % (len(r.get_nodes()), amenity))
 
@@ -120,5 +133,6 @@ def import_osm_points_of_interest():
 
             osm_data_frame = osm_data_frame.append([row], sort = False)
 
+    persistence_service.truncate_osm_pois()
     pandas_persistence_service.insert_df_into_osm_pois(osm_data_frame)
     print("Loaded", len(osm_data_frame), "POIs from OSM into DB")

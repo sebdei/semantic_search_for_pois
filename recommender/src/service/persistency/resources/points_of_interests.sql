@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS points_of_interests (
     zip_code character varying, 
     long numeric, 
     lat numeric, 
-    opening_hours character varying, 
+    opening_hours character varying,
+    is_building boolean,
     feature_vector json,
     source character varying
 );
