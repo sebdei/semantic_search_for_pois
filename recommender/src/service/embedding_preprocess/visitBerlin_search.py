@@ -1,12 +1,14 @@
 from azure.cognitiveservices.search.websearch import WebSearchAPI
 from azure.cognitiveservices.search.websearch.models import SafeSearch
 from msrest.authentication import CognitiveServicesCredentials
-import nltk
 import re
 import urllib
 from bs4 import BeautifulSoup
 import html2text
 from src.service.persistency.persistence_service import get_all_points_of_interests
+
+from py_stringmatching import SmithWaterman
+
 #from .persistence_service import get_all_points_of_interests
 
 # -------- code from sebastian ---------
@@ -47,7 +49,7 @@ class VisitBerlin:
 
 	def initializeArticles(self):
 
-		# setup connection to google places api
+		# subscription key for Bing, needs to be renewed regularly
 		subscription_key = "8539f7d32c9d40848fcb61bd34febfb5"
 
 		# instantiate the client.
@@ -77,7 +79,7 @@ class VisitBerlin:
 				validWebpageFound = False
 
 				#iterate over all found webpages 
-				for searchResultIndex in range(1, len(searchResponse.web_pages.value)):
+				for searchResultIndex in range(0, len(searchResponse.web_pages.value)):
 
 					foundPage = searchResponse.web_pages.value[searchResultIndex]
 
@@ -85,22 +87,27 @@ class VisitBerlin:
 					# URL's last parts is (somehow) similar to the searched point of interest
 					urlParts = foundPage.url.split("/") #split the url
 					lastUrlPart = urlParts[-1] #get the last part of the url
-					stripped_lastUrlPart = re.sub('[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/\d]', ' ', lastUrlPart) #get rid of special symbols
+
+					# remove other request parameters
+					if lastUrlPart.find('?') != -1:
+						lastUrlPart = lastUrlPart[0:lastUrlPart.find('?')]
 					
-					jd = nltk.jaccard_distance(set(stripped_lastUrlPart.lower()), set(row['Institution'].lower())) #calculate the similarity
+					stripped_lastUrlPart = re.sub(r'[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/\d]', ' ', lastUrlPart) #get rid of special symbols
 
-					# - Documentation -
-					# The threshold of 0.52 was created by a manual evaluation of the following output:
-					# print( str(lastUrlPart)+"|"+str(stripped_lastUrlPart)+"|"+str(row['Institution'])+"|"+str(1-jd) )
+					# normalized smith waterman score
+					sw = SmithWaterman()
+					sim = sw.get_raw_score(stripped_lastUrlPart.lower(), row['Institution'].lower()) / max(len(stripped_lastUrlPart), len(row['Institution']))
 
-					if 1-jd < 0.52: 
+					# - Debugging -
+					# print(sim)
+					# print(stripped_lastUrlPart.lower(), '\n', row['Institution'].lower())
+					# print(str(searchResultIndex)+". web page name: {} ".format(foundPage.name))
+					# print(str(searchResultIndex)+". web page URL: {} ".format(foundPage.url))
+
+					if sim < 0.5 and foundPage.name.find(row['Institution']) == -1: 
 						continue #stop the evaluation of the current webpage if similarity is below a certain threshold
 
 					# => From here on: The webpage is regarded as a matching webpage
-
-					# - Debugging -
-					# print(str(searchResultIndex)+". web page name: {} ".format(foundPage.name))
-					# print(str(searchResultIndex)+". web page URL: {} ".format(foundPage.url))
 
 					# => Step 2: Scrape the found webpage ...
 
@@ -111,7 +118,6 @@ class VisitBerlin:
 					# 2b: Find content-divs and iterate over all included p-tag elements
 					contentDiv = soup.findAll('div', attrs={'class':'content'})
 					
-					#print("=================== DIV ===================")
 					cleanedHtml = "" # resulting string
 					for div in contentDiv:
 						for p in div.findAll('p'):
@@ -123,17 +129,14 @@ class VisitBerlin:
 					# write text from visitBerlin into result dataframe
 					resultingDataFrame.loc[locationIndex,'textFromVisitBerlin'] = cleanedHtml 
 
-					#print(row['Institution']+": Webpage found and read")
+
+					print("{}: {}".format(row['Institution'], foundPage.url))
+
 
 					break #stop for loop because a corresponding article was found
 
-			#else:
-			#	print(row['Institution']+": No webpage")
-
 			# if content div was not found
-			if validWebpageFound:
-				print(row['Institution']+": Webpage found and read")
-			else:
+			if not validWebpageFound:
 				print(row['Institution']+": No webpage")
 
 			#locationsBerlin.loc[locationIndex,'website'] = str(placeDetails['website'])	
