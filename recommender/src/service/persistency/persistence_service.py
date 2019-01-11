@@ -16,12 +16,22 @@ cur, conn = create_connection()
 poi_schema = open(os.path.join(os.path.dirname(__file__), 'resources/points_of_interests.sql')).read()
 osm_schema = open(os.path.join(os.path.dirname(__file__), 'resources/osm_points_of_interests.sql')).read()
 odb_schema = open(os.path.join(os.path.dirname(__file__), 'resources/odb_points_of_interests.sql')).read()
+query_wiki_schema = open(os.path.join(os.path.dirname(__file__), 'resources/query_data_wikipedia.sql')).read()
+query_visitberlin_schema = open(os.path.join(os.path.dirname(__file__), 'resources/query_data_visitberlin.sql')).read()
 
 def create_initial_schema():
     cur.execute(poi_schema)
     cur.execute(osm_schema)
     cur.execute(odb_schema)
+    cur.execute(query_wiki_schema)
+    cur.execute(query_visitberlin_schema)
+    print('Created required tables in PostgreSQL')
     conn.commit()
+
+# immediately execute after definition
+create_initial_schema()
+
+##### CRUD operations #####
 
 # CRUD core POI table
 
@@ -30,7 +40,7 @@ def delete_from_points_of_interests(id):
     conn.commit()
 
 def truncate_points_of_interests():
-    cur.execute("TRUNCATE TABLE points_of_interests")
+    cur.execute("TRUNCATE TABLE points_of_interests CASCADE")
     conn.commit()
 
 def get_points_of_interests_by_id(id):
@@ -80,7 +90,7 @@ def get_all_osm_pois():
     return cur.fetchall()
 
 def truncate_osm_pois():
-    cur.execute("TRUNCATE TABLE osm_points_of_interests")
+    cur.execute("TRUNCATE TABLE osm_points_of_interests CASCADE")
     conn.commit()
 
 # ODB Points of Interest
@@ -99,5 +109,5 @@ def get_all_odb_pois():
     return cur.fetchall()
 
 def truncate_odb_pois():
-    cur.execute("TRUNCATE TABLE odb_points_of_interests")
+    cur.execute("TRUNCATE TABLE odb_points_of_interests CASCADE")
     conn.commit()

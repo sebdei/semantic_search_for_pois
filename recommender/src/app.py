@@ -19,16 +19,16 @@ from src.service.schema_fusion import import_into_poi_table
 def run():
     # flask.bindRoutes()
 
-    # import_odb_points_of_interest()
-    # import_osm_points_of_interest()
+    import_odb_points_of_interest()
+    import_osm_points_of_interest()
     import_into_poi_table()
     
-    visitBerlin = visitBerlin_search.VisitBerlin()
-    visitBerlin.initializeArticles()
-    print(visitBerlin.find('Maxim Gorki Theater'))
-    dataframe = visitBerlin.perform_visitBerlin_lookup()
+    # visitBerlin = visitBerlin_search.VisitBerlin()
+    # visitBerlin.initializeArticles()
+    # print(visitBerlin.find('Maxim Gorki Theater'))
+    # dataframe = visitBerlin.perform_visitBerlin_lookup()
 
-    #embedding_preprocess.init_word_embeddings_calculation_for_articles()
+    embedding_preprocess.init_word_embeddings_calculation_for_articles()
 
     # -- similarity --
 
