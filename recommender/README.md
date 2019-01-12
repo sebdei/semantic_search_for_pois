@@ -9,6 +9,11 @@ Installation
 $ python3 -m venv venv
 ```
 
+or create the venv as follows if errors occur
+```
+$ virtualenv venv
+```
+
 activate virtualenv with
 
 ```
