@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS osm_points_of_interests (
     name character varying,
     name_de character varying,
     leisure character varying,
+    tourism character varying,
     long numeric, 
     lat numeric,
     building character varying,

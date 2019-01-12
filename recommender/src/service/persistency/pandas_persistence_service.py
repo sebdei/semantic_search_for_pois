@@ -16,7 +16,7 @@ def get_all_points_of_interests_as_df():
 def insert_df_into_osm_pois(df):
     for _, row in df.iterrows():
         insert_into_osm_pois(row[ADDR_CITY], row[ADDR_COUNTRY], row[ADDR_HOUSENUMBER], row[ADDR_POSTCODE], row[ADDR_STREET],
-        row[OPENING_HOURS], row[AMENITY], row[URL], row[NAME], row[NAME_DE], row[LEISURE], row[LONG], row[LAT], row[BUILDING], row[WIKIPEDIA], row[SOURCE], row[OSM_ID])
+        row[OPENING_HOURS], row[AMENITY], row[URL], row[NAME], row[NAME_DE], row[LEISURE], row[TOURISM], row[LONG], row[LAT], row[BUILDING], row[WIKIPEDIA], row[SOURCE], row[OSM_ID])
 
 def get_all_osm_pois_as_df():    
     return pd.DataFrame(get_all_osm_pois(), columns = OSM_COLUMNS).set_index(ID)

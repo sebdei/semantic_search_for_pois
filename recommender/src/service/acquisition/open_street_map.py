@@ -23,14 +23,24 @@ leisures = [
 
 amenities = [
     "theatre",
-#    "pub",
     "cinema",
-#    "biergarten",
-#    "cafe",
-#    "restaurant",
     "arts_centre",
     "fountain",
     "planetarium"
+]
+
+# https://wiki.openstreetmap.org/wiki/Key:tourism
+
+tourism_activities = [
+    "aquarium",
+    "artwork",
+    "attraction",
+    "gallery",
+    "museum",
+    "theme_park",
+    "viewpoint",
+    "zoo",
+    "yes"
 ]
 
 tag_schema_assignment = {
@@ -42,6 +52,7 @@ tag_schema_assignment = {
     'amenity': AMENITY,
     'contact:website': URL,
     'leisure': LEISURE,
+    'tourism': TOURISM,
     'name': NAME,
     'name:en': NAME,
     'name:de': NAME_DE,
@@ -67,6 +78,15 @@ area["ISO3166-2"="DE-BE"];
 );
 out;
 """
+
+node_tourism_query_template = """
+area["ISO3166-2"="DE-BE"];
+(
+    node["tourism"="%s"](area);
+);
+out;
+"""
+
 
 api = overpy.Overpass()
 
@@ -132,6 +152,35 @@ def import_osm_points_of_interest():
             row[SOURCE] = "osm:node"
 
             osm_data_frame = osm_data_frame.append([row], sort = False)
+
+    # query for toursim nodes
+
+    for activity in tourism_activities:
+        try:
+            r = api.query(node_tourism_query_template % activity)
+        except:
+            print('Something went wrong, trying again in a few seconds ...')
+            time.sleep(5)
+            r = api.query(node_tourism_query_template % activity)
+
+        print('Found %d nodes for tourism-related activity %s' % (len(r.get_nodes()), activity))
+
+        for node in r.get_nodes():
+            row = pd.Series([None] * len(OSM_COLUMNS), OSM_COLUMNS)
+
+            for tag in node.tags.keys():
+                if tag in tag_schema_assignment.keys():
+                    col = tag_schema_assignment.get(tag)
+                    value = node.tags.get(tag)
+                    row[col] = value
+            
+            row[LAT] = node.lat
+            row[LONG] = node.lon
+            row[OSM_ID] = node.id
+            row[SOURCE] = "osm:tourism-node"
+
+            osm_data_frame = osm_data_frame.append([row], sort = False)
+
 
     persistence_service.truncate_osm_pois()
     pandas_persistence_service.insert_df_into_osm_pois(osm_data_frame)

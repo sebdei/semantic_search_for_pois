@@ -58,8 +58,8 @@ def determine_weighted_word_embeddings_for_articles(articles):
     return tf_idf_matrix.dot(word_embedding_matrix)
 
 def init_word_embeddings_calculation_for_articles():
-    execute_wikipedia_queries()
     execute_visitberlin_queries()
+    execute_wikipedia_queries()
     
     text_df = create_integrated_text_df()
 

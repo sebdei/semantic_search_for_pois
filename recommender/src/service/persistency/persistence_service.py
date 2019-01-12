@@ -75,12 +75,12 @@ def update_feature_vector_by_id(id, feature_vector_json):
 # OSM Points of Interest
 
 def insert_into_osm_pois(addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
-        opening_hours, amenity, url, name, name_de, leisure, long, lat, building, wikipedia, source, osm_id):
+        opening_hours, amenity, url, name, name_de, leisure, tourism, long, lat, building, wikipedia, source, osm_id):
     cur.execute(
-        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
             .format(sql.Identifier('osm_points_of_interests')),
             [addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
-            opening_hours, amenity, url, name, name_de, leisure, long, lat, building, wikipedia, source, osm_id]
+            opening_hours, amenity, url, name, name_de, leisure, tourism, long, lat, building, wikipedia, source, osm_id]
     )
     conn.commit()
 
