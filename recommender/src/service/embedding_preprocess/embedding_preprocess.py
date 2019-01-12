@@ -4,11 +4,13 @@ import nltk
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from src.service.persistency import pandas_persistence_service
-from src.service.persistency import persistence_service
+from src.service.persistency import pandas_persistence_service as pps
+from src.service.persistency import persistence_service as ps
 from src.service.model_provider import provide_glove_model
+from src.service.persistency.data_model import *
 
-from .wikipedia_search import perform_wikipedia_lookup
+from .wikipedia_search import execute_wikipedia_query
+from .visitBerlin_search import execute_visitberlin_query
 
 nltk.download('stopwords')
 nltk.download('wordnet') # lemmatization
@@ -56,10 +58,53 @@ def determine_weighted_word_embeddings_for_articles(articles):
     return tf_idf_matrix.dot(word_embedding_matrix)
 
 def init_word_embeddings_calculation_for_articles():
-    dataframe = pandas_persistence_service.get_all_points_of_interests_as_df()
-    dataframe_with_texts = perform_wikipedia_lookup(dataframe)
+    execute_visitberlin_queries()
+    execute_wikipedia_queries()
+    
+    text_df = create_integrated_text_df()
 
-    weighted_word_matrix = determine_weighted_word_embeddings_for_articles(dataframe_with_texts)
+    weighted_word_matrix = determine_weighted_word_embeddings_for_articles(text_df)
 
     for index, row in weighted_word_matrix.iterrows():
-        persistence_service.update_feature_vector_by_id(index, row.get_values().tolist())
+        ps.update_feature_vector_by_id(index, row.get_values().tolist())
+    
+def execute_wikipedia_queries():
+    df = pps.get_all_points_of_interests_as_df()
+    already_queried_tuples = ps.get_queried_pois_wikipedia()
+    already_queries_ids = [i[0] for i in already_queried_tuples]
+
+    for index, row in df.iterrows():
+        if index not in already_queries_ids:
+            wiki_title, wiki_url, wiki_text = execute_wikipedia_query(row['name'])
+            ps.insert_query_data_wikipedia(index, wiki_title, wiki_url, wiki_text)
+
+def execute_visitberlin_queries():
+    df = pps.get_all_points_of_interests_as_df()
+    already_queried_tuples = ps.get_queried_pois_visitberlin()
+    already_queries_ids = [i[0] for i in already_queried_tuples]
+
+    for index, row in df.iterrows():
+        if index not in already_queries_ids:
+            vb_title, vb_url, vb_text = execute_visitberlin_query(row['name'])            
+            ps.insert_query_data_visitberlin(index, vb_title, vb_url, vb_text)
+
+def create_integrated_text_df():
+    wikipedia_queries = pps.get_all_wiki_data_as_df()
+    visitberlin_queries = pps.get_all_visitberlin_data_as_df()
+
+    text_df = pd.DataFrame(columns = [POI_ID, 'text']).set_index(POI_ID)
+
+    for index, row in wikipedia_queries.iterrows():
+        if row[WIKI_TEXT] is not None and row[WIKI_TEXT] != '':
+            text_df.loc[index] = [row[WIKI_TEXT]]
+
+    for index, row in visitberlin_queries.iterrows():
+        if row[VISITBERLIN_TEXT] is not None and row[VISITBERLIN_TEXT] != '':
+            if index not in text_df.index:
+                text_df.loc[index] = [row[VISITBERLIN_TEXT]]
+            else:
+                text_df.loc[index] = row[VISITBERLIN_TEXT] + ' ' + text_df.loc[index]['text']
+
+    print('Have source text for {} POIs in total'.format(len(text_df)))
+
+    return text_df
