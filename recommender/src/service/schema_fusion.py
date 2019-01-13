@@ -23,6 +23,7 @@ def import_into_poi_table():
     poi_df = import_osm_pois(poi_df, osm_df)
 
     # Commit Data
+    poi_df[ID] = None
     pps.insert_df_into_points_of_interests(poi_df)
 
 # ODB
