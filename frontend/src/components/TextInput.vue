@@ -44,7 +44,7 @@ export default {
     submitQuery: async function () {
       let postData = { query: this.query }
       let host = window.location.hostname
-      let response = await axios.post(`http://${host}:5001/classify`, { query: this.query })
+      let response = await axios.post(`http://${host}:5000/classify`, { query: this.query })
       this.results = response.data
     }
   }
