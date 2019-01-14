@@ -1,0 +1,116 @@
+id,name,street_name,street_number,zip_code,long,lat
+1,Deutsches Theater / Kammerspiele,Schumannstraße,13,10117,13.382083300000001,52.5239167
+2,Volksbühne,Rosa-Luxemburg-Platz,,10178,13.4123889,52.52725
+3,Maxim Gorki Theater,Am Festungsgraben,2,10117,13.3956111,52.519
+4,Berliner Ensemble,Bertolt-Brecht-Platz,1,10117,13.386416699999998,52.5220556
+5,"Hebbel am Ufer (HAU 1, 2, 3)",Hallesches Ufer,32,10963,13.386194400000003,52.4990556
+6,Schaubühne am Lehniner Platz,Kurfürstendamm,153,10709,13.302833300000001,52.498694400000005
+7,Renaissance Theater,Knesebeckstraße,100,10623,13.324083300000002,52.510305599999995
+8,Theater an der Parkaue,Parkaue,29,10367,13.477972199999998,52.5168056
+9,Grips Theater,Altonaer Str.,22,10557,13.3424167,52.5184444
+10,Theater Strahl,Martin-Luther-Straße,77,10825,13.345194400000002,52.4883333
+11,Canstanza Macras,Klosterstraße,44,10179,13.411805599999997,52.517861100000005
+12,Nico and the Navigators,Husemannstr.,31,10435,13.417583300000002,52.53972220000001
+13,Rimini Protokoll,Tempelhofer Ufer,10,10963,13.3858611,52.497472200000004
+14,Theater im Palais,Am Festungsgraben,1,10117,13.395666699999998,52.518527799999994
+15,Sophiensæle,Sophienstraße,18,10178,13.4016111,52.5258611
+16,Theaterdiscounter,Klosterstraße,44,10179,13.412166699999998,52.51777779999999
+17,Theater '89,Torstraße,216,10115,13.390222199999998,52.5276389
+18,Vaganten Bühne Gemeinnützige,Kantstraße,12A,10623,13.328833300000001,52.50575
+19,Neuköllner Oper,Karl-Marx-Straße,131-133,12043,13.439472199999997,52.477555599999995
+20,Kleines Theater am Südwestkorso GmbH,Südwestkorso,65,12161,13.3223611,52.473305599999996
+21,Ballhaus Naunynstraße,Naunynstraße,27,10997,13.4213333,52.502
+22,Friedrichstadt-Palast,Friedrichstraße,107,10117,13.3888611,52.5239167
+23,Sasha Waltz & Guests,Sophienstraße,3,10178,13.401333300000001,52.525361100000005
+24,Jüdisches Theater,Meinekestraße,24,10719,13.329305599999998,52.5021111
+25,Bühnen am Kürfürstendamm,Kurfürstendamm,206,10719,13.323638899999999,52.5019444
+26,Schlosspark Theater,Schloßstraße,48,12165,13.317972199999998,52.4546944
+27,Deutsche Oper Berlin,Bismarckstraße,35,10627,13.308333300000001,52.512222200000004
+28,Staatsoper Unter den Linden,Unter den Linden,7,10117,13.3946389,52.5169444
+29,Komische Oper Berlin,Behrenstraße,55-57,10117,13.386888899999999,52.51597220000001
+30,Staatsballett,Bismarckstraße,110,10625,13.317361100000001,52.5120556
+31,Stiftung Berliner Philharmoniker,Herbert-von-Karajan-Straße,1,10785,13.369722199999998,52.5098056
+32,Konzerthaus Berlin / Schauspielhaus am Gendarmenmarkt,Gendarmenmarkt,,10117,13.391777800000002,52.5136389
+33,Rundfunk-Orchester und -Chöre GmbH,Charlottenstraße,56,10117,13.391083300000002,52.513361100000004
+34,Literarisches Colloquium Berlin (LCB),Am Sandwerder,5,14109,13.1785,52.4227778
+35,Literaturhaus Berlin,Fasanenstraße,23,10719,13.326805599999998,52.5021944
+36,Literaturforum im Brecht-Haus,Chausseestraße,125,10115,13.3848889,52.528972200000005
+37,literaturWERKstatt berlin,Knaackstraße,97,10435,13.414416699999999,52.5394444
+38,LesArt - Berliner Zentrum für Kinder- und Jugendliteratur,Weinmeisterstraße,5,10178,13.405083300000001,52.52525
+39,ConSense - Ges. zur Förderung von Kultur mbH (Kulturbrauerei),Schönhauser Allee,36,10435,13.413,52.5383056
+40,RambaZamba e.V.,Schönhauser Allee,36-39,10435,13.4135833,52.5399444
+41,ufa-fabrik e.V.,Viktoriastraße,10-18,12105,13.381833300000002,52.454583299999996
+42,Neue Babylon Berlin GmbH,Rosa-Luxemburg-Straße,30,10178,13.4115,52.5258611
+43,Stiftung Berlinische Galerie,Alte Jakobstraße,124-128,10969,13.398810000000001,52.50408
+44,Stiftung Bröhan-Museum,Schloßstraße,1a,14059,13.29517,52.5189
+45,Brücke Museum,Bussardsteig,9,14195,13.27455,52.46682
+46,Stiftung Deutsches Technikmuseum Berlin,Trebbiner Str.,9,10963,13.37684,52.498630000000006
+47,Bauhaus-Archiv,Klingelhöferstraße,14,10785,13.352770000000001,52.506069999999994
+48,Stiftung Stadtmuseum Berlin,Poststraße,13,10178,13.406789999999999,52.51608
+49,Stiftung Domäne Dahlem,Königin-Luise-Straße,49,14195,13.28866,52.45842
+50,Jugend im Museum e.V.,Genthiner Str.,38,10785,13.358920000000001,52.50257
+51,Schwules Museum,Lützowstraße,73,10785,13.3578,52.50445
+52,Werkbundarchiv - Museum der Dinge,Oranienstraße,25,10999,13.42066,52.50107
+53,Stiftung Georg-Kolbe-Museum,Sensburger Allee,25,14055,13.25489,52.51002
+54,Altes Museum mit Antikensammlung - Museumsinsel,Am Lustgarten,,10178,13.4003,52.519
+55,Alte Nationalgalerie - Museumsinsel,Bodestraße,1-3,10178,13.398829999999998,52.519490000000005
+56,"Bodemuseum mit Skulpturensammlung, Museum für Byzantinische Kunst und Münzkabinett - Museumsinsel",Am Kupfergruben,,10117,13.38475,52.51551
+57,"Neues Museum mit Ägyptisches Museum, Museum für Vor- und Frühgeschichte - Museumsinsel",Bodestraße,1-3,10178,13.398829999999998,52.5194
+58,"Pergamonmuseum mit Antikensammlung, Museum für Islamische Kunst, Vorderasiatischem Museum, Münzkabinett - Musuemsinsel",Bodestraße,1-3,10178,13.398829999999998,52.5194
+59,Friedrichswerdersche Kirche - Museumsinsel,Werderscher Markt,,10117,13.39804,52.515440000000005
+60,Hamburger Bahnhof - Tiergarten,Invalidenstraße,50-51,10557,13.37149,52.528180000000006
+61,Neue Nationalgalerie - Kulturforum,Potsdamer Straße,50,10785,13.367329999999999,52.50658000000001
+62,Gemäldegalerie - Kulturforum (Zentralkasse) mit Kunstbibliothek und Kupferstichkabinett,Matthäikirchplatz,,10785,13.367339999999999,52.508219999999994
+63,Kunstgewerbemuseum - Kulturforum,Matthäikirchplatz,,10785,13.367339999999999,52.508219999999994
+64,Kunstgewerbemuseum - Schloss Köpenick,Alt-Köpenick,1,12557,13.57291,52.44405
+65,Ethnologisches Museum - Museen Dahlem (Zentralkasse) mit Museum Europäischer Kulturen und Museum für Asiatische Kunst,Lansstraße,8,14195,13.292879999999998,52.457319999999996
+66,Museum für Fotografie - Charlottenburg,Jebensstraße,2,10623,13.33186,52.5082
+67,Museum Berggruen - Charlottenburg,Schloßstraße,1,14059,13.2958,52.51895
+68,Sammlung Scharf-Gerstenberg - Charlottenburg,Schloßstraße,70,14059,13.29684,52.51915
+69,Musikinstrumenten-Museum,Tiergartenstraße,1,10785,13.3711,52.51001
+70,Staatsbibliothek,Unter den Linden,8,10117,13.390989999999999,52.51752
+71,Humboldt-Box,Schloßplatz,5,10178,13.40015,52.51599
+72,Schloss Charlottenburg (Neuer Pavillon; Belvedere; Mausoleum),Spandauer Damm,20-24,14059,13.295329999999998,52.52064
+73,Pfaueninsel,Pfauensinel,,,13.13125,52.434490000000004
+74,Park Glienicke (Schloss; Casino),Königstraße,36,14109,13.09786,52.411229999999996
+75,Jagdschloss Grunewald (Schloss; Jagdzeugmagazin),Hüttenweg,100,14193,13.261479999999999,52.46703
+76,Schloss Schönhausen,Tschaikowskistraße,1,13156,13.405679999999998,52.57838
+77,Stiftung Berliner Mauer,Bernauer Str.,111,13355,13.389833300000001,52.5353611
+78,Trägerverein Haus der Wannseekonferenz,Am Großen Wannsee,56-58,14109,13.165027800000003,52.4320556
+79,Stiftung Gedenkstätte Berlin-Hohenschönhausen,Genslerstraße,66,13055,13.501416699999998,52.541805599999996
+80,Gedenkstätte Deutscher Widerstand,Stauffenbergstraße,13-14,10785,13.3635,52.5077222
+81,Stiftung Topographie des Terrors,Niederkirchnerstraße,8,10963,13.3836667,52.5066944
+82,Dokumentationszentrum NS-Zwangsarbeit Berlin-Schöneweide,Britzer Str.,5,12439,13.518055599999999,52.4531944
+83,Kunst-Werke Berlin - Institute for Contemporary Art,Auguststraße,69,10117,13.394972199999998,52.526805599999996
+84,Künstlerhaus Bethanien (KHB),Kottbusser Str.,10,10999,13.4186389,52.49697220000001
+85,Haus am Waldsee e.V.,Argentinische Allee,30,14163,13.2386389,52.44202779999999
+86,Stiftung Zentral- und Landesbibliothek Berlin,Breite Straße,30-36,10178,13.4045,52.51525
+87,Landesarchiv Berlin,Eichborndamm,115,13403,13.31675,52.5799444
+88,Theater Thikwà,Fidicinstraße,40,10965,13.388527800000002,52.487222200000005
+89,SheShePop,Mariannenpl.,2,10997,13.423444400000001,52.503666700000004
+90,Zeitgenössische Oper Berlin,Schwedter Str.,269,,13.412027800000002,52.532638899999995
+91,Theater auf der Zitadelle,Am Juliusturm,64,13599,13.212055599999998,52.5409444
+92,Schlossplatztheater,Alt-Köpenick,31,12555,13.5743611,52.445055599999996
+93,Theater o.N.,Kollwitzstraße,53,10405,13.416222199999998,52.535
+94,andcompany & Co,Mariannenplatz,2,10997,13.424027800000003,52.50397220000001
+95,Fliegendes Theater,Urbanstraße,100,10967,13.422055599999998,52.489861100000006
+96,ATZE Musiktheater,Luxemburger Str.,20,13353,13.351555599999998,52.54327779999999
+97,Das Weite Theater,Parkaue,23,10367,13.477444400000001,52.5169444
+98,Das Helmi,Pappelallee,15,10437,13.414972199999998,52.5430833
+99,Platypus Theater,Markgrafenstraße,87,10969,13.394722199999999,52.5033889
+100,Lubricat,Adalbertstr.,4,10999,13.4189444,52.5
+101,Gob Squad,Skalitzer Straße,59,10997,13.43625,52.49972220000001
+102,English Theatre Berlin,Fidicinstraße,40,10965,13.3885,52.48725
+103,aufBruch,Pappelallee,7,10437,13.4138889,52.542222200000005
+104,Hans Wurst Nachfahren,Gleditschstraße,5,10781,13.3554167,52.4965
+105,Novoflot,Wallstraße,32c,10179,13.4113889,52.5110556
+106,Tanzcompanie Rubato,Karl-Kunger Str.,13,12435,13.447083300000001,52.4911667
+107,cie toula limnaios,Am Friedrichshain,33,10407,13.425666699999999,52.528388899999996
+108,Tanztage Berlin,Sophienstraße,18,10178,13.4016111,52.5258889
+109,Ballhaus Ost,Pappelallee,15,10437,13.414944400000001,52.5430833
+110,Theaterkapelle,Boxhagener Str.,99,10245,13.460777800000002,52.5123333
+111,Heimathafen Neukölln,Karl-Marx-Straße,141,12043,13.439194400000002,52.476972200000006
+112,Tanzfabrik Berlin e.V.,Uferstraße,23,13357,13.374944400000002,52.551777799999996
+113,Dock 11,Kastanienallee,79,10435,13.408027800000003,52.536666700000005
+114,Laborgras,Großbeerenstraße,56E,10965,13.4213889,52.496805599999995
+115,ada Studio & Bühne,Uferstraße,8/23,13357,13.3744167,52.5518333
