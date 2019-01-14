@@ -1,6 +1,6 @@
 <template>
   <div class="text-wrapper d-flex">
-    <div class="icon">
+    <div class="main-icon">
       <span class="fa-stack fa-2x">
         <i class="fas fa-ellipsis-h fa-stack-1x"></i>
         <i class="far fa-comment-alt fa-stack-2x"></i>
@@ -14,7 +14,7 @@
             <textarea placeholder="Your custom text" v-model="query"></textarea>
           </div>
           <div class="submit-button" @click="submitQuery">
-            <div class="">
+            <div>
               <i class="fas fa-arrow-circle-right fa-1x"></i>
             </div>
           </div>
@@ -43,7 +43,7 @@ export default {
     },
     submitQuery: async function () {
       let postData = { query: this.query }
-      let host = window.location.hostname;
+      let host = window.location.hostname
       let response = await axios.post(`http://${host}:5001/classify`, { query: this.query })
       this.results = response.data
     }
@@ -56,11 +56,12 @@ export default {
   background-color: #A39A92;
   height: 100%;
 }
-.icon {
+.main-icon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 50px;
+  color: white;
 }
 
 .content {
@@ -116,6 +117,7 @@ textarea::after {
   left: 5px;
   padding: 15px;
   font-size: 1.4em;
+  color: white;
 }
 
 .back-button i {
