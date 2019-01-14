@@ -29,27 +29,7 @@ def run():
 
     # drop all tables and import default data
     restore_default_database()
-    
+
 
     # (re-) calculate the word embedding feature vector
     # embedding_preprocess.init_word_embeddings_calculation_for_articles()
-
-
-
-
-    # -- similarity --
-
-    #
-    # model = model_provider.provide_glove_model()
-    #
-    #
-    # userinput = 'art museum'
-    # cleanedinput = embedding_preprocess.clean_article(userinput, model)
-    #
-    # print(cleanedinput)
-    #
-    # userinputarray = word_embedding_service.calculate_mean_vector_of_word_embeddings_for_text(cleanedinput, model)
-    #
-    # result = similarity_service.determine_similar_items_with_cosine_similarity(userinputarray, dataframe)
-    #
-    # print(result)
