@@ -14,8 +14,7 @@ import os
 def initializeCollaborativeFiltering():
 
     # Step 1: Read data from excel <= To replace by database
-    #ratings = pd.read_excel('/Users/jensmechelhoff/POI-recommender-with-word-embeddings2/recommender/src/service/collaborative_filtering/testTable.xls')
-    ratings = pd.read_excel('recommender/src/service/collaborative_filtering/testTable.xls')
+    ratings = pd.read_excel(os.path.join(os.path.dirname(__file__), 'testTable.xls'))
 
     # Step 2: Transform to training set 
     reader = Reader(rating_scale=(0.0, 1.0))
@@ -54,6 +53,4 @@ def getRecommendationsForUser(currentUserId):
     # Step 4: Sort locations their predicted ratings
     predictions = predictions.sort_values(by=['pred_rating'], ascending=[0])
 
-    print(predictions)
-
-    print("yoo")
+    return predictions
