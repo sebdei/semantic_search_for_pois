@@ -34,7 +34,7 @@ export default {
   },
   data () {
     return {
-      choosedInput: '',
+      choosedInput: ''
     }
   },
   computed: {

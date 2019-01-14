@@ -5,12 +5,9 @@
 </template>
 
 <script>
-import Word2VecTest from './components/Word2VecTest.vue'
-
 export default {
   name: 'app',
   components: {
-    Word2VecTest
   }
 }
 </script>
