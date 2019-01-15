@@ -34,7 +34,7 @@ export default {
   props: ['active'],
   data () {
     return {
-      query: 'test'
+      query: ''
     }
   },
   methods: {
@@ -42,10 +42,8 @@ export default {
       this.$emit('deactivate')
     },
     submitQuery: async function () {
-      let postData = { query: this.query }
       let host = window.location.hostname
       let response = await axios.post(`http://${host}:5000/classify`, { query: this.query })
-      this.results = response.data
     }
   }
 }

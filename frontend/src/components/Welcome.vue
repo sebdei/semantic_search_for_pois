@@ -62,10 +62,9 @@ export default {
 <style scoped>
 .header {
   height: 150px;
-  background-color: #483D3F;
+  background-color: #463E3C;
   color: white;
 }
-
 .main {
   width: 100%;
   overflow: hidden;
