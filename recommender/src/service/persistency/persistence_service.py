@@ -188,3 +188,33 @@ def get_visitberlin_data():
     cur.execute("SELECT * FROM query_data_visitberlin")
 
     return cur.fetchall()
+
+# Combined visitberlin and wikipedia texts per ID
+
+text_query = """
+SELECT visitberlin_text, wiki_text
+FROM query_data_visitberlin as vb
+JOIN query_data_wikipedia as wiki
+ON vb.poi_id = wiki.poi_id
+WHERE vb.poi_id = {}
+"""
+
+def get_text_for_poi(id):
+    """
+    Gives the stored Visitberlin and Wikipedia text for a given POI, if they exist
+    """
+
+    cur.execute(sql.SQL(text_query.format((id))))
+
+    query_result = cur.fetchall()
+
+    if len(query_result) != 1:
+        return None, None
+    else:
+        visitberlin_text, wiki_text = query_result[0]
+
+        # Remove some of the ugly markup
+        wiki_text = ''.join((ch if ch != '=' else '') for ch in wiki_text)
+
+        return visitberlin_text, wiki_text
+
