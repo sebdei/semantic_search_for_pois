@@ -54,9 +54,9 @@ export default {
         alert("Unfortunately we don't have informationen about the location of this Object!");
       } else {
           if ((navigator.platform.indexOf("iPhone") != -1) || (navigator.platform.indexOf("iPod") != -1) || (navigator.platform.indexOf("iPad") != -1)) {
-          window.open(`maps://maps.google.com/maps?daddr=${lat},${long}&amp;ll=`);
+            window.open(`maps://maps.google.com/maps?daddr=${lat},${long}&amp;ll=`);
         } else {
-          window.open(`https://maps.google.com/maps?daddr=${lat},${long}&amp;ll=`)
+            window.open(`https://maps.google.com/maps?daddr=${lat},${long}&amp;ll=`)
         }
       }
     }
@@ -99,12 +99,6 @@ export default {
 }
 
 .teaser-text {
-  /* max-height: 70px;
-  overflow:hidden;
-  text-overflow: ellipsis;
-  position: relative;
-  text-align: justify; */
-
   display: -webkit-box;
   max-width: 75%;
   height: 55px;
@@ -114,5 +108,4 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 </style>
