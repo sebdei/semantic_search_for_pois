@@ -13,6 +13,11 @@
         <div class="street font-weight-bold">
           {{ recommendation.street_name }} {{ recommendation.street_number }}
         </div>
+        <div class="teaser-text-wrapper">
+          <div class="teaser-text">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+          </div>
+        </div>
         <div class="distance-box float-right" @click="navigateTo(recommendation.lat, recommendation.long)">
           <div>
             <i class="fas fa-map-marker-alt"></i>
@@ -21,8 +26,6 @@
             40.2 km
           </span>
         </div>
-        <div class="teaser-text">
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam        </div>
       </div>
     </div>
   </div>
@@ -76,13 +79,14 @@ export default {
 }
 
 .poi-item {
-  background-color: #8E7876;
-  height: 180px;
+  background-color: #766d6c;
+  min-height: 180px;
   padding: 30px;
+  border-top: 1px solid;
 }
 
 .poi-item:nth-child(even) {
-  background-color: #463E3C;
+  /* background-color: #463E3C; */
 }
 
 .street {
@@ -94,18 +98,23 @@ export default {
   display: inline-block;
   padding: 5px;
   text-align: center;
-  background-color: #79A8AF;
-  border-radius: 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .teaser-text {
   display: -webkit-box;
-  max-width: 75%;
   height: 55px;
   line-height: 1.2;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.teaser-text-wrapper {
+  display: inline-block;
+  width: 75%;
 }
 </style>
