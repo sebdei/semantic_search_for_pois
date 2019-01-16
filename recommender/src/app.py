@@ -6,6 +6,8 @@ from src.service.schema_fusion import import_into_poi_table
 from src.service.restore_default import restore_default_database
 from src.service.collaborative_filtering import user2user_recommender
 
+from src.service.persistency.persistence_service import get_text_for_poi
+
 # import pandas as pd
 
 # from src.api import flask
@@ -23,8 +25,15 @@ def run():
     # drop all tables and import default data
     restore_default_database()
 
+    ### Tests ###
+
+    # test text retrieval for POI ID
+    visitberlin_text, wiki_text = get_text_for_poi(83)
+    print(visitberlin_text)
+    print(wiki_text)
+
     # test collaborative filtering
-    print(user2user_recommender.getRecommendationsForUser(1))
+    # print(user2user_recommender.getRecommendationsForUser(1))
 
 
     # (re-) calculate the word embedding feature vector
