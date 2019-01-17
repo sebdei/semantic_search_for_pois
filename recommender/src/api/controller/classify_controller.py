@@ -12,4 +12,4 @@ def init(app):
 
         similarArticle = classifier_service.classify(body['query'])
 
-        return similarArticle.to_json(orient='records')
+        return similarArticle.reset_index().to_json(orient='records')

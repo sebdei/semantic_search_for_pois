@@ -6,13 +6,10 @@
       </h2>
     </div>
     <div class="poi-list">
-      <div v-for="(recommendation, index) in listOfRecommendations" class="poi-item">
+      <div v-for="(recommendation, index) in listOfRecommendations" class="poi-item" @click="goToDetailPoiRoute(recommendation.id)">
         <h5 class="font-weight-bold">
           {{ recommendation.name }}
         </h5>
-        <div class="street font-weight-bold">
-          {{ recommendation.street_name }} {{ recommendation.street_number }}
-        </div>
         <div class="teaser-text-wrapper">
           <div class="teaser-text">
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
@@ -33,6 +30,7 @@
 
 <script>
 import axios from 'axios'
+import { calcDistance, navigateTo } from '@/service/osm-service'
 
 export default {
   data () {
@@ -45,24 +43,18 @@ export default {
   },
   methods: {
     fetchRecommendations: async function () {
-      let query = 'art museum'
+      let query = 'Do past anti-gay statements and positions permanently besmirch a persons character, or does evolving and changing and repudiating those past positions absolve them of their sins? It d be good if we had a consistent standard on this question.'
+      // let query = 'art museum'
 
       let host = window.location.hostname
       let response = await axios.post(`http://${host}:5000/classify`, { query: query })
       this.listOfRecommendations = response.data
       console.log(response.data)
     },
-    navigateTo: function (lat, long) {
-      if (!lat || !long) {
-        alert("Unfortunately we don't have informationen about the location of this Object!");
-      } else {
-          if ((navigator.platform.indexOf("iPhone") != -1) || (navigator.platform.indexOf("iPod") != -1) || (navigator.platform.indexOf("iPad") != -1)) {
-            window.open(`maps://maps.google.com/maps?daddr=${lat},${long}&amp;ll=`);
-        } else {
-            window.open(`https://maps.google.com/maps?daddr=${lat},${long}&amp;ll=`)
-        }
-      }
-    }
+    goToDetailPoiRoute: function (id) {
+      this.$router.push({ path: `/points_of_interests/${id}` })
+    },
+    navigateTo: navigateTo
   }
 }
 </script>
@@ -74,12 +66,8 @@ export default {
   color: white;
 }
 
-.poi-list {
-
-}
-
 .poi-item {
-  background-color: #766d6c;
+  /* background-color: #766d6c; */
   min-height: 180px;
   padding: 30px;
   border-top: 1px solid;
