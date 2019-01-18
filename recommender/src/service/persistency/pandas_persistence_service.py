@@ -11,6 +11,9 @@ def insert_df_into_points_of_interests(df):
 def get_all_points_of_interests_as_df():
     return pd.DataFrame(get_all_points_of_interests(), columns = POI_COLUMNS).set_index(ID)
 
+def get_points_of_interests_by_id_as_df(id):
+    return pd.DataFrame([get_points_of_interests_by_id(id)], columns = POI_COLUMNS)
+
 # OSM POIs
 
 def insert_df_into_osm_pois(df):
@@ -18,7 +21,7 @@ def insert_df_into_osm_pois(df):
         insert_into_osm_pois(row[ID], row[ADDR_CITY], row[ADDR_COUNTRY], row[ADDR_HOUSENUMBER], row[ADDR_POSTCODE], row[ADDR_STREET],
         row[OPENING_HOURS], row[AMENITY], row[URL], row[NAME], row[NAME_DE], row[LEISURE], row[TOURISM], row[LONG], row[LAT], row[BUILDING], row[WIKIPEDIA], row[SOURCE], row[OSM_ID])
 
-def get_all_osm_pois_as_df():    
+def get_all_osm_pois_as_df():
     return pd.DataFrame(get_all_osm_pois(), columns = OSM_COLUMNS).set_index(ID)
 
 # ODB POIs
@@ -28,7 +31,7 @@ def insert_df_into_odb_pois(df):
         insert_into_odb_pois(row[ID], row[NAME], row[STREET_NAME], row[STREET_NUMBER], row[ZIP_CODE], row[LONG], row[LAT])
 
 def get_all_odb_pois_as_df():
-    return pd.DataFrame(get_all_odb_pois(), columns = ODB_COLUMNS).set_index(ID) 
+    return pd.DataFrame(get_all_odb_pois(), columns = ODB_COLUMNS).set_index(ID)
 
 # Wikipedia query data
 

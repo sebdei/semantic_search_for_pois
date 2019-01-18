@@ -86,14 +86,17 @@ export default {
     }
   },
   mounted () {
-    this.fetchRecommendations()
+    this.fetchRecommendation()
   },
   methods: {
-    setLocationVariables: function (recommendation) {
-      if (recommendation.lat && recommendation.long) {
-        this.distanceFromMainTrainstation = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
-        this.pushMarker(recommendation.lat, recommendation.long)
-      }
+    fetchRecommendation: async function () {
+      let host = window.location.hostname
+      let response = await axios.get(`http://${host}:5000/points_of_interests/${this.$route.params.id}`)
+
+      const recommendation = response.data[0]
+      this.setLocationVariables(recommendation)
+
+      this.recommendation = recommendation
     },
     pushMarker: function (lat, long) {
       let icon = L.icon({
@@ -104,17 +107,11 @@ export default {
       let newMarker = { geoLocation: { lat: lat, lng: long }, icon: icon }
       this.poiMarkers.push(newMarker)
     },
-    fetchRecommendations: async function () {
-      let query = 'art museum'
-
-      let host = window.location.hostname
-      let response = await axios.post(`http://${host}:5000/classify`, { query: query })
-      let listOfRecommendations = response.data
-
-      const recommendation = listOfRecommendations[3]
-      this.setLocationVariables(recommendation)
-
-      this.recommendation = recommendation
+    setLocationVariables: function (recommendation) {
+      if (recommendation.lat && recommendation.long) {
+        this.distanceFromMainTrainstation = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
+        this.pushMarker(recommendation.lat, recommendation.long)
+      }
     },
     navigateTo: navigateTo
   }
