@@ -1,6 +1,6 @@
-const calcDistance = function (origin, lat, long) {
-  let distanceFromMainTrainstation = origin.distanceTo(L.latLng(lat, long))
-  return Number.parseFloat(distanceFromMainTrainstation / 1000).toFixed(2)
+const calcDistance = function (leafletObjectStartLocation, targetLat, targetLong) {
+  let distanceFromStart= leafletObjectStartLocation.distanceTo(L.latLng(targetLat, targetLong))
+  return Number.parseFloat(distanceFromStart / 1000).toFixed(2)
 }
 
 const navigateTo = function (lat, long) {

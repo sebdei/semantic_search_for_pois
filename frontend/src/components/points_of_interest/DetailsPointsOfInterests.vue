@@ -26,7 +26,7 @@
       <div class="street font-weight-bold mb-3" @click.prevent="navigateTo(recommendation.lat, recommendation.long)">
         <div class="distance-box">
           <i class="fas fa-map-marker-alt fa-icon mr-2"></i>
-          <span>
+          <span v-if="this.distanceFromMainTrainstation">
             {{ this.distanceFromMainTrainstation }} km
           </span>
         </div>
@@ -53,11 +53,10 @@
       </div>
     </div>
 
-    <l-map v-if="recommendation" ref="myMap" class="map" :zoom="initZoom" :center="berlinMainTrainstationGeoLocation">
-      <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <l-marker :lat-lng="berlinMainTrainstationGeoLocation" ></l-marker>
-      <l-marker v-for="poimarker in poiMarkers" :lat-lng="poimarker.geoLocation" :icon="poiMarkerIcon" >
-      </l-marker>
+    <l-map v-if="recommendation" ref="myMap" class="map" :zoom="initZoom" :center="berlinMainTrainstationLeaflet">
+      <l-tile-layer :url="layerUrl" :attribution="attribution"></l-tile-layer>
+      <l-marker :lat-lng="berlinMainTrainstationLeaflet" ></l-marker>
+      <l-marker v-for="poimarker in poiMarkers" :lat-lng="poimarker.geoLocation" :icon="poimarker.icon"></l-marker>
     </l-map>
   </div>
 </template>
@@ -77,30 +76,33 @@ export default {
   data () {
     return {
       attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      berlinMainTrainstationGeoLocation: L.latLng(52.525084, 13.369402), // for demo purpose: use berlin station as start point
+      berlinMainTrainstationLeaflet: L.latLng(52.525084, 13.369402), // for demo purpose: use berlin station as start point
       city: 'Berlin',
-      distanceFromMainTrainstation: '',
+      distanceFromMainTrainstation: null,
       initZoom: 11,
+      layerUrl:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       recommendation: null,
-      poiMarkers: [],
-      poiMarkerIcon: L.icon({
-        iconUrl: 'https://www.iconsdb.com/icons/preview/soylent-red/map-marker-2-xxl.png',
-        iconSize: [33, 35]
-      }),
-      url:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      poiMarkers: []
     }
   },
   mounted () {
     this.fetchRecommendations()
   },
   methods: {
-    setMarker: function (lat, long) {
-      if (lat && long) {
-        this.distanceFromMainTrainstation = calcDistance(this.berlinMainTrainstationGeoLocation, lat, long)
-
-        const newMarker = { geoLocation: { lat: lat, lng: long } };
-        this.poiMarkers.push(newMarker);
+    setLocationVariables: function (recommendation) {
+      if (recommendation.lat && recommendation.long) {
+        this.distanceFromMainTrainstation = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
+        this.pushMarker(recommendation.lat, recommendation.long)
       }
+    },
+    pushMarker: function (lat, long) {
+      let icon = L.icon({
+       iconUrl: 'https://www.iconsdb.com/icons/preview/soylent-red/map-marker-2-xxl.png',
+       iconSize: [33, 35]
+      })
+
+      let newMarker = { geoLocation: { lat: lat, lng: long }, icon: icon }
+      this.poiMarkers.push(newMarker)
     },
     fetchRecommendations: async function () {
       let query = 'art museum'
@@ -108,9 +110,11 @@ export default {
       let host = window.location.hostname
       let response = await axios.post(`http://${host}:5000/classify`, { query: query })
       let listOfRecommendations = response.data
-      this.recommendation = listOfRecommendations[3]
 
-      this.setMarker(this.recommendation.lat, this.recommendation.long)
+      const recommendation = listOfRecommendations[3]
+      this.setLocationVariables(recommendation)
+
+      this.recommendation = recommendation
     },
     navigateTo: navigateTo
   }
