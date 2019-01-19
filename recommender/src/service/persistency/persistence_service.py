@@ -186,15 +186,64 @@ def get_visitberlin_data():
 
     return cur.fetchall()
 
-# Combined visitberlin and wikipedia texts per ID
+# Ratings
 
-text_query = """
-SELECT visitberlin_text, wiki_text
-FROM query_data_visitberlin as vb
-JOIN query_data_wikipedia as wiki
-ON vb.poi_id = wiki.poi_id
-WHERE vb.poi_id = {}
-"""
+def get_all_ratings():
+    cur.execute("SELECT * FROM ratings")
+
+    return cur.fetchall()
+
+
+def insert_rating(u_id, poi_id, rating):
+    cur.execute(
+        sql.SQL("INSERT INTO {} VALUES (%s, %s, %s)")
+            .format(sql.Identifier('ratings')),
+            [u_id, poi_id, rating]
+    )
+    conn.commit()
+
+# Users
+
+def get_user_by_id(id):
+    cur.execute("SELECT * FROM users WHERE id=%s", [id])
+
+    return cur.fetchone()
+
+def insert_user(id, email, feature_vector, name):
+    if id == None:
+        cur.execute(
+            sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s)")
+                .format(sql.Identifier('users')),
+                [email, feature_vector, name]
+        )
+    else:
+        cur.execute(
+            sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s)")
+                .format(sql.Identifier('users')),
+                [id, email, feature_vector, name]
+        )
+    conn.commit()
+
+def update_user_feature_vector_by_id(id, feature_vector_json):
+    cur.execute("UPDATE users SET feature_vector = array_to_json(%s) WHERE id= %s", [feature_vector_json, id])
+    conn.commit()
+
+# User input
+
+def get_user_input_for_id(id):
+    cur.execute("SELECT * FROM user_inputs WHERE u_id=%s", [id])
+
+    return cur.fetchone()
+
+def insert_user_input(u_id, input_text, twitter_name):
+    cur.execute(
+        sql.SQL("INSERT INTO {} VALUES (%s, %s, %s)")
+            .format(sql.Identifier('user_inputs')),
+            [u_id, input_text, twitter_name]
+    )
+    conn.commit()
+
+# Get texts per ID
 
 def get_wiki_text_for_id(id):
     query = 'SELECT wiki_url, wiki_text FROM query_data_wikipedia WHERE poi_id = {}'

@@ -50,3 +50,24 @@ def get_all_visitberlin_data_as_df():
 def insert_df_into_visitberlin_data(df):
     for _, row in df.iterrows():
         insert_query_data_visitberlin(row[POI_ID], row[VISITBERLIN_TITLE], row[VISITBERLIN_URL], row[VISITBERLIN_TEXT])
+
+# Users data
+
+def insert_df_into_users(df):
+    for _, row in df.iterrows():
+        insert_user(row[ID], row[EMAIL], row[FEATURE_VECTOR], row[NAME])
+
+# User Inputs data
+
+def insert_df_into_user_inputs(df):
+    for _, row in df.iterrows():
+        insert_user_input(row[U_ID], row[INPUT_TEXT], row[TWITTER_NAME])
+
+# Ratings data
+
+def get_all_ratings_as_df():
+    return pd.DataFrame(get_all_ratings(), columns = RATINGS_COLUMNS)
+
+def insert_df_into_ratings(df):
+    for _, row in df.iterrows():
+        insert_rating(row[U_ID], row[POI_ID], row[RATING])

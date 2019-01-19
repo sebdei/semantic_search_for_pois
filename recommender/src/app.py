@@ -29,12 +29,11 @@ def run():
     ### Tests ###
 
     # test text retrieval for POI ID
-    visitberlin_text, wiki_text = get_text_for_poi(83)
-    print(visitberlin_text)
-    print(wiki_text)
+    # result_dict = get_text_for_poi(83)
+    # print(result_dict)
 
     # test collaborative filtering
-    # print(user2user_recommender.getRecommendationsForUser(1))
+    print(user2user_recommender.getRecommendationsForUser(1))
 
 
     # (re-) calculate the word embedding feature vector

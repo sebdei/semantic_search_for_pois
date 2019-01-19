@@ -31,6 +31,12 @@ WIKI_TEXT = 'wiki_text'
 VISITBERLIN_TITLE = 'visitberlin_title'
 VISITBERLIN_URL = 'visitberlin_url'
 VISITBERLIN_TEXT = 'visitberlin_text'
+POI_ID = 'poi_id'
+U_ID = 'u_id'
+RATING = 'rating'
+EMAIL = 'email'
+INPUT_TEXT = 'input_text'
+TWITTER_NAME = 'twitter_name'
 
 # POI columns
 
@@ -52,3 +58,15 @@ WIKI_COLUMNS = [POI_ID, WIKI_TITLE, WIKI_URL, WIKI_TEXT]
 # Visitberlin data columns
 
 VISITBERLIN_COLUMNS = [POI_ID, VISITBERLIN_TITLE, VISITBERLIN_URL, VISITBERLIN_TEXT]
+
+# Users columns
+
+USERS_COLUMNS = [ID, EMAIL, FEATURE_VECTOR, NAME]
+
+# User inputs columns
+
+USER_INPUTS = [U_ID, INPUT_TEXT, TWITTER_NAME]
+
+# Ratings columns
+
+RATINGS_COLUMNS = [U_ID, POI_ID, RATING]
