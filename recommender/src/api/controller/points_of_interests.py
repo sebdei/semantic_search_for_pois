@@ -2,7 +2,7 @@ from flask import request
 from flask import jsonify
 import json
 
-# from src.service import classifier_service
+from src.service import classifier_service
 
 from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
@@ -30,3 +30,7 @@ def init(app):
         poi_data_frame = pandas_persistence_service.get_all_points_of_interests_as_df()
 
         return result.reset_index().to_json(orient='records')
+
+    @app.route('/points_of_interests_for_user/<user-id>')
+    def get_recommendations_for_user(user_id):
+        
