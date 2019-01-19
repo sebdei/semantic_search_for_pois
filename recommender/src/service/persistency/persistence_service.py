@@ -227,6 +227,4 @@ def get_text_for_poi(id):
             result['url'] = visitberlin_url
             result['text'] = visit_berlin_text
 
-    print(result)
-
     return result
