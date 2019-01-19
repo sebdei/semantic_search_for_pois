@@ -17,7 +17,7 @@
         </div>
         <div class="distance-box float-right" @click="navigateTo(recommendation.lat, recommendation.long)">
           <div>
-            <i class="fas fa-map-marker-alt"></i>
+            <i class="fas fa-map-marker-alt fa-icon"></i>
           </div>
           <span>
             {{ recommendation.distance}} km
@@ -48,7 +48,8 @@ export default {
       // let query = 'art museum'
 
       let host = window.location.hostname
-      let response = await axios.get(`http://${host}:5000/points_of_interests`)
+      let response = await axios.post(`http://${host}:5000/classify`, { query: query })
+      // let response = await axios.get(`http://${host}:5000/points_of_interests`)
       let listOfRecommendations = response.data
 
       this.listOfRecommendations = listOfRecommendations.map((recommendation) => {
@@ -98,7 +99,7 @@ export default {
 
 .teaser-text {
   display: -webkit-box;
-  height: 55px;
+  height: 57px;
   line-height: 1.2;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -109,5 +110,9 @@ export default {
 .teaser-text-wrapper {
   display: inline-block;
   width: 75%;
+}
+
+.fa-icon{
+  color: #e44802
 }
 </style>
