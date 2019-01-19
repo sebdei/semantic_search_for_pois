@@ -20,7 +20,7 @@
             <i class="fas fa-map-marker-alt"></i>
           </div>
           <span>
-            40.2 km
+            {{ recommendation.distance}} km
           </span>
         </div>
       </div>
@@ -35,6 +35,7 @@ import { calcDistance, navigateTo } from '@/service/osm-service'
 export default {
   data () {
     return {
+      berlinMainTrainstationLeaflet: L.latLng(52.525084, 13.369402), // for demo purpose: use berlin station as start point
       listOfRecommendations: []
     }
   },
@@ -48,8 +49,12 @@ export default {
 
       let host = window.location.hostname
       let response = await axios.post(`http://${host}:5000/classify`, { query: query })
-      this.listOfRecommendations = response.data
-      console.log(response.data)
+      let listOfRecommendations = response.data
+
+      this.listOfRecommendations = listOfRecommendations.map((recommendation) => {
+        recommendation.distance = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
+        return recommendation
+      })
     },
     goToDetailPoiRoute: function (id) {
       this.$router.push({ path: `/points_of_interests/${id}` })
