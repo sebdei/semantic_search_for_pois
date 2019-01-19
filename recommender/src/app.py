@@ -6,7 +6,7 @@ from src.service.schema_fusion import import_into_poi_table
 from src.service.restore_default import restore_default_database
 from src.service.collaborative_filtering import user2user_recommender
 
-from src.service.persistency.persistence_service import get_text_for_poi
+from src.service.persistency.persistence_service import get_text_for_poi, create_schemata
 
 # import pandas as pd
 
@@ -17,6 +17,7 @@ def run():
 
 
     # do a manual import of from source (ODB/OSM/Wikipedia/VisitBerlin)
+    # create_schemata()
     # import_odb_points_of_interest()
     # import_osm_points_of_interest()
     # import_into_poi_table()

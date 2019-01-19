@@ -13,40 +13,37 @@ def create_connection():
 
 cur, conn = create_connection()
 
-poi_schema = open(os.path.join(os.path.dirname(__file__), 'resources/points_of_interests.sql')).read()
-osm_schema = open(os.path.join(os.path.dirname(__file__), 'resources/osm_points_of_interests.sql')).read()
-odb_schema = open(os.path.join(os.path.dirname(__file__), 'resources/odb_points_of_interests.sql')).read()
-query_wiki_schema = open(os.path.join(os.path.dirname(__file__), 'resources/query_data_wikipedia.sql')).read()
-query_visitberlin_schema = open(os.path.join(os.path.dirname(__file__), 'resources/query_data_visitberlin.sql')).read()
+all_schemata = [
+    "odb_points_of_interests",
+    "osm_points_of_interests",
+    "points_of_interests",
+    "query_data_wikipedia",
+    "query_data_visitberlin",
+    "users",
+    "user_inputs",
+    "ratings",
+]
 
 def create_schemata():
-    cur.execute(poi_schema)
-    cur.execute(osm_schema)
-    cur.execute(odb_schema)
-    cur.execute(query_wiki_schema)
-    cur.execute(query_visitberlin_schema)
-    print('Created required tables in PostgreSQL')
-    conn.commit()
+    for schema in all_schemata:
+        create_query = open(os.path.join(os.path.dirname(__file__), 'resources/%s.sql' % (schema))).read()
+        print("Created table %s" % (schema))
 
-# immediately execute after definition
-create_schemata()
+        cur.execute(create_query)
+    
+    print('Created all schemata in PostgreSQL')
+    conn.commit()
 
 ##### CRUD operations #####
 
 def drop_all():
-    tables = [
-        "odb_points_of_interests",
-        "osm_points_of_interests",
-        "points_of_interests",
-        "query_data_wikipedia",
-        "query_data_visitberlin"
-    ]
-    for table in tables:
+    for schema in all_schemata:
         try:
-            cur.execute("DROP TABLE %s CASCADE" % (table))
-            print("Dropped table %s" % (table))
+            cur.execute("DROP TABLE %s CASCADE" % (schema))
+            print("Dropped table %s" % (schema))
         except:
-            print("Could not drop table %s" % (table))
+            print("Could not drop table %s" % (schema))
+    print('Dropped all schemata in PostgreSQL')
 
 # CRUD core POI table
 
