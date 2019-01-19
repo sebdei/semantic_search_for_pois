@@ -12,7 +12,7 @@
         </h5>
         <div class="teaser-text-wrapper">
           <div class="teaser-text">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            {{ recommendation.source.text }}
           </div>
         </div>
         <div class="distance-box float-right" @click="navigateTo(recommendation.lat, recommendation.long)">
@@ -48,7 +48,7 @@ export default {
       // let query = 'art museum'
 
       let host = window.location.hostname
-      let response = await axios.post(`http://${host}:5000/classify`, { query: query })
+      let response = await axios.get(`http://${host}:5000/points_of_interests`)
       let listOfRecommendations = response.data
 
       this.listOfRecommendations = listOfRecommendations.map((recommendation) => {

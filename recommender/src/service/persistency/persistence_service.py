@@ -30,7 +30,7 @@ def create_schemata():
         print("Created table %s" % (schema))
 
         cur.execute(create_query)
-    
+
     print('Created all schemata in PostgreSQL')
     conn.commit()
 
@@ -170,7 +170,7 @@ def get_wikipedia_data():
 
 def get_queried_pois_visitberlin():
     cur.execute("SELECT poi_id FROM query_data_visitberlin")
-    
+
     return cur.fetchall()
 
 def insert_query_data_visitberlin(poi_id, visitberlin_title, visitberlin_url, visitberlin_text):
@@ -196,22 +196,37 @@ ON vb.poi_id = wiki.poi_id
 WHERE vb.poi_id = {}
 """
 
+def get_wiki_text_for_id(id):
+    query = 'SELECT wiki_url, wiki_text FROM query_data_wikipedia WHERE poi_id = {}'
+    cur.execute(sql.SQL(query.format(id)))
+
+    result = cur.fetchone()
+
+    return result[0], result[1]
+
+def get_visit_berlin_text_for_id(id):
+    query = 'SELECT visitberlin_url, visitberlin_text FROM query_data_visitberlin WHERE poi_id = {}'
+    cur.execute(sql.SQL(query.format(id)))
+
+    result = cur.fetchone()
+
+    return result[0], result[1]
+
 def get_text_for_poi(id):
-    """
-    Gives the stored Visitberlin and Wikipedia text for a given POI, if they exist
-    """
+    wiki_url, wiki_text = get_wiki_text_for_id(id)
 
-    cur.execute(sql.SQL(text_query.format((id))))
+    result = {}
 
-    query_result = cur.fetchall()
-
-    if len(query_result) != 1:
-        return None, None
+    if wiki_url and wiki_text :
+        result['url'] = wiki_url
+        result['text'] = wiki_text
     else:
-        visitberlin_text, wiki_text = query_result[0]
+        visitberlin_url, visit_berlin_text = get_visit_berlin_text_for_id(id)
 
-        # Remove some of the ugly markup
-        wiki_text = ''.join((ch if ch != '=' else '') for ch in wiki_text)
+        if visitberlin_url and visit_berlin_text:
+            result['url'] = visitberlin_url
+            result['text'] = visit_berlin_text
 
-        return visitberlin_text, wiki_text
+    print(result)
 
+    return result

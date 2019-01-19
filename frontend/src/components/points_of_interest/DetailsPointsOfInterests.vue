@@ -16,11 +16,15 @@
       <div class="teaser-text-wrapper">
         <div class="teaser-text">
           <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam tempor invidunt ut labore et dolore magna aliquyam sed diam nonumy eirmod tempor invidunt
+            {{  recommendation.source.text }}
           </p>
         </div>
         <div class="mb-2">
-          <a href="#">read more on Wikipedia</a>
+          <a
+            v-if="recommendation.source.url"
+            :href="recommendation.source.url">
+              read more on {{ recommendation.source.url.includes('visitberlin') ? 'VisitBerlin' : 'Wikipedia' }}
+          </a>
         </div>
       </div>
       <div class="street font-weight-bold mb-3" @click.prevent="navigateTo(recommendation.lat, recommendation.long)">

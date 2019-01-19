@@ -3,12 +3,12 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-from .controller import classify_controller
+from .controller import points_of_interests
 
 def bindRoutes():
     print('binding Routes...')
 
-    classify_controller.init(app)
+    points_of_interests.init(app)
 
     CORS(app)
 
