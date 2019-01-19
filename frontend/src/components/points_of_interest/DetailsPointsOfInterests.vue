@@ -26,8 +26,8 @@
       <div class="street font-weight-bold mb-3" @click.prevent="navigateTo(recommendation.lat, recommendation.long)">
         <div class="distance-box">
           <i class="fas fa-map-marker-alt fa-icon mr-2"></i>
-          <span v-if="this.distanceFromMainTrainstation">
-            {{ this.distanceFromMainTrainstation }} km
+          <span v-if="this.distance">
+            {{ this.distance }} km
           </span>
         </div>
         <div v-if="recommendation.street_name">
@@ -78,7 +78,7 @@ export default {
       attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       berlinMainTrainstationLeaflet: L.latLng(52.525084, 13.369402), // for demo purpose: use berlin station as start point
       city: 'Berlin',
-      distanceFromMainTrainstation: null,
+      distance: null,
       initZoom: 11,
       layerUrl:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       recommendation: null,
@@ -100,7 +100,7 @@ export default {
     },
     pushMarker: function (lat, long) {
       let icon = L.icon({
-       iconUrl: 'https://www.iconsdb.com/icons/preview/soylent-red/map-marker-2-xxl.png',
+       iconUrl: './map-marker-2-xxl.png',
        iconSize: [33, 35]
       })
 
@@ -109,7 +109,7 @@ export default {
     },
     setLocationVariables: function (recommendation) {
       if (recommendation.lat && recommendation.long) {
-        this.distanceFromMainTrainstation = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
+        this.distance = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
         this.pushMarker(recommendation.lat, recommendation.long)
       }
     },
