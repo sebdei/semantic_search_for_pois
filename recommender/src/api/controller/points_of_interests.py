@@ -25,8 +25,8 @@ def init(app):
     @app.route('/points_of_interests/<id>')
     def get(id):
         assert id == request.view_args['id']
-        poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(id).reset_index()
 
+        poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(id).reset_index()
         poi_data_frame = add_source_column_to_data_frame(poi_data_frame)
 
         return poi_data_frame.to_json(orient='records')
@@ -34,7 +34,6 @@ def init(app):
     @app.route('/points_of_interests/')
     def get_all():
         poi_data_frame = pandas_persistence_service.get_all_points_of_interests_as_df().reset_index()[10:100]
-
         poi_data_frame = add_source_column_to_data_frame(poi_data_frame)
 
         return poi_data_frame.to_json(orient='records')

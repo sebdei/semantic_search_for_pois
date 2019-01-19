@@ -15,7 +15,7 @@
       </div>
       <div class="teaser-text-wrapper">
         <div class="teaser-text">
-          <p>
+          <p v-if="recommendation.source.text">
             {{  recommendation.source.text }}
           </p>
         </div>
