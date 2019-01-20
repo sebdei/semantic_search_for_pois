@@ -193,6 +193,17 @@ def get_all_ratings():
 
     return cur.fetchall()
 
+def get_recommenderType(u_id):
+    # Method return string depending on the form of recommender that should be used
+    # Todo: Adapt the threshold for the switch to collaborative filtering
+    cur.execute("SELECT count(*) FROM ratings WHERE u_id=%s", [u_id])
+    row = cur.fetchone()
+    if row[0] > 3:
+        print("Recommender Type: Collaborative Filtering")
+        return "collaborativeFiltering"
+    else:
+        print("Recommender Type: Content-based Filtering")
+        return "contentbasedFiltering"
 
 def insert_rating(u_id, poi_id, rating):
     cur.execute(
