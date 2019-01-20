@@ -5,7 +5,7 @@ from src.service.acquisition.open_data_berlin import import_odb_points_of_intere
 from src.service.schema_fusion import import_into_poi_table
 from src.service.restore_default import restore_default_database
 from src.service.collaborative_filtering import user2user_recommender
-
+from src.service.collaborative_filtering import filterWeather, filterLocation
 from src.service.persistency.persistence_service import get_text_for_poi, create_schemata
 
 # import pandas as pd
@@ -33,7 +33,11 @@ def run():
     # print(result_dict)
 
     # test collaborative filtering
-    print(user2user_recommender.getRecommendationsForUser(1))
+    recommendations = user2user_recommender.getRecommendationsForUser(1)
+    usersCurrentLocation = {'lat':52.520008, 'lng':13.404954} #some place in berlin
+    filterWeather.filterOnWeather(usersCurrentLocation, recommendations)
+    #filterLocation.filterOnLocation(usersCurrentLocation, recommendations, 6)
+    print("stopper")
 
 
     # (re-) calculate the word embedding feature vector
