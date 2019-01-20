@@ -98,13 +98,18 @@ export default {
 }
 
 .teaser-text {
+  font-family: "Droid Serif";
   display: -webkit-box;
-  height: 57px;
-  line-height: 1.2;
-  -webkit-line-clamp: 3;
+  height: 78px;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 20px;
+  text-align: justify;
 }
 
 .teaser-text-wrapper {
