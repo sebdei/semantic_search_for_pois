@@ -8,7 +8,9 @@
       <div v-if="active">
         <div class="content">
           <h5>Your Twitter name</h5>
-          <input></input>
+          <form @submit.prevent="submit">
+            <input v-model="twitterName"></input>
+          </form>
         </div>
         <div class="back-button" @click="deactivate">
           <i class="fas fa-chevron-right fa-2x"></i>
@@ -20,11 +22,28 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+import { setCookie } from '@/service/cookie-service'
+
 export default {
   props: ['active'],
+  data () {
+    return {
+      twitterName: ''
+    }
+  },
   methods: {
     deactivate: function () {
       this.$emit('deactivate')
+    },
+    submit: async function () {
+      let host = window.location.hostname
+      let response = await axios.post(`http://${host}:5000/users/create_user_with_twitter_name/`, { 'twitter_name': this.twitterName })
+
+      // for simplicity reasons the cookie is set by manually
+      let userId = response.data.cookie.user_id
+      setCookie('userId', userId)
     }
   }
 }

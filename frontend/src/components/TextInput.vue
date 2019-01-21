@@ -11,9 +11,9 @@
       <div v-if="active">
         <div class="content">
           <div>
-            <textarea placeholder="Your custom text" v-model="query"></textarea>
+            <textarea placeholder="Your custom text" v-model="text"></textarea>
           </div>
-          <div class="submit-button" @click="submitQuery">
+          <div class="submit-button" @click="submit">
             <div>
               <i class="fas fa-arrow-circle-right fa-1x"></i>
             </div>
@@ -30,20 +30,26 @@
 <script>
 import axios from 'axios'
 
+import { setCookie } from '@/service/cookie-service'
+
 export default {
   props: ['active'],
   data () {
     return {
-      query: ''
+      text: ''
     }
   },
   methods: {
     deactivate: function () {
       this.$emit('deactivate')
     },
-    submitQuery: async function () {
+    submit: async function () {
       let host = window.location.hostname
-      let response = await axios.post(`http://${host}:5000/classify`, { query: this.query })
+      let response = await axios.post(`http://${host}:5000/users/create_user_with_text/`, { text: this.text })
+
+      // for simplicity reasons the cookie is set by manually
+      let userId = response.data.cookie.user_id
+      setCookie('userId', userId)
     }
   }
 }

@@ -220,6 +220,17 @@ def get_user_by_id(id):
 
     return cur.fetchone()
 
+def create_user():
+    cur.execute(
+        sql.SQL("INSERT INTO {} (id) VALUES (DEFAULT) RETURNING id")
+            .format(sql.Identifier('users')),
+    )
+
+    user_id = cur.fetchone()[0]
+
+    return user_id
+
+# delete this method.
 def insert_user(id, email, feature_vector, name):
     if id == None:
         cur.execute(
