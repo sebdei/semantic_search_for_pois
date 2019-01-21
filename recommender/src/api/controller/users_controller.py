@@ -48,7 +48,7 @@ def init(app):
         persistence_service.insert_rating(u_id, poi_id, rating)
 
     @app.route("/users/get_personal_recommendations", methods = ['POST'])
-    def classify_contentBased_collaborativeFiltering():
+    def classify_content_based_collaborative_filtering():
         body = request.json
 
         # Step 1: Copy parameters to local variables
