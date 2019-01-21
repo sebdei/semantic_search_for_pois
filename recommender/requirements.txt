@@ -11,6 +11,7 @@ Click==7.0
 et-xmlfile==1.0.1
 Flask==1.0.2
 Flask-Cors==3.0.7
+geojson==2.4.1
 html2text==2018.1.9
 idna==2.7
 isodate==0.6.0
@@ -37,6 +38,7 @@ psycopg2==2.7.6.1
 py-stringmatching==0.4.0
 pyarrow==0.11.1
 pylint==2.2.2
+pyowm==2.10.0
 python-dateutil==2.7.5
 pytz==2018.7
 requests==2.20.1
