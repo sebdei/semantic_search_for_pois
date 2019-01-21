@@ -24,7 +24,7 @@ def run():
 
 
     # drop all tables and import default data
-    restore_default_database()
+    #restore_default_database()
 
     ### Tests ###
 
@@ -33,11 +33,11 @@ def run():
     # print(result_dict)
 
     # test collaborative filtering
+    evaluationForRecommendation = user2user_recommender.eval(1)
     recommendations = user2user_recommender.getRecommendationsForUser(1)
     usersCurrentLocation = {'lat':52.520008, 'lng':13.404954} #some place in berlin
-    filterWeather.filterOnWeather(usersCurrentLocation, recommendations)
+    #filterWeather.filterOnWeather(usersCurrentLocation, recommendations, True, False)
     #filterLocation.filterOnLocation(usersCurrentLocation, recommendations, 6)
-    print("stopper")
 
 
     # (re-) calculate the word embedding feature vector

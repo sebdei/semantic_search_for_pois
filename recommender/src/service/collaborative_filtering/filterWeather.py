@@ -1,6 +1,15 @@
 import pyowm
 
-def filterOnWeather(location, recommendedPlaces):
+def filterOnWeather(location, recommendedPlaces, useWeatherApi_bool, forceBadWeather_bool):
+    if useWeatherApi_bool:
+        return filterOnWeather_Api(location, recommendedPlaces);
+    else:
+        if forceBadWeather_bool:
+            return recommendedPlaces = recommendedPlaces[(recommendedPlaces.is_building == True)]
+        else:
+            recommendedPlaces
+
+def filterOnWeather_Api(location, recommendedPlaces):
 
     # Step 0: Copy information to local variables
     lat = location['lat']
