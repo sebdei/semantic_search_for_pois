@@ -44,11 +44,17 @@ export default {
   },
   methods: {
     fetchRecommendations: async function () {
-      let query = 'Do past anti-gay statements and positions permanently besmirch a persons character, or does evolving and changing and repudiating those past positions absolve them of their sins? It d be good if we had a consistent standard on this question.'
-      // let query = 'art museum'
-
+      let postBody = {
+        forceBadWeather: false,
+        lat: 52.525084,
+        long: 13.369402,
+        radius: 2,
+        weatherAPI: false,
+        user_id: 1
+      }
+      
       let host = window.location.hostname
-      let response = await axios.post(`http://${host}:5000/classify`, { query: query })
+      let response = await axios.post(`http://${host}:5000/classify2`, postBody)
       // let response = await axios.get(`http://${host}:5000/points_of_interests`)
       let listOfRecommendations = response.data
 

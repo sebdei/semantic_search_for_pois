@@ -43,7 +43,7 @@ export default {
 
       // for simplicity reasons the cookie is set by manually
       let userId = response.data.cookie.user_id
-      setCookie('userId', userId)
+      setCookie('user_id', userId)
     }
   }
 }

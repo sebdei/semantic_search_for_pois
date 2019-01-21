@@ -2,10 +2,15 @@ from flask import request
 from flask import jsonify
 import json
 
-# from src.service import classifier_service
+from src.service import classifier_service
 
 from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
+
+from src.service.persistency import pandas_persistence_service
+from src.service.persistency import persistence_service
+from src.service.collaborative_filtering import user2user_recommender
+from src.service.collaborative_filtering import filterWeather, filterLocation
 
 def add_source_column_to_data_frame(poi_data_frame):
     poi_data_frame['source'] = poi_data_frame.apply(lambda row: persistence_service.get_text_for_poi(row.id), axis=1)
