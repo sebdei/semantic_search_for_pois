@@ -39,20 +39,23 @@ def init(app):
 
         return jsonify(response)
 
-    @app.route('/users/rate_poi/<u_id>/<poi_id>/<rating>')
-    def insertRating():
-        assert u_id == request.view_args['u_id']
-        assert poi_id == request.view_args['poi_id']
-        assert rating == request.view_args['rating']
+    @app.route('/users/<user_id>/rate_poi', methods = ['POST'])
+    def rate_poi(user_id):
+        assert user_id == request.view_args['user_id']
 
-        persistence_service.insert_rating(u_id, poi_id, rating)
+        body = request.json
+        poi_id = body['poi_id']
+        rating = body['rating']
 
-    @app.route("/users/get_personal_recommendations", methods = ['POST'])
-    def classify_content_based_collaborative_filtering():
+        persistence_service.insert_rating(user_id, poi_id, rating)
+
+        return ''
+
+    @app.route("/users/<user_id>/get_personal_recommendations", methods = ['POST'])
+    def classify_content_based_collaborative_filtering(user_id):
         body = request.json
 
         # Step 1: Copy parameters to local variables
-        user_id = body['user_id']
         weather_api_bool = body['weatherAPI']
         force_bad_weather_bool = body['forceBadWeather']
         user_lat = body['lat']

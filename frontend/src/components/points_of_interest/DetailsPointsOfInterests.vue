@@ -27,6 +27,7 @@
           </a>
         </div>
       </div>
+      <button @click="likePoi($route.params.id)">asd</button>
       <div class="street font-weight-bold mb-3" @click.prevent="navigateTo(recommendation.lat, recommendation.long)">
         <div class="distance-box">
           <i class="fas fa-map-marker-alt fa-icon mr-2"></i>
@@ -101,6 +102,15 @@ export default {
       this.setLocationVariables(recommendation)
 
       this.recommendation = recommendation
+    },
+    likePoi: async function (poiId) {
+      let postBody = {
+        rating: true,
+        'poi_id': poiId
+      }
+      let userId = 6
+      let host = window.location.hostname
+      let response = await axios.post(`http://${host}:5000/users/${userId}/rate_poi`, postBody)
     },
     pushMarker: function (lat, long) {
       let icon = L.icon({
