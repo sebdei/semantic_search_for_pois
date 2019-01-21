@@ -38,6 +38,15 @@ def init(app):
 
         return poi_data_frame.to_json(orient='records')
 
+    @app.route('/insertRating/<u_id>/<poi_id>/<rating>')
+    def insertRating():
+        assert u_id == request.view_args['u_id']
+        assert poi_id == request.view_args['poi_id']
+        assert rating == request.view_args['rating']
+
+        persistence_service.insert_rating(u_id, poi_id, rating)
+
+        
     # @app.route('/points_of_interests_for_user/<userId>')
     # def get_recommendations_for_user(user_id):
     #     print('get_recommendations_for_user')
