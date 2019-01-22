@@ -1,16 +1,7 @@
-from flask import request
-from flask import jsonify
-import json
-
-import pandas as pd
+from src.service import classifier_service
 
 from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
-
-from src.service.collaborative_filtering import user2user_recommender
-from src.service.collaborative_filtering import filterWeather, filterLocation
-
-from src.service import classifier_service
 
 def append_source_column_to_data_frame(poi_data_frame):
     poi_data_frame['source'] = poi_data_frame.apply(lambda row: persistence_service.get_text_for_poi(row.id), axis=1)
@@ -26,8 +17,6 @@ def init(app):
     @app.route('/points_of_interests/<id>/')
     @app.route('/points_of_interests/<id>/<user_id>')
     def get(id, user_id = None):
-        assert id == request.view_args['id']
-
         poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(id)
         poi_data_frame = poi_data_frame.reset_index()
 
