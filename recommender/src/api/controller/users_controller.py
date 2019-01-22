@@ -47,7 +47,7 @@ def init(app):
         poi_id = body['poi_id']
         rating = body['rating']
 
-        persistence_service.insert_rating(user_id, poi_id, rating)
+        persistence_service.upsert_rating(user_id, poi_id, rating)
 
         return ''
 
@@ -64,18 +64,18 @@ def init(app):
 
         # Step 2: Decide wether recommendation is content-based or collaborative filtering
         if persistence_service.get_recommenderType(currentUserId) == "collaborativeFiltering" and user2user_recommender.eval(currentUserId) < 0.001:
-                # COLLABORATIVE FILTERING
-                recommendations = user2user_recommender.getRecommendationsForUser(currentUserId)
-                usersCurrentLocation = {'lat':user_lat, 'lng':user_lng} #some place in berlin
+            # COLLABORATIVE FILTERING
+            recommendations = user2user_recommender.getRecommendationsForUser(currentUserId)
+            usersCurrentLocation = {'lat':user_lat, 'lng':user_lng} #some place in berlin
 
-                # apply filter: weather
-                recommendations = filterWeather.filterOnWeather(usersCurrentLocation, recommendations, weatherApi_bool, forceBadWeather_bool)
+            # apply filter: weather
+            recommendations = filterWeather.filterOnWeather(usersCurrentLocation, recommendations, weatherApi_bool, forceBadWeather_bool)
 
-                # applyfilter: location
-                recommendations = filterLocation.filterOnLocation(usersCurrentLocation, recommendations, radius)
+            # applyfilter: location
+            recommendations = filterLocation.filterOnLocation(usersCurrentLocation, recommendations, radius)
 
-                # return results
-                return recommendations.reset_index().to_json(orient='records')
+            # return results
+            return recommendations.reset_index().to_json(orient='records')
 
         else:
             #CONTENT-BASED RECOMMENDATION
