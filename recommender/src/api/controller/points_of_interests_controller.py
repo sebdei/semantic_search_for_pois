@@ -28,7 +28,8 @@ def init(app):
     def get(id, user_id = None):
         assert id == request.view_args['id']
 
-        poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(id).reset_index()
+        poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(id)
+        poi_data_frame = poi_data_frame.reset_index()
 
         append_source_column_to_data_frame(poi_data_frame)
         append_current_poi_rating_to_dataframe(user_id, poi_data_frame)
@@ -37,7 +38,9 @@ def init(app):
 
     @app.route('/points_of_interests/')
     def get_all():
-        poi_data_frame = pandas_persistence_service.get_all_points_of_interests_as_df().reset_index()[10:100]
+        poi_data_frame = pandas_persistence_service.get_all_points_of_interests_as_df()[10:100]
+        poi_data_frame = poi_data_frame.reset_index()
+
         poi_data_frame = append_source_column_to_data_frame(poi_data_frame)
 
         return poi_data_frame.to_json(orient='records')
@@ -45,24 +48,9 @@ def init(app):
     @app.route("/points_of_interests/personal_recommendations/<user_id>/<user_lat>/<user_long>/<radius>/")
     @app.route("/points_of_interests/personal_recommendations/<user_id>/<user_lat>/<user_long>/<radius>/<consider_weather>/<force_bad_weather>")
     def classify_content_based_collaborative_filtering(user_id, user_lat, user_long, radius, consider_weather = False, force_bad_weather = False):
-        if persistence_service.get_recommenderType(user_id) == "collaborativeFiltering" and user2user_recommender.eval(user_id) < 0.001:
-            # COLLABORATIVE FILTERING
-            recommendations = user2user_recommender.getRecommendationsForUser(user_id)
-            usersCurrentLocation = {'lat':user_lat, 'lng':user_long} #some place in berlin
+        poi_data_frame = classifier_service.do_classification_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather)
+        poi_data_frame = poi_data_frame.reset_index()
 
-            # apply filter: weather
-            recommendations = filterWeather.filterOnWeather(usersCurrentLocation, recommendations, weatherApi_bool, forceBadWeather_bool)
+        append_source_column_to_data_frame(poi_data_frame)
 
-            # applyfilter: location
-            recommendations = filterLocation.filterOnLocation(usersCurrentLocation, recommendations, radius)
-
-            # return results
-            return recommendations.reset_index().to_json(orient='records')
-
-        else:
-            #CONTENT-BASED RECOMMENDATION
-            poi_data_frame = classifier_service.do_classification_for_user(user_id).reset_index()
-
-            append_source_column_to_data_frame(poi_data_frame)
-
-            return poi_data_frame.to_json(orient='records')
+        return poi_data_frame.to_json(orient='records')
