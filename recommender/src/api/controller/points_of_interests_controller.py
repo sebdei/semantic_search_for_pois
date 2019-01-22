@@ -2,7 +2,9 @@ from flask import request
 from flask import jsonify
 import json
 
-from src.service import classifier_service
+import pandas as pd
+
+# from src.service import classifier_service
 
 from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
@@ -28,11 +30,18 @@ def init(app):
         return poi_data_frame.reset_index().to_json(orient='records')
 
     @app.route('/points_of_interests/<id>')
-    def get(id):
+    @app.route('/points_of_interests/<id>/<user_id>')
+    def get(id, user_id = None):
         assert id == request.view_args['id']
 
         poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(id).reset_index()
         poi_data_frame = add_source_column_to_data_frame(poi_data_frame)
+
+        if user_id:
+            for index, row in poi_data_frame.iterrows():
+                liked = persistence_service.get_poi_rating_for_user(row.id, user_id)
+                print(liked)
+                poi_data_frame.at[index, 'liked'] = liked
 
         return poi_data_frame.to_json(orient='records')
 
