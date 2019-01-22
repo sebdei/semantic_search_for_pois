@@ -68,6 +68,6 @@ def insert_df_into_user_inputs(df):
 def get_all_ratings_as_df():
     return pd.DataFrame(get_all_ratings(), columns = RATINGS_COLUMNS)
 
-def insert_df_into_ratings(df):
+def upsert_df_into_ratings(df):
     for _, row in df.iterrows():
-        insert_rating(row[U_ID], row[POI_ID], row[RATING])
+        upsert_rating(row[U_ID], row[POI_ID], row[RATING])

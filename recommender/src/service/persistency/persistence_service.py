@@ -218,7 +218,7 @@ def get_recommenderType(u_id):
         print("Recommender Type: Content-based Filtering")
         return "contentbasedFiltering"
 
-def insert_rating(u_id, poi_id, rating):
+def upsert_rating(u_id, poi_id, rating):
     cur.execute(
         sql.SQL("INSERT INTO {} (u_id, poi_id, rating) VALUES (%s, %s, %s) " +
         "ON CONFLICT (u_id, poi_id) " +
