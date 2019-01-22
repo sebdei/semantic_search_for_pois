@@ -11,7 +11,7 @@
         {{ recommendation.name }}
       </h5>
       <div class="city">
-        {{ this.city }}
+        {{ this.city }}
       </div>
       <div class="teaser-text-wrapper">
         <div class="teaser-text">
@@ -37,7 +37,7 @@
         </div>
         <div v-if="recommendation.street_name">
           <i class="fas fa-home fa-icon mr-2"></i>
-          {{ recommendation.street_name }} {{ recommendation.street_number }}
+            {{ recommendation.street_name }} {{ recommendation.street_number }}
         </div>
       </div>
       <div class="thanks float-right">
@@ -61,7 +61,7 @@
     <l-map v-if="recommendation" ref="myMap" class="map" :zoom="initZoom" :center="berlinMainTrainstationLeaflet">
       <l-tile-layer :url="layerUrl" :attribution="attribution"></l-tile-layer>
       <l-marker :lat-lng="berlinMainTrainstationLeaflet" ></l-marker>
-      <l-marker v-for="poimarker in poiMarkers" :lat-lng="poimarker.geoLocation" :icon="poimarker.icon"></l-marker>
+      <l-marker v-for="(poimarker, index) in poiMarkers" :lat-lng="poimarker.geoLocation" :icon="poimarker.icon" :key="index"></l-marker>
     </l-map>
   </div>
 </template>
@@ -69,14 +69,14 @@
 <script>
 import axios from 'axios'
 
-import { LMap, LTileLayer, LMarker, LIcon } from 'vue2-leaflet';
+import { LMap, LTileLayer, LMarker, L } from 'vue2-leaflet';
 import { calcDistance, navigateTo } from '@/service/osm-service'
 
 export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker,LIcon
+    LMarker
   },
   data () {
     return {
@@ -106,22 +106,22 @@ export default {
     likePoi: async function (poiId) {
       let postBody = {
         rating: true,
-        'poi_id': poiId
+        poi_id: poiId
       }
       let userId = 6
       let host = window.location.hostname
-      let response = await axios.post(`http://${host}:5000/users/${userId}/rate_poi`, postBody)
+      await axios.post(`http://${host}:5000/users/${userId}/rate_poi`, postBody)
     },
     pushMarker: function (lat, long) {
       let icon = L.icon({
-       iconUrl: './map-marker-2-xxl.png',
-       iconSize: [33, 35]
+        iconUrl: './map-marker-2-xxl.png',
+        iconSize: [33, 35]
       })
 
       let newMarker = { geoLocation: { lat: lat, lng: long }, icon: icon }
       this.poiMarkers.push(newMarker)
     },
-    setLocationVariables: function (recommendation) {
+    setLocationVariables: function (recommendation) {
       if (recommendation.lat && recommendation.long) {
         this.distance = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
         this.pushMarker(recommendation.lat, recommendation.long)

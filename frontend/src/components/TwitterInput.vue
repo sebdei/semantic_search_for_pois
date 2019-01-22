@@ -9,7 +9,7 @@
         <div class="content">
           <h5>Your Twitter name</h5>
           <form @submit.prevent="submit">
-            <input v-model="twitterName"></input>
+            <input v-model="twitterName" />
           </form>
         </div>
         <div class="back-button" @click="deactivate">
@@ -24,6 +24,7 @@
 <script>
 import axios from 'axios'
 
+import { L } from 'vue2-leaflet'
 import { setCookie } from '@/service/cookie-service'
 
 export default {

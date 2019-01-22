@@ -6,7 +6,7 @@
       </h2>
     </div>
     <div class="poi-list">
-      <div v-for="(recommendation, index) in listOfRecommendations" class="poi-item" @click="goToDetailPoiRoute(recommendation.id)">
+      <div v-for="recommendation in listOfRecommendations" class="poi-item" @click="goToDetailPoiRoute(recommendation.id)" :key="recommendation.id">
         <h5 class="font-weight-bold">
           {{ recommendation.name }}
         </h5>
@@ -30,6 +30,8 @@
 
 <script>
 import axios from 'axios'
+
+import { L } from 'vue2-leaflet';
 import { calcDistance, navigateTo } from '@/service/osm-service'
 
 export default {
@@ -52,7 +54,7 @@ export default {
         weatherAPI: false,
         user_id: 1
       }
-      
+
       let host = window.location.hostname
       let response = await axios.post(`http://${host}:5000/classify2`, postBody)
       // let response = await axios.get(`http://${host}:5000/points_of_interests`)
