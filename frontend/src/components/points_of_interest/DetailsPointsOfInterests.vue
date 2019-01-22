@@ -76,6 +76,7 @@ import axios from 'axios'
 
 import { LMap, LTileLayer, LMarker, L } from 'vue2-leaflet';
 import { calcDistance, navigateTo } from '@/service/osm-service'
+import { getCookie } from '@/service/cookie-service'
 
 export default {
   components: {
@@ -102,7 +103,8 @@ export default {
   methods: {
     fetchRecommendation: async function () {
       let host = window.location.hostname
-      let response = await axios.get(`http://${host}:5000/points_of_interests/${this.$route.params.id}/6`)
+      let userId = getCookie('user_id')
+      let response = await axios.get(`http://${host}:5000/points_of_interests/${this.$route.params.id}/${userId ? userId : ''}`)
 
       const recommendation = response.data[0]
       this.setLocationVariables(recommendation)
