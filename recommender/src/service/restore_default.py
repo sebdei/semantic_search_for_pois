@@ -61,6 +61,6 @@ def restore_default_database():
     # import Ratings data
     ratings_df = pd.read_csv(ratings_path, quotechar='"', escapechar="'")
     ratings_df = ratings_df.where((pd.notnull(ratings_df)), None)
-    pps.insert_df_into_ratings(ratings_df)
+    pps.upsert_df_into_ratings(ratings_df)
 
     print('Restored default database state')
