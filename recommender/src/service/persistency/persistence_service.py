@@ -193,6 +193,19 @@ def get_all_ratings():
 
     return cur.fetchall()
 
+def get_poi_rating_for_user(poi_id, user_id):
+    cur.execute(
+        sql.SQL("SELECT * FROM {} WHERE poi_id = %s AND u_id = %s")
+            .format(sql.Identifier('ratings')),
+            [poi_id, user_id]
+    )
+    poi_user_rating = cur.fetchone()
+
+    print(poi_user_rating)
+
+    if poi_user_rating:
+        return poi_user_rating[2]
+
 def get_recommenderType(u_id):
     # Method return string depending on the form of recommender that should be used
     # Todo: Adapt the threshold for the switch to collaborative filtering
@@ -207,7 +220,9 @@ def get_recommenderType(u_id):
 
 def insert_rating(u_id, poi_id, rating):
     cur.execute(
-        sql.SQL("INSERT INTO {} VALUES (%s, %s, %s)")
+        sql.SQL("INSERT INTO {} (u_id, poi_id, rating) VALUES (%s, %s, %s) " +
+        "ON CONFLICT (u_id, poi_id) " +
+        "DO UPDATE SET (u_id, poi_id, rating) = (EXCLUDED.u_id, EXCLUDED.poi_id, EXCLUDED.rating)")
             .format(sql.Identifier('ratings')),
             [u_id, poi_id, rating]
     )
