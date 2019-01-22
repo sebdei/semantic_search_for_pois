@@ -33,6 +33,7 @@ import axios from 'axios'
 
 import { L } from 'vue2-leaflet';
 import { calcDistance, navigateTo } from '@/service/osm-service'
+import { getCookie } from '@/service/cookie-service'
 
 export default {
   data () {
@@ -46,17 +47,18 @@ export default {
   },
   methods: {
     fetchRecommendations: async function () {
-      let postBody = {
+      let host = window.location.hostname
+      let queryParam = {
         forceBadWeather: false,
         lat: 52.525084,
         long: 13.369402,
         radius: 2,
         weatherAPI: false,
-        user_id: 1
+        userId: getCookie('user_id')
       }
 
-      let host = window.location.hostname
-      let response = await axios.post(`http://${host}:5000/classify2`, postBody)
+      let response = await axios.get(`http://${host}:5000/points_of_interests/personal_recommendations/`+
+        `${queryParam.userId}/${queryParam.lat}/${queryParam.long}/${queryParam.radius}`)
       // let response = await axios.get(`http://${host}:5000/points_of_interests`)
       let listOfRecommendations = response.data
 
