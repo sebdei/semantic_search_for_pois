@@ -201,8 +201,6 @@ def get_poi_rating_for_user(poi_id, user_id):
     )
     poi_user_rating = cur.fetchone()
 
-    print(poi_user_rating)
-
     if poi_user_rating:
         return poi_user_rating[2]
 
@@ -231,7 +229,7 @@ def upsert_rating(u_id, poi_id, rating):
 # Users
 
 def get_user_by_id(id):
-    cur.execute("SELECT * FROM users WHERE id=%s", [id])
+    cur.execute("SELECT * FROM users WHERE id = %s", [id])
 
     return cur.fetchone()
 
@@ -245,30 +243,18 @@ def create_user():
 
     return user_id
 
-# delete this method.
-def insert_user(id, email, feature_vector, name):
-    if id == None:
-        cur.execute(
-            sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s)")
-                .format(sql.Identifier('users')),
-                [email, feature_vector, name]
-        )
-    else:
-        cur.execute(
-            sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s)")
-                .format(sql.Identifier('users')),
-                [id, email, feature_vector, name]
-        )
-    conn.commit()
-
-def update_user_feature_vector_by_id(id, feature_vector_json):
-    cur.execute("UPDATE users SET feature_vector = array_to_json(%s) WHERE id= %s", [feature_vector_json, id])
+def insert_user(email, name):
+    cur.execute(
+        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s)")
+            .format(sql.Identifier('users')),
+            [email, name]
+    )
     conn.commit()
 
 # User input
 
 def get_user_input_for_id(id):
-    cur.execute("SELECT * FROM user_inputs WHERE u_id=%s", [id])
+    cur.execute("SELECT * FROM user_inputs WHERE u_id = %s", [id])
 
     return cur.fetchone()
 

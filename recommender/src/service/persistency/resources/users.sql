@@ -4,6 +4,5 @@
 CREATE TABLE IF NOT EXISTS users (
     id serial PRIMARY KEY,
     email character varying UNIQUE, 
-    feature_vector json,
     name character varying
 );

@@ -55,7 +55,7 @@ def insert_df_into_visitberlin_data(df):
 
 def insert_df_into_users(df):
     for _, row in df.iterrows():
-        insert_user(row[ID], row[EMAIL], row[FEATURE_VECTOR], row[NAME])
+        insert_user(row[EMAIL], row[NAME])
 
 # User Inputs data
 

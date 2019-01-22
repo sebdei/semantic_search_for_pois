@@ -1,7 +1,7 @@
-id,email,feature_vector,name
-1,alice@web.de,,Alice
-2,bob@web.de,,Bob
-3,carol@web.de,,Carol
-4,david@web.de,,David
-5,eve@web.de,,Eve
-6,frodo@web.de,,Frodo
+email,name
+alice@web.de,Alice
+bob@web.de,Bob
+carol@web.de,Carol
+david@web.de,David
+eve@web.de,Eve
+frodo@web.de,Frodo
