@@ -204,17 +204,11 @@ def get_poi_rating_for_user(poi_id, user_id):
     if poi_user_rating:
         return poi_user_rating[2]
 
-def get_recommenderType(u_id):
+def count_recommendations_by_user(user_id):
     # Method return string depending on the form of recommender that should be used
     # Todo: Adapt the threshold for the switch to collaborative filtering
-    cur.execute("SELECT count(*) FROM ratings WHERE u_id=%s", [u_id])
-    row = cur.fetchone()
-    if row[0] > 3:
-        print("Recommender Type: Collaborative Filtering")
-        return "collaborativeFiltering"
-    else:
-        print("Recommender Type: Content-based Filtering")
-        return "contentbasedFiltering"
+    cur.execute("SELECT count(*) FROM ratings WHERE u_id = %s", [user_id])
+    return cur.fetchone()[0]
 
 def upsert_rating(u_id, poi_id, rating):
     cur.execute(
@@ -230,7 +224,7 @@ def upsert_rating(u_id, poi_id, rating):
 
 def get_user_by_id(id):
     cur.execute("SELECT * FROM users WHERE id = %s", [id])
-
+    
     return cur.fetchone()
 
 def create_user():

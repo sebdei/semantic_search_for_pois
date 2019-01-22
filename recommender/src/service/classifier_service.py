@@ -29,7 +29,9 @@ def do_collaborative_filter_recommendation(user_id, user_lat, user_long, radius,
     return recommendations.to_json(orient='records')
 
 def do_classification_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather):
-    if persistence_service.get_recommenderType(user_id) == "collaborativeFiltering" and user2user_recommender.eval(user_id) < 0.001:
+    ratings_count = count_recommendations_by_user(user_id)
+
+    if ratings_count > 3 and user2user_recommender.eval(user_id) < 0.001:
         return do_collaborative_filter_recommendation(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather)
     else:
         return do_content_based_recommendation(user_id)
