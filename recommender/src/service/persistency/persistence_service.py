@@ -182,8 +182,6 @@ def get_poi_rating_for_user(poi_id, user_id):
         return poi_user_rating[2]
 
 def count_recommendations_by_user(user_id):
-    # Method return string depending on the form of recommender that should be used
-    # Todo: Adapt the threshold for the switch to collaborative filtering
     cur.execute("SELECT count(*) FROM ratings WHERE user_id = %s", [user_id])
     return cur.fetchone()[0]
 
