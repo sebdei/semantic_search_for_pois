@@ -20,6 +20,12 @@ More info about the postgres Docker image including further documentation can be
 
 As we use docker-compose, this setup can be easily be extended with further services. An exemplary setup with Django can be found [here](https://docs.docker.com/compose/django/), alongside [further sample applications](https://docs.docker.com/samples/#sample-applications).
 
+To connect to PostgreSQL from the command line inside the docker:
+
+```{sh}
+psql -h localhost -p 5433 -U admin -W
+```
+
 ## Connecting to Postgres from Python environment
 
 First install the ```psycopg2``` package (e.g. by executing ```pip install psycopg2```). Then the following code can be executed from within the python container.
