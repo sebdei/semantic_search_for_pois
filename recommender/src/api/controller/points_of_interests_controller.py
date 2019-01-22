@@ -14,10 +14,15 @@ from src.service.persistency import persistence_service
 from src.service.collaborative_filtering import user2user_recommender
 from src.service.collaborative_filtering import filterWeather, filterLocation
 
-def add_source_column_to_data_frame(poi_data_frame):
+def append_source_column_to_data_frame(poi_data_frame):
     poi_data_frame['source'] = poi_data_frame.apply(lambda row: persistence_service.get_text_for_poi(row.id), axis=1)
 
-    return poi_data_frame
+def append_current_poi_rating_to_dataframe(user_id, poi_data_frame):
+    poi_data_frame['liked'] = None
+    if user_id:
+        for index, row in poi_data_frame.iterrows():
+            liked = persistence_service.get_poi_rating_for_user(row.id, user_id)
+            poi_data_frame.at[index, 'liked'] = liked
 
 def init(app):
     @app.route("/classify", methods = ['POST'])
@@ -29,26 +34,22 @@ def init(app):
 
         return poi_data_frame.reset_index().to_json(orient='records')
 
-    @app.route('/points_of_interests/<id>')
+    @app.route('/points_of_interests/<id>/')
     @app.route('/points_of_interests/<id>/<user_id>')
     def get(id, user_id = None):
         assert id == request.view_args['id']
 
         poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(id).reset_index()
-        poi_data_frame = add_source_column_to_data_frame(poi_data_frame)
 
-        if user_id:
-            for index, row in poi_data_frame.iterrows():
-                liked = persistence_service.get_poi_rating_for_user(row.id, user_id)
-                print(liked)
-                poi_data_frame.at[index, 'liked'] = liked
+        append_source_column_to_data_frame(poi_data_frame)
+        append_current_poi_rating_to_dataframe(user_id, poi_data_frame)
 
         return poi_data_frame.to_json(orient='records')
 
     @app.route('/points_of_interests/')
     def get_all():
         poi_data_frame = pandas_persistence_service.get_all_points_of_interests_as_df().reset_index()[10:100]
-        poi_data_frame = add_source_column_to_data_frame(poi_data_frame)
+        poi_data_frame = append_source_column_to_data_frame(poi_data_frame)
 
         return poi_data_frame.to_json(orient='records')
 
