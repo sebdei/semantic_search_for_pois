@@ -118,7 +118,7 @@ export default {
         poi_id: poiId
       }
 
-      let userId = 6
+      let userId = getCookie('user_id')
       let host = window.location.hostname
       await axios.post(`http://${host}:5000/users/${userId}/rate_poi`, postBody)
     },
@@ -129,7 +129,7 @@ export default {
         poi_id: poiId
       }
 
-      let userId = 6
+      let userId = getCookie('user_id')
       let host = window.location.hostname
       await axios.post(`http://${host}:5000/users/${userId}/rate_poi`, postBody)
     },
