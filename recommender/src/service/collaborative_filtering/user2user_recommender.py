@@ -27,7 +27,7 @@ def eval(currentUserId):
     for x in np.nditer(allItems):
 
         # Step 2a: Define test dataset -> rating of currentUser and current (leaved out) item
-        testset = ratings[(ratings.u_id == currentUserId)]
+        testset = ratings[(ratings.user_id == currentUserId)]
         testset = testset[(testset.poi_id == x)]
 
         # Step 2b: If user has given no rating for this item, the prediction cannot be compared to something true => thus skip
@@ -36,7 +36,7 @@ def eval(currentUserId):
 
         # Step 2c: Define train dataset -> leave out the current item x
         trainset = ratings[~ratings.isin(testset).all(1)]
-        trainset = Dataset.load_from_df(trainset[[U_ID, POI_ID, RATING]], reader)
+        trainset = Dataset.load_from_df(trainset[[USER_ID, POI_ID, RATING]], reader)
         trainset = trainset.build_full_trainset()
 
         # Step 2d: Apply algorithm by training and predicting of the item x that was leaved out
@@ -59,9 +59,9 @@ def initializeCollaborativeFiltering():
     # Step 1: Read data from excel <= To replace by database
     ratings = pps.get_all_ratings_as_df()
 
-    # Step 2: Transform to training set 
+    # Step 2: Transform to training set
     reader = Reader(rating_scale=(0.0, 1.0))
-    data = Dataset.load_from_df(ratings[[U_ID, POI_ID, RATING]], reader)
+    data = Dataset.load_from_df(ratings[[USER_ID, POI_ID, RATING]], reader)
     trainset = data.build_full_trainset()
 
     # Step 3: Apply training of collaborative filtering (CF) algorithm
@@ -78,12 +78,12 @@ def getRecommendationsForUser(currentUserId):
 
     # Step 2: Get list all items
     # a) Collect items which this user has rated
-    userRatedItems = ratings[(ratings.u_id == currentUserId)].loc[:,POI_ID].values
+    userRatedItems = ratings[(ratings.user_id == currentUserId)].loc[:,POI_ID].values
     # b) Get relevent items for recommendations because only new locations (which are not rated yet)
     allItems = ratings.poi_id.unique()
     relevantItems = np.setdiff1d(allItems, userRatedItems)
 
-    # Step 3: Get prediction for each item (for currentUser) + item information are enriched by relevant 
+    # Step 3: Get prediction for each item (for currentUser) + item information are enriched by relevant
     predictions_list = []
     for x in np.nditer(relevantItems):
         itemID = x.item(0) # save itemId in local variable

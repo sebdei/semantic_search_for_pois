@@ -2,9 +2,9 @@
 --
 
 CREATE TABLE IF NOT EXISTS ratings (
-    u_id integer REFERENCES users(id) ON DELETE CASCADE,
+    user_id integer REFERENCES users(id) ON DELETE CASCADE,
     poi_id integer REFERENCES points_of_interests(id) ON DELETE CASCADE,
-    rating boolean,
+    liked boolean,
 
-    PRIMARY KEY (u_id, poi_id)
+    PRIMARY KEY (user_id, poi_id)
 );

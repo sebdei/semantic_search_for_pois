@@ -1,4 +1,4 @@
-u_id,poi_id,rating
+user_id,poi_id,liked
 1,6,true
 1,11,true
 1,12,false

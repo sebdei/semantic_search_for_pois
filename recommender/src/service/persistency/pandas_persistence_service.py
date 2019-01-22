@@ -61,7 +61,7 @@ def insert_df_into_users(df):
 
 def insert_df_into_user_inputs(df):
     for _, row in df.iterrows():
-        insert_user_input(row[U_ID], row[INPUT_TEXT], row[TWITTER_NAME])
+        insert_user_input(row[USER_ID], row[INPUT_TEXT], row[TWITTER_NAME])
 
 # Ratings data
 
@@ -70,4 +70,4 @@ def get_all_ratings_as_df():
 
 def upsert_df_into_ratings(df):
     for _, row in df.iterrows():
-        upsert_rating(row[U_ID], row[POI_ID], row[RATING])
+        upsert_rating(row[USER_ID], row[POI_ID], row[LIKED])

@@ -32,8 +32,8 @@ VISITBERLIN_TITLE = 'visitberlin_title'
 VISITBERLIN_URL = 'visitberlin_url'
 VISITBERLIN_TEXT = 'visitberlin_text'
 POI_ID = 'poi_id'
-U_ID = 'u_id'
-RATING = 'rating'
+USER_ID = 'user_id'
+LIKED = 'liked'
 EMAIL = 'email'
 INPUT_TEXT = 'input_text'
 TWITTER_NAME = 'twitter_name'
@@ -65,8 +65,8 @@ USERS_COLUMNS = [ID, EMAIL, FEATURE_VECTOR, NAME]
 
 # User inputs columns
 
-USER_INPUTS = [U_ID, INPUT_TEXT, TWITTER_NAME]
+USER_INPUTS = [USER_ID, INPUT_TEXT, TWITTER_NAME]
 
 # Ratings columns
 
-RATINGS_COLUMNS = [U_ID, POI_ID, RATING]
+RATINGS_COLUMNS = [USER_ID, POI_ID, LIKED]

@@ -195,7 +195,7 @@ def get_all_ratings():
 
 def get_poi_rating_for_user(poi_id, user_id):
     cur.execute(
-        sql.SQL("SELECT * FROM {} WHERE poi_id = %s AND u_id = %s")
+        sql.SQL("SELECT * FROM {} WHERE poi_id = %s AND user_id = %s")
             .format(sql.Identifier('ratings')),
             [poi_id, user_id]
     )
@@ -207,16 +207,16 @@ def get_poi_rating_for_user(poi_id, user_id):
 def count_recommendations_by_user(user_id):
     # Method return string depending on the form of recommender that should be used
     # Todo: Adapt the threshold for the switch to collaborative filtering
-    cur.execute("SELECT count(*) FROM ratings WHERE u_id = %s", [user_id])
+    cur.execute("SELECT count(*) FROM ratings WHERE user_id = %s", [user_id])
     return cur.fetchone()[0]
 
-def upsert_rating(u_id, poi_id, rating):
+def upsert_rating(user_id, poi_id, liked):
     cur.execute(
-        sql.SQL("INSERT INTO {} (u_id, poi_id, rating) VALUES (%s, %s, %s) " +
-        "ON CONFLICT (u_id, poi_id) " +
-        "DO UPDATE SET (u_id, poi_id, rating) = (EXCLUDED.u_id, EXCLUDED.poi_id, EXCLUDED.rating)")
+        sql.SQL("INSERT INTO {} (user_id, poi_id, liked) VALUES (%s, %s, %s) " +
+        "ON CONFLICT (user_id, poi_id) " +
+        "DO UPDATE SET (user_id, poi_id, liked) = (EXCLUDED.user_id, EXCLUDED.poi_id, EXCLUDED.liked)")
             .format(sql.Identifier('ratings')),
-            [u_id, poi_id, rating]
+            [user_id, poi_id, liked]
     )
     conn.commit()
 
@@ -224,7 +224,7 @@ def upsert_rating(u_id, poi_id, rating):
 
 def get_user_by_id(id):
     cur.execute("SELECT * FROM users WHERE id = %s", [id])
-    
+
     return cur.fetchone()
 
 def create_user():
@@ -248,15 +248,15 @@ def insert_user(email, name):
 # User input
 
 def get_user_input_for_id(id):
-    cur.execute("SELECT * FROM user_inputs WHERE u_id = %s", [id])
+    cur.execute("SELECT * FROM user_inputs WHERE user_id = %s", [id])
 
     return cur.fetchone()
 
-def insert_user_input(u_id, input_text, twitter_name):
+def insert_user_input(user_id, input_text, twitter_name):
     cur.execute(
         sql.SQL("INSERT INTO {} VALUES (%s, %s, %s)")
             .format(sql.Identifier('user_inputs')),
-            [u_id, input_text, twitter_name]
+            [user_id, input_text, twitter_name]
     )
     conn.commit()
 
