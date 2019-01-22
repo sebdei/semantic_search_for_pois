@@ -4,7 +4,7 @@ from .persistency import persistence_service as ps
 from .persistency import pandas_persistence_service as pps
 from .persistency.data_model import *
 
-default_data_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../default_data'))
+default_data_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../data/default_data'))
 
 odb_path = os.path.join(default_data_folder, 'odb_points_of_interests.csv')
 osm_path = os.path.join(default_data_folder, 'osm_points_of_interests.csv')

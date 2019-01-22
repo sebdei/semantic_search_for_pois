@@ -3,17 +3,17 @@
 # from src.service.acquisition.open_street_map import import_osm_points_of_interest
 # from src.service.acquisition.open_data_berlin import import_odb_points_of_interest
 # from src.service.schema_fusion import import_into_poi_table
-# from src.service.restore_default import restore_default_database
+from src.service.restore_default import restore_default_database
 # from src.service.collaborative_filtering import user2user_recommender
 # from src.service.collaborative_filtering import filterWeather, filterLocation
 # from src.service.persistency.persistence_service import get_text_for_poi, create_schemata
 
 # import pandas as pd
 
-from src.api import flask
+# from src.api import flask
 
 def run():
-    flask.bindRoutes()
+    # flask.bindRoutes()
 
     # drop all tables and import default data
 
@@ -22,7 +22,7 @@ def run():
     # import_odb_points_of_interest()
     # import_osm_points_of_interest()
     # import_into_poi_table()
-    # restore_default_database()
+    restore_default_database()
 
 
 
