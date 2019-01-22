@@ -43,7 +43,11 @@ export default {
     }
   },
   mounted () {
-    this.fetchRecommendations()
+    if (!getCookie('user_id')) {
+      this.$router.push({ path: `/` })
+    } else {
+      this.fetchRecommendations()
+    }
   },
   methods: {
     fetchRecommendations: async function () {
