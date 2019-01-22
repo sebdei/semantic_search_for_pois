@@ -27,17 +27,22 @@
           </a>
         </div>
       </div>
-      <button @click="likePoi($route.params.id)">asd</button>
-      <div class="street font-weight-bold mb-3" @click.prevent="navigateTo(recommendation.lat, recommendation.long)">
-        <div class="distance-box">
-          <i class="fas fa-map-marker-alt fa-icon mr-2"></i>
-          <span v-if="this.distance">
-            {{ this.distance }} km
-          </span>
+      <div class="bottom-wrapper">
+        <div class="street font-weight-bold mb-3" @click.prevent="navigateTo(recommendation.lat, recommendation.long)">
+          <div class="distance-box">
+            <i class="fas fa-map-marker-alt orange mr-2"></i>
+            <span v-if="this.distance">
+              {{ this.distance }} km
+            </span>
+          </div>
+          <div v-if="recommendation.street_name">
+            <i class="fas fa-home orange mr-2"></i>
+              {{ recommendation.street_name }} {{ recommendation.street_number }}
+          </div>
         </div>
-        <div v-if="recommendation.street_name">
-          <i class="fas fa-home fa-icon mr-2"></i>
-            {{ recommendation.street_name }} {{ recommendation.street_number }}
+        <div class="like-wrapper">
+          <div :class="[recommendation.liked === true ? 'orange' : '']" @click="likePoi($route.params.id)"><i class="far fa-thumbs-up fa-2x"></i></div>
+          <div :class="[recommendation.liked === false ? 'orange' : '']" @click="dislikePoi($route.params.id)"><i class="far fa-thumbs-down fa-2x"></i></div>
         </div>
       </div>
       <div class="thanks float-right">
@@ -85,6 +90,7 @@ export default {
       city: 'Berlin',
       distance: null,
       initZoom: 11,
+      liked: '',
       layerUrl:'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       recommendation: null,
       poiMarkers: []
@@ -96,18 +102,31 @@ export default {
   methods: {
     fetchRecommendation: async function () {
       let host = window.location.hostname
-      let response = await axios.get(`http://${host}:5000/points_of_interests/${this.$route.params.id}`)
+      let response = await axios.get(`http://${host}:5000/points_of_interests/${this.$route.params.id}/6`)
 
       const recommendation = response.data[0]
       this.setLocationVariables(recommendation)
 
       this.recommendation = recommendation
     },
+    dislikePoi: async function (poiId) {
+      this.recommendation.liked = false
+      let postBody = {
+        rating: false,
+        poi_id: poiId
+      }
+
+      let userId = 6
+      let host = window.location.hostname
+      await axios.post(`http://${host}:5000/users/${userId}/rate_poi`, postBody)
+    },
     likePoi: async function (poiId) {
+      this.recommendation.liked = true
       let postBody = {
         rating: true,
         poi_id: poiId
       }
+
       let userId = 6
       let host = window.location.hostname
       await axios.post(`http://${host}:5000/users/${userId}/rate_poi`, postBody)
@@ -146,8 +165,7 @@ export default {
 }
 
 .street {
-  display: inline-block;
-  width: 100%;
+  flex-grow: 1;
   cursor: pointer;
 }
 
@@ -180,6 +198,23 @@ export default {
   text-align: justify;
 }
 
+.bottom-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.like-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.like-wrapper div {
+  margin: 0 10px;
+}
+
 .thanks-text {
   display: inline;
   font-family: "Droid Serif";
@@ -200,7 +235,7 @@ export default {
   height: 400px;
 }
 
-.fa-icon{
+.orange {
   color: #e44802
 }
 
