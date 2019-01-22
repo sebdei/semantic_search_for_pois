@@ -7,10 +7,10 @@ import pandas as pd
 from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
 
-from src.service.persistency import pandas_persistence_service
-from src.service.persistency import persistence_service
 from src.service.collaborative_filtering import user2user_recommender
 from src.service.collaborative_filtering import filterWeather, filterLocation
+
+from src.service import classifier_service
 
 def append_source_column_to_data_frame(poi_data_frame):
     poi_data_frame['source'] = poi_data_frame.apply(lambda row: persistence_service.get_text_for_poi(row.id), axis=1)
@@ -61,6 +61,8 @@ def init(app):
 
         else:
             #CONTENT-BASED RECOMMENDATION
-            poi_data_frame = classifier_service.classify(body['query']).reset_index()
-            poi_data_frame = add_source_column_to_data_frame(poi_data_frame)
-            return poi_data_frame.reset_index().to_json(orient='records')
+            poi_data_frame = classifier_service.do_classification_for_user(user_id).reset_index()
+
+            append_source_column_to_data_frame(poi_data_frame)
+
+            return poi_data_frame.to_json(orient='records')
