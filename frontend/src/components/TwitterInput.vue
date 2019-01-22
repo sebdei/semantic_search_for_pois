@@ -45,6 +45,8 @@ export default {
       // for simplicity reasons the cookie is set by manually
       let userId = response.data.cookie.user_id
       setCookie('user_id', userId)
+
+      this.$router.push({ path: `/points_of_interests` })
     }
   }
 }
