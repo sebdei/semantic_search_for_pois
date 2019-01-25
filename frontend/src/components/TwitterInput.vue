@@ -41,7 +41,7 @@ export default {
       let host = window.location.hostname
       let response = await axios.post(`http://${host}:5000/users/create_user_with_twitter_name/`, { 'twitter_name': this.twitterName })
 
-      // for simplicity reasons the cookie is set by manually
+      // for simplicity reasons the cookie is set manually
       let userId = response.data.cookie.user_id
       setCookie('user_id', userId)
 
