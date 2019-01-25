@@ -1,12 +1,8 @@
 from flask import request
 from flask import jsonify
 
-from src.service.persistency import persistence_service
-
 from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
-from src.service.collaborative_filtering import user2user_recommender
-from src.service.collaborative_filtering import filterWeather, filterLocation
 
 def init(app):
     @app.route('/users/create_user_with_text/', methods=['POST'])
