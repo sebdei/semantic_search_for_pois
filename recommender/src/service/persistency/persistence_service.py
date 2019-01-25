@@ -65,13 +65,22 @@ def get_all_points_of_interests():
 
     return cur.fetchall()
 
-def insert_into_points_of_interests(name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source):
-    cur.execute(
-        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-            .format(sql.Identifier('points_of_interests')),
-            [name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source]
-    )
-    conn.commit()
+def insert_into_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source):
+    if id != None:
+        cur.execute(
+            sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+                .format(sql.Identifier('points_of_interests')),
+                [id, name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source]
+        )
+        conn.commit()
+    else:
+        cur.execute(
+            sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+                .format(sql.Identifier('points_of_interests')),
+                [name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source]
+        )
+        conn.commit()
+
 
 def update_values_of_points_of_interests(id, name, street_name, street_number, zip_code, long, lat, opening_hours, is_building, feature_vector, source):
     cur.execute((   "UPDATE points_of_interests SET "
@@ -86,15 +95,24 @@ def update_feature_vector_by_id(id, feature_vector_json):
 
 # OSM Points of Interest
 
-def insert_into_osm_pois(addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
+def insert_into_osm_pois(id, addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
     opening_hours, amenity, url, name, name_de, leisure, tourism, long, lat, building, wikipedia, source, osm_id):
-    cur.execute(
-        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-            .format(sql.Identifier('osm_points_of_interests')),
-            [addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
-            opening_hours, amenity, url, name, name_de, leisure, tourism, long, lat, building, wikipedia, source, osm_id]
-    )
-    conn.commit()
+        if id != None:
+            cur.execute(
+                sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+                    .format(sql.Identifier('osm_points_of_interests')),
+                    [id, addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
+                    opening_hours, amenity, url, name, name_de, leisure, tourism, long, lat, building, wikipedia, source, osm_id]
+            )
+            conn.commit()
+        else:
+            cur.execute(
+                sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+                    .format(sql.Identifier('osm_points_of_interests')),
+                    [addr_city, addr_country, addr_housenumber, addr_postcode, addr_street,
+                    opening_hours, amenity, url, name, name_de, leisure, tourism, long, lat, building, wikipedia, source, osm_id]
+            )
+            conn.commit()
 
 def get_all_osm_pois():
     cur.execute("SELECT * FROM osm_points_of_interests")
@@ -107,13 +125,22 @@ def truncate_osm_pois():
 
 # ODB Points of Interest
 
-def insert_into_odb_pois(name, street_name, street_number, zip_code, long, lat):
-    cur.execute(
-        sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s)")
-            .format(sql.Identifier('odb_points_of_interests')),
-            [name, street_name, street_number, zip_code, long, lat]
-    )
-    conn.commit()
+def insert_into_odb_pois(id, name, street_name, street_number, zip_code, long, lat):
+    if id != None:
+        cur.execute(
+            sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s, %s, %s, %s)")
+                .format(sql.Identifier('odb_points_of_interests')),
+                [id, name, street_name, street_number, zip_code, long, lat]
+        )
+        conn.commit()
+    else:
+        cur.execute(
+            sql.SQL("INSERT INTO {} VALUES (DEFAULT, %s, %s, %s, %s, %s, %s)")
+                .format(sql.Identifier('odb_points_of_interests')),
+                [name, street_name, street_number, zip_code, long, lat]
+        )
+        conn.commit()
+
 
 def get_all_odb_pois():
     cur.execute("SELECT * FROM odb_points_of_interests")
@@ -131,12 +158,12 @@ def get_queried_pois_wikipedia():
     return cur.fetchall()
 
 def insert_query_data_wikipedia(poi_id, wiki_title, wiki_url, wiki_text):
-    cur.execute(
-        sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s)")
-            .format(sql.Identifier('query_data_wikipedia')),
-            [poi_id, wiki_title, wiki_url, wiki_text]
-    )
-    conn.commit()
+        cur.execute(
+            sql.SQL("INSERT INTO {} VALUES (%s, %s, %s, %s)")
+                .format(sql.Identifier('query_data_wikipedia')),
+                [poi_id, wiki_title, wiki_url, wiki_text]
+        )
+        conn.commit()
 
 def get_wikipedia_data():
     cur.execute("SELECT * FROM query_data_wikipedia")
