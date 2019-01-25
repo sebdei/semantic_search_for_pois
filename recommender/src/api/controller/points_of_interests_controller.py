@@ -37,7 +37,7 @@ def init(app):
     @app.route("/points_of_interests/personal_recommendations/<user_id>/<user_lat>/<user_long>/<radius>/")
     @app.route("/points_of_interests/personal_recommendations/<user_id>/<user_lat>/<user_long>/<radius>/<consider_weather>/<force_bad_weather>")
     def classify_content_based_collaborative_filtering(user_id, user_lat, user_long, radius, consider_weather = False, force_bad_weather = False):
-        poi_data_frame = recommendation_service.do_classification_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather)
+        poi_data_frame = recommendation_service.do_recommendation_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather)
         poi_data_frame = poi_data_frame.reset_index()
 
         append_source_column_to_data_frame(poi_data_frame)

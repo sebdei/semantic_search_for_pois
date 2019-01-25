@@ -28,7 +28,7 @@ def do_collaborative_filter_recommendation(user_id, user_lat, user_long, radius,
 
     return recommendations.to_json(orient='records')
 
-def do_classification_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather):
+def do_recommendation_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather):
     ratings_count = count_recommendations_by_user(user_id)
 
     if ratings_count > 3 and user2user_recommender.eval(user_id) < 0.001:
