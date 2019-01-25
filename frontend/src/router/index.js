@@ -9,8 +9,8 @@ import DetailsPointsOfInterests from '@/components/points_of_interest/DetailsPoi
 
 const routes = [
   { path: '/', component: Welcome },
-  { path: '/points_of_interests', component: ListPointsOfInterests },
-  { path: '/points_of_interests/:id', component: DetailsPointsOfInterests },
+  {path: '/points_of_interests', component: ListPointsOfInterests },
+  { path: '/points_of_interests/:id', component: DetailsPointsOfInterests },
 ]
 
 const router = new VueRouter({

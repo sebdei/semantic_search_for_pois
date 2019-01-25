@@ -4,7 +4,7 @@ const calcDistance = function (leafletObjectStartLocation, targetLat, targetLong
 }
 
 const navigateTo = function (lat, long) {
-  if (!lat || !long) {
+  if (!lat || !long) {
     alert("Unfortunately we don't have informationen about the location of this Object!");
   } else {
       if ((navigator.platform.indexOf("iPhone") != -1) || (navigator.platform.indexOf("iPod") != -1) || (navigator.platform.indexOf("iPad") != -1)) {
