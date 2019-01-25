@@ -5,9 +5,9 @@ def filterOnWeather(location, recommendedPlaces, useWeatherApi_bool, forceBadWea
         return filterOnWeather_Api(location, recommendedPlaces);
     else:
         if forceBadWeather_bool:
-            return recommendedPlaces = recommendedPlaces[(recommendedPlaces.is_building == True)]
+            return recommendedPlaces[(recommendedPlaces.is_building == True)]
         else:
-            recommendedPlaces
+            return recommendedPlaces
 
 def filterOnWeather_Api(location, recommendedPlaces):
 
@@ -24,7 +24,7 @@ def filterOnWeather_Api(location, recommendedPlaces):
     else:
         print("No weather location found for the user's coordinates.")
         return None
-    
+
     # Step 2: Evaluate weather information
     w = observation.get_weather()
     weather_code = w.get_weather_code()
@@ -46,7 +46,7 @@ def evaluateWeatherCode(weather_code):
 
     # all sorts of thunderstorm is classified as bad weather
     if weather_code >= 200 and weather_code <= 299:
-        return True 
+        return True
 
     # all sorts of rain is classified as bad weather
     if weather_code >= 500 and weather_code <= 599:

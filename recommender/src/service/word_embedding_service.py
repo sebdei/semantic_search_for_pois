@@ -57,8 +57,6 @@ def calculate_mean_vector_of_word_embeddings_for_array(words_array):
 def calculate_mean_vector_of_word_embeddings_for_text(userinput):
     valid_words = clean_userinput(userinput)
 
-    print(valid_words)
-
     mean_vector = calculate_mean_vector_of_word_embeddings_for_array(valid_words)
 
     return mean_vector
