@@ -1,3 +1,5 @@
+import { L } from 'vue2-leaflet'
+
 const calcDistance = function (leafletObjectStartLocation, targetLat, targetLong) {
   let distanceFromStart= leafletObjectStartLocation.distanceTo(L.latLng(targetLat, targetLong))
   return Number.parseFloat(distanceFromStart / 1000).toFixed(2)

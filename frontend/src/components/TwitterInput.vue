@@ -24,7 +24,6 @@
 <script>
 import axios from 'axios'
 
-import { L } from 'vue2-leaflet'
 import { setCookie } from '@/service/cookie-service'
 
 export default {
