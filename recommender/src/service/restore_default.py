@@ -63,4 +63,6 @@ def restore_default_database():
     ratings_df = ratings_df.where((pd.notnull(ratings_df)), None)
     pps.upsert_df_into_ratings(ratings_df)
 
+    ps.set_sequence_values()
+
     print('Restored default database state')

@@ -36,6 +36,14 @@ def create_schemata():
 
 ##### CRUD operations #####
 
+def set_sequence_values():
+    cur.execute(
+        "SELECT setval('points_of_interests_id_seq', (SELECT max(id) FROM points_of_interests));" +
+        "SELECT setval('odb_points_of_interests_id_seq', (SELECT max(id) FROM odb_points_of_interests));" +
+        "SELECT setval('osm_points_of_interests_id_seq', (SELECT max(id) FROM osm_points_of_interests));"
+    )
+    conn.commit()
+
 def drop_all():
     for schema in all_schemata:
         try:
