@@ -2,5 +2,7 @@
 /models/*.txt
 /models/*.zip
 
+/src/web/dist
+
 # pycache
 *.pyc
