@@ -9,11 +9,12 @@ from src.service.persistency import persistence_service
 def do_content_based_recommendation(user_id):
     user_input_record = persistence_service.get_user_input_for_id(user_id)
     if not user_input_record:
+        # random recommendation to display at least something
         return pandas_persistence_service.get_all_points_of_interests_as_df().sample(10)
     else:
         user_input = user_input_record[1]
 
-        user_input_mean_word_embeddings = calculate_mean_vector_of_word_embeddings_for_text(userinput)
+        user_input_mean_word_embeddings = calculate_mean_vector_of_word_embeddings_for_text(user_input)
         articles = pandas_persistence_service.get_all_points_of_interests_as_df()
         articles = articles[articles.feature_vector.notnull()]
 
@@ -31,7 +32,7 @@ def do_collaborative_filter_recommendation(user_id, user_lat, user_long, radius,
     return recommendations.to_json(orient='records')
 
 def do_recommendation_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather):
-    ratings_count = count_recommendations_by_user(user_id)
+    ratings_count = persistence_service.count_recommendations_by_user(user_id)
 
     if ratings_count > 3 and user2user_recommender.eval(user_id) < 0.001:
         return do_collaborative_filter_recommendation(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather)
