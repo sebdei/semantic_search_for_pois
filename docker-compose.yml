@@ -11,23 +11,23 @@ services:
       - 5433:5432  # expose postgres port to be able to access it from the host machine, but use 5433 to avoid collisions
 
   recommender:
-    build: ../recommender
+    build: ./recommender
     ports:
       - 5000:5000
 
     depends_on:
       - db
     volumes:
-      - ../:/src # bind all source folders to the /src-directory in the container
+      - ./:/src # bind all source folders to the /src-directory in the container
     environment:
       - DB_CONNECTION=dbname='admin' user='admin' host='db' port=5432 password='admin'
 
   frontend:
-    build: ../frontend
+    build: ./frontend
     ports:
       - 8080:8080
     
     depends_on:
       - recommender
     volumes:
-      - ../:/src # bind all source folders to the /src-directory in the container
+      - ./:/src # bind all source folders to the /src-directory in the container
