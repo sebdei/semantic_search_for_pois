@@ -14,20 +14,26 @@ import pandas as pd
 import numpy as np
 import os
 
-def eval(currentUserId):
+RATING = 'rating'
+
+def eval(user_id):
 
     # Step 1: Define variables
     ratings = pps.get_all_ratings_as_df() # read ratings from database
+    ratings[RATING] = None
+    ratings.loc[ratings[LIKED] == True, RATING] = 1
+    ratings.loc[ratings[LIKED] == False, RATING] = 0
+
     reader = Reader(rating_scale=(0.0, 1.0))
 
-    allItems = ratings.poi_id.unique() # find all items
-    rmseData_forUser = pd.DataFrame(columns=['est', 'true']) # define resulting dataframe for storing the probabilites
+    all_items = ratings.poi_id.unique() # find all items
+    user_rmse = pd.DataFrame(columns=['est', 'true']) # define resulting dataframe for storing the probabilites
 
     # Step 2: Iterating over all items and leave out the current iteration's item (x) for training
-    for x in np.nditer(allItems):
+    for x in np.nditer(all_items):
 
         # Step 2a: Define test dataset -> rating of currentUser and current (leaved out) item
-        testset = ratings[(ratings.user_id == currentUserId)]
+        testset = ratings[(ratings.user_id == user_id)]
         testset = testset[(testset.poi_id == x)]
 
         # Step 2b: If user has given no rating for this item, the prediction cannot be compared to something true => thus skip
@@ -43,21 +49,24 @@ def eval(currentUserId):
         algo = KNNBaseline(k=50, sim_options={'name': 'pearson_baseline', 'user_based': True})
         algo.fit(trainset)
 
-        pred = algo.predict(currentUserId, np.asscalar(x), r_ui=4, verbose=False) # execute the calculation
+        pred = algo.predict(user_id, np.asscalar(x), r_ui=4, verbose=False) # execute the calculation
 
         # Step 2e: Store estimate and true value into output dataframe
-        rmseData_forUser.loc[len(rmseData_forUser)] = [pred.est, np.asscalar(testset.rating)]
+        user_rmse.loc[len(user_rmse)] = [pred.est, np.asscalar(testset.rating)]
 
     # Step 3: Calculate the RMSE over all leave out estimatieons
-    confidence = np.mean((rmseData_forUser.est - rmseData_forUser.true)**2)
+    confidence = np.mean((user_rmse.est - user_rmse.true)**2)
 
     return confidence
 
 
-def initializeCollaborativeFiltering():
+def init_collaborative_filtering():
 
-    # Step 1: Read data from excel <= To replace by database
+    # Step 1: Read data from database
     ratings = pps.get_all_ratings_as_df()
+    ratings[RATING] = None
+    ratings.loc[ratings[LIKED] == True, RATING] = 1
+    ratings.loc[ratings[LIKED] == False, RATING] = 0
 
     # Step 2: Transform to training set
     reader = Reader(rating_scale=(0.0, 1.0))
@@ -71,25 +80,25 @@ def initializeCollaborativeFiltering():
     return algo, ratings
 
 
-def getRecommendationsForUser(currentUserId):
+def get_recommendations_for_user(user_id):
 
     # Step 1: Train recommender algorithm
-    algo, ratings = initializeCollaborativeFiltering()
+    algo, ratings = init_collaborative_filtering()
 
     # Step 2: Get list all items
     # a) Collect items which this user has rated
-    userRatedItems = ratings[(ratings.user_id == currentUserId)].loc[:,POI_ID].values
+    rated_items = ratings[(ratings.user_id == user_id)].loc[:,POI_ID].values
     # b) Get relevent items for recommendations because only new locations (which are not rated yet)
-    allItems = ratings.poi_id.unique()
-    relevantItems = np.setdiff1d(allItems, userRatedItems)
+    all_items = ratings.poi_id.unique()
+    relevant_items = np.setdiff1d(all_items, rated_items)
 
     # Step 3: Get prediction for each item (for currentUser) + item information are enriched by relevant
     predictions_list = []
-    for x in np.nditer(relevantItems):
-        itemID = x.item(0) # save itemId in local variable
-        poiInformation = ps.get_points_of_interests_by_id(itemID) # request information from database
-        pred = algo.predict(currentUserId, itemID, r_ui=4, verbose=False) # execute the calculation
-        predictions_list.append({"poi_id":itemID, "pred_rating":pred.est, "name":poiInformation[1], "long":poiInformation[5], "lat":poiInformation[6], "opening_hours":poiInformation[7], "is_building":poiInformation[8]})
+    for x in np.nditer(relevant_items):
+        item_id = x.item(0) # save itemId in local variable
+        poi_information = ps.get_points_of_interests_by_id(item_id) # request information from database
+        pred = algo.predict(user_id, item_id, r_ui=4, verbose=False) # execute the calculation
+        predictions_list.append({'id':item_id, 'pred_rating':pred.est, 'name':poi_information[1], 'long':poi_information[5], 'lat':poi_information[6], 'opening_hours':poi_information[7], 'is_building':poi_information[8]})
 
     predictions = pd.DataFrame(predictions_list)
 
