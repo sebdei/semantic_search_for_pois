@@ -2,15 +2,10 @@ from math import sin, cos, sqrt, atan2, radians
 
 def filter_by_location(location, recommended_places, accepted_distance_in_km):
 
-    # Step 0: Copy information to local variables
-    lat = location['lat']
-    lng = location['lng']
-    output = []
-
     # Step 1: Interate through locations and calculate distance to user
     for i, place in recommended_places.iterrows():
         location_place = {"lat": place.lat, "lng": place.long} # copy coordinates
-        recommended_places.loc[i,'distanceToUser'] = distance_in_km(location, location_place)
+        recommended_places.loc[i, 'distanceToUser'] = distance_in_km(location, location_place)
 
     # Step 2: Select locations based on acceped distance
     filtered_recommended_places = recommended_places[(recommended_places.distanceToUser <= accepted_distance_in_km)]

@@ -2,10 +2,10 @@ import pyowm
 
 def filter_by_weather(location, recommended_places, use_weather, force_bad_weather):
     if use_weather:
-        return filter_by_weather_api(location, recommended_places);
+        return filter_by_weather_api(location, recommended_places)
     else:
         if force_bad_weather:
-            return recommended_places[(recommended_places.is_building == True)]
+            return recommended_places[(recommended_places.is_building is True)]
         else:
             return recommended_places
 
@@ -33,7 +33,7 @@ def filter_by_weather_api(location, recommended_places):
     # Step 3: Apply filter if badWeather
     if is_bad_weather:
         num_recommendations_previously = len(recommended_places.index)
-        filtered_recommended_places = recommended_places[(recommended_places.is_building == True)]
+        filtered_recommended_places = recommended_places[(recommended_places.is_building is True)]
         num_recommendations_after = len(filtered_recommended_places.index)
         print("Weather filtering: Weather is bad => filter ("+str(num_recommendations_previously)+"->"+str(num_recommendations_after)+")")
     else:
