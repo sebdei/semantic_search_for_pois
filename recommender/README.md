@@ -1,41 +1,44 @@
-Installation
-------------
-
+# Installation
 
 - make sure you installed pip and virtualenv
 - cd into folder and create a virtualenv with
 
-```
-$ python3 -m venv venv
+```sh
+python3 -m venv venv
 ```
 
 or create the venv as follows if errors occur
-```
-$ virtualenv venv
+
+```sh
+virtualenv venv
 ```
 
 activate virtualenv with
 
-```
-$ source venv/bin/activate
+```sh
+source venv/bin/activate
 ```
 
 install all dependencies
+
+```sh
+pip install -r requirements.txt
 ```
-(venv)$ pip install -r requirements.txt
-```
+
 start main.py with
-```
-$ python3 main.py
+
+```sh
+python3 main.py
 ```
 
 store current dependencies in requirements.txt
-```
+
+```sh
 pip freeze > requirements.txt
 ```
 
 deactivate virtualenv later with
 
-```
-$ deactivate
+```sh
+deactivate
 ```
