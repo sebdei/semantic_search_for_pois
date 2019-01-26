@@ -9,7 +9,7 @@ def bind_index_render_route(app):
     def index():
         return render_template("index.html")
 
-def bindRoutes():
+def bind_routes():
     app = Flask(__name__, static_folder = "./dist", template_folder = "./dist")
     CORS(app)
 
