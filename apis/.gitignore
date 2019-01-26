@@ -1,5 +1,0 @@
-/venv
-/models/*.txt
-
-# pycache
-*.pyc
