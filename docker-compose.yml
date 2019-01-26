@@ -18,7 +18,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./:/src # bind all source folders to the /src-directory in the container
+      - ./recommender:/recommender # bind all source folders to the /src-directory in the container
     environment:
       - DB_CONNECTION=dbname='admin' user='admin' host='db' port=5432 password='admin'
 
@@ -29,5 +29,5 @@ services:
     
     depends_on:
       - recommender
-    volumes:
-      - ./:/src # bind all source folders to the /src-directory in the container
+#    volumes:
+#      - ./frontend:/frontend # bind all source folders to the /src-directory in the container
