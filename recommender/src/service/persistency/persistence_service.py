@@ -27,12 +27,12 @@ all_schemata = [
 def create_schemata():
     for schema in all_schemata:
         create_query = open(os.path.join(os.path.dirname(__file__), 'resources/%s.sql' % (schema))).read()
-        print("Created table %s" % (schema))
-
         cur.execute(create_query)
 
-    print('Created all schemata in PostgreSQL')
+        print("Created table %s" % (schema))
+    
     conn.commit()
+    print('Created all schemata in PostgreSQL')
 
 ##### CRUD operations #####
 
@@ -48,9 +48,11 @@ def drop_all():
     for schema in all_schemata:
         try:
             cur.execute("DROP TABLE %s CASCADE" % (schema))
+            conn.commit()
             print("Dropped table %s" % (schema))
         except:
             print("Could not drop table %s" % (schema))
+            conn.rollback()
     print('Dropped all schemata in PostgreSQL')
 
 # CRUD core POI table

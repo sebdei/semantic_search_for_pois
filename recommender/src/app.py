@@ -10,10 +10,9 @@ from src.service.restore_default import restore_default_database
 
 # import pandas as pd
 
-# from src.api import flask
+from src.web import flask
 
 def run():
-    # flask.bindRoutes()
 
     # drop all tables and import default data
 
@@ -22,9 +21,10 @@ def run():
     # import_odb_points_of_interest()
     # import_osm_points_of_interest()
     # import_into_poi_table()
+
     restore_default_database()
 
-
+    flask.bindRoutes()
 
     ### Tests ###
 

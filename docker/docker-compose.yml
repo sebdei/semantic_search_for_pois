@@ -10,9 +10,8 @@ services:
     ports:
       - 5433:5432  # expose postgres port to be able to access it from the host machine, but use 5433 to avoid collisions
 
-  py:
-    image: python:3.6 # cannot install py_stringmatching in 3.7 with pip https://github.com/anhaidgroup/py_stringmatching/issues/53
-    tty: true # allocate a TTY do not exit immediately
+  recommender:
+    build: ../recommender
     ports:
       - 5000:5000
 
@@ -22,3 +21,13 @@ services:
       - ../:/src # bind all source folders to the /src-directory in the container
     environment:
       - DB_CONNECTION=dbname='admin' user='admin' host='db' port=5432 password='admin'
+
+  frontend:
+    build: ../frontend
+    ports:
+      - 8080:8080
+    
+    depends_on:
+      - recommender
+    volumes:
+      - ../:/src # bind all source folders to the /src-directory in the container
