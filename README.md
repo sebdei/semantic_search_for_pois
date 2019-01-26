@@ -1,4 +1,4 @@
-# Semantic Search for Points of Interests
+# Semantic Recommendations for Points of Interests
 
 This is a docker-compose setup that currently contains a Postgres service and a Python environment.
 
