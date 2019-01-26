@@ -3,6 +3,7 @@ from flask import jsonify
 
 from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
+from src.service import twitter_service
 
 def init(app):
     @app.route('/users/create_user_with_text/', methods=['POST'])
@@ -24,10 +25,11 @@ def init(app):
         body = request.json
         twitter_name = body['twitter_name']
 
-        print(twitter_name)
+        tweets = twitter_service.get_recent_tweets_of_user_by_name(twitter_name)
+        text = ' '.join(tweets)
 
         user_id = persistence_service.create_user()
-        persistence_service.insert_user_input(user_id, None, twitter_name)
+        persistence_service.insert_user_input(user_id, text, twitter_name)
 
         # for simplicity reasons the cookie is set manually
         cookie = { "user_id": user_id }
