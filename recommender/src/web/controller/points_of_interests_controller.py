@@ -48,6 +48,4 @@ def init(app):
         result['recommendations'] = poi_df.to_dict(orient='records')
         result['recommendation_type'] = recommendation_type
 
-        print(result)
-
         return json.dumps(result)
