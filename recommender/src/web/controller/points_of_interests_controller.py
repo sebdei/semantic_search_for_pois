@@ -1,3 +1,5 @@
+import simplejson as json
+
 from src.service import recommendation_service
 
 from src.service.persistency import pandas_persistence_service
@@ -37,9 +39,15 @@ def init(app):
     @app.route("/points_of_interests/personal_recommendations/<user_id>/<user_lat>/<user_long>/<radius>/")
     @app.route("/points_of_interests/personal_recommendations/<user_id>/<user_lat>/<user_long>/<radius>/<consider_weather>/<force_bad_weather>")
     def get_recommendation(user_id, user_lat, user_long, radius, consider_weather = False, force_bad_weather = False):
-        poi_df = recommendation_service.recommendation_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather)
+        poi_df, recommendation_type = recommendation_service.recommendation_for_user(user_id, user_lat, user_long, radius, consider_weather, force_bad_weather)
         poi_df = poi_df.reset_index()
 
         append_source_column_to_data_frame(poi_df)
 
-        return poi_df.to_json(orient='records')
+        result = {}
+        result['recommendations'] = poi_df.to_dict(orient='records')
+        result['recommendation_type'] = recommendation_type
+
+        print(result)
+
+        return json.dumps(result)

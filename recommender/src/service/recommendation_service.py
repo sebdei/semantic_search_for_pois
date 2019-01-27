@@ -41,10 +41,12 @@ def recommendation_for_user(user_id, user_lat, user_long, radius, consider_weath
         # use CF when enough user rated enough and has a low (predicted) error
         print('Collaborative filtering for user with ID %s with RMSE %f and %d ratings' % (user_id, rmse, ratings_count))
         recommendations = collaborative_filtering_recommendation(int(user_id))
+        recommendation_type = 'collaborative_filtering'
     else:
         # use CB otherwise
         print('Content based filtering for user with ID %s' % (user_id))
         recommendations = content_based_recommendation(user_id)
+        recommendation_type = 'content_based'
 
     user_location = {'lat':float(user_lat), 'lng':float(user_long)}
 
@@ -56,4 +58,4 @@ def recommendation_for_user(user_id, user_lat, user_long, radius, consider_weath
         print(recommendations.reindex(columns=['name', 'is_building', 'pred_rating', 'distance_to_user']))
 
     # return best 10 results
-    return recommendations[:10]
+    return recommendations[:10], recommendation_type
