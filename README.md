@@ -1,4 +1,4 @@
-# Semantic Recommendations for Points of Interests
+# Semantic Recommendations for Points of Interest
 
 ## General
 
@@ -11,7 +11,7 @@ docker-compose build
 docker-compose up -d
 ```
 
-Afterwards, the API is available at ```localhost:5000``` and the Frontend at ```localhost:8080```. The database is initialized on the start of the backend with some sample data for Points of Interest and ratings. For using the Frontend, the [Google Chrome](https://www.google.com/intl/en/chrome/) browser is recommended.
+Afterwards, the API is available at [localhost:5000](http://localhost:5000) and the Frontend at [localhost:8080/dist](http://localhost:8080/dist). The database is initialized on the start of the backend with some sample data for Points of Interest and ratings. For using the frontend, the [Google Chrome](https://www.google.com/intl/en/chrome/) browser is recommended.
 
 ## Docker
 
