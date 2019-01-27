@@ -1,9 +1,15 @@
 <template>
   <div>
-    <div class="header pt-5">
+    <div class="header pt-5" v-if="recommendationType">
       <h2 class="header-text text-center">
         Your personal recommendations
       </h2>
+      <h5 class="recommendation-type" v-if="recommendationType === 'content_based'">
+        Determined by your word vector
+      </h5>
+      <h5 class="recommendation-type" v-if="recommendationType === 'collaborative_filtering'">
+        Determined with collaborative filtering technique
+      </h5>
     </div>
     <div class="poi-list">
       <div v-for="recommendation in listOfRecommendations" class="poi-item" @click="goToDetailPoiRoute(recommendation.id)" :key="recommendation.id">
@@ -39,7 +45,8 @@ export default {
   data () {
     return {
       berlinMainTrainstationLeaflet: L.latLng(52.525084, 13.369402), // for demo purpose: use berlin station as start point
-      listOfRecommendations: []
+      listOfRecommendations: [],
+      recommendationType: ''
     }
   },
   mounted () {
@@ -63,8 +70,9 @@ export default {
 
       let response = await axios.get(`http://${host}:5000/points_of_interests/personal_recommendations/`+
         `${queryParam.userId}/${queryParam.lat}/${queryParam.long}/${queryParam.radius}`)
-      // let response = await axios.get(`http://${host}:5000/points_of_interests`)
-      let listOfRecommendations = response.data
+
+      this.recommendationType = response.data.recommendation_type
+      let listOfRecommendations = response.data.recommendations
 
       this.listOfRecommendations = listOfRecommendations.map((recommendation) => {
         recommendation.distance = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
@@ -81,9 +89,13 @@ export default {
 
 <style scoped>
 .header {
-  height: 150px;
+  height: 100%;
   background-color: #463E3C;
   color: white;
+}
+
+.recommendation-type {
+  text-align: center;
 }
 
 .poi-item {
