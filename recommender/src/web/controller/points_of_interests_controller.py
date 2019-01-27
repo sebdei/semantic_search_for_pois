@@ -14,10 +14,10 @@ def append_current_poi_rating_to_dataframe(user_id, poi_data_frame):
             poi_data_frame.at[index, 'liked'] = liked
 
 def init(app):
-    @app.route('/points_of_interests/<id>/')
-    @app.route('/points_of_interests/<id>/<user_id>')
-    def get(id, user_id = None):
-        poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(id)
+    @app.route('/points_of_interests/<poi_id>/')
+    @app.route('/points_of_interests/<poi_id>/<user_id>')
+    def get(poi_id, user_id = None):
+        poi_data_frame = pandas_persistence_service.get_points_of_interests_by_id_as_df(poi_id)
         poi_data_frame = poi_data_frame.reset_index()
 
         append_source_column_to_data_frame(poi_data_frame)
@@ -30,7 +30,7 @@ def init(app):
         poi_data_frame = pandas_persistence_service.get_all_points_of_interests_as_df()[10:100]
         poi_data_frame = poi_data_frame.reset_index()
 
-        poi_data_frame = append_source_column_to_data_frame(poi_data_frame)
+        append_source_column_to_data_frame(poi_data_frame)
 
         return poi_data_frame.to_json(orient='records')
 
