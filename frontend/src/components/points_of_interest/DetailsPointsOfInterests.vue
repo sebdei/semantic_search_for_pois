@@ -7,6 +7,9 @@
     </div>
 
     <div v-if="recommendation" class="poi-item">
+      <div class="back-button mb-3" @click="backToList">
+        <i class="fas fa-chevron-left fa-2x"></i>
+      </div>
       <h5 class="font-weight-bold">
         {{ recommendation.name }}
       </h5>
@@ -101,6 +104,9 @@ export default {
     this.fetchRecommendation()
   },
   methods: {
+    backToList: function () {
+      this.$router.push({ name: `list`, params: { disableSearchOptionsProp: true } })
+    },
     fetchRecommendation: async function () {
       let host = window.location.hostname
       let userId = getCookie('user_id')
@@ -162,7 +168,7 @@ export default {
 
 .poi-item {
   min-height: 280px;
-  padding: 50px 30px;
+  padding: 30px 30px;
   border-top: 1px solid;
 }
 
