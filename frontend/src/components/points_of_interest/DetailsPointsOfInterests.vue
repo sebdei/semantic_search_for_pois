@@ -141,7 +141,7 @@ export default {
     },
     pushMarker: function (lat, long) {
       let icon = L.icon({
-        iconUrl: './dist/map-marker-2-xxl.png',
+        iconUrl: './map-marker-2-xxl.png',
         iconSize: [33, 35]
       })
 
