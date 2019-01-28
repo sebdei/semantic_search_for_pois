@@ -16,16 +16,13 @@
                 Radius
               </h4>
               <div class="mt-5 my-3 mb-5">
-                <vue-slider :max="25" v-model="radius"></vue-slider>
+                <vue-slider class="slider" formatter="{value} km" :max="25" v-model="radius"></vue-slider>
               </div>
               <div class="weather">
                 <h4>
                   Weather options
                 </h4>
                 <div class="weather-element py-3">
-                  <div class="mb-3">
-                    Consider weather
-                  </div>
                   <div class="onoffswitch">
                     <input type="checkbox" name="consider-weather" class="onoffswitch-checkbox" id="consider-weather" v-model="considerWeather">
                     <label class="onoffswitch-label" for="consider-weather">
@@ -33,17 +30,20 @@
                         <span class="onoffswitch-switch"></span>
                     </label>
                   </div>
+                  <div class="mb-3">
+                    Consider weather
+                  </div>
                 </div>
                 <div class="weather-element py-3">
-                  <div class="mb-3">
-                    Force bad weather
-                  </div>
                   <div class="onoffswitch">
                     <input type="checkbox" name="force-bad-weather" class="onoffswitch-checkbox" id="force-bad-weather" v-model="forceBadWeather">
                     <label class="onoffswitch-label" for="force-bad-weather">
                         <span class="onoffswitch-inner"></span>
                         <span class="onoffswitch-switch"></span>
                     </label>
+                  </div>
+                  <div class="mb-3">
+                    Force bad weather
                   </div>
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default {
       forceBadWeather: false,
       listOfRecommendations: [],
       recommendationType: '',
-      radius: 0
+      radius: 5
     }
   },
   mounted () {
@@ -230,7 +230,6 @@ export default {
 }
 
 
-
 .header2 {
   height: 150px;
   background-color: #463E3C;
@@ -241,12 +240,21 @@ export default {
   padding: 1.25em;
 }
 
+.slider >>> .vue-slider-tooltip {
+  border: 1px solid #473e3c;
+  background-color: #473e3c;
+}
+
+.slider >>> .vue-slider-process {
+  background-color: #473e3c;
+}
+
 .weather-element {
-  display: inline-block;
-  padding-right: 50px
+  display: flex;
 }
 
 .onoffswitch {
+  margin-right: 20px;
     position: relative; width: 83px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
@@ -269,7 +277,7 @@ export default {
 .onoffswitch-inner:before {
     content: "ON";
     padding-left: 10px;
-    background-color: #59a1db; color: #FFFFFF;
+    background-color: #473e3c; color: #FFFFFF;
 }
 .onoffswitch-inner:after {
     content: "OFF";
@@ -278,12 +286,13 @@ export default {
     text-align: right;
 }
 .onoffswitch-switch {
-    display: block; width: 14px; margin: 5px;
-    background: #FFFFFF;
-    position: absolute; top: 0; bottom: 0;
-    right: 55px;
-    border: 2px solid #999999; border-radius: 20px;
-    transition: all 0.3s ease-in 0s;
+  height: 15px;
+  display: block; width: 14px; margin: 5px;
+  background: #FFFFFF;
+  position: absolute; top: 2px; bottom: 0;
+  right: 55px;
+  border: 2px solid #999999; border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
@@ -293,7 +302,7 @@ export default {
 }
 
 .go-button button {
-  background-color: #59a1db;
+  background-color: #473e3c;
   color: white;
 }
 </style>

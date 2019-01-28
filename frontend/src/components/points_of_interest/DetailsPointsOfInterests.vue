@@ -68,7 +68,7 @@
 
     <l-map v-if="recommendation" ref="myMap" class="map" :zoom="initZoom" :center="berlinMainTrainstationLeaflet">
       <l-tile-layer :url="layerUrl" :attribution="attribution"></l-tile-layer>
-      <l-marker :lat-lng="berlinMainTrainstationLeaflet" ></l-marker>
+      <l-marker :lat-lng="berlinMainTrainstationLeaflet" :icon="currentLocationIcon"></l-marker>
       <l-marker v-for="(poimarker, index) in poiMarkers" :lat-lng="poimarker.geoLocation" :icon="poimarker.icon" :key="index"></l-marker>
     </l-map>
   </div>
@@ -92,6 +92,10 @@ export default {
       attribution:'&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       berlinMainTrainstationLeaflet: L.latLng(52.525084, 13.369402), // for demo purpose: use berlin station as start point
       city: 'Berlin',
+      currentLocationIcon: L.icon({
+          iconUrl: 'https://cdn3.iconfinder.com/data/icons/essentials-vol-1-1/512/User_Location-512.png',
+          iconSize: [38, 42],
+        }),
       distance: null,
       initZoom: 11,
       liked: '',
@@ -142,7 +146,7 @@ export default {
     pushMarker: function (lat, long) {
       let icon = L.icon({
         iconUrl: './map-marker-2-xxl.png',
-        iconSize: [33, 35]
+        iconSize: [32, 35]
       })
 
       let newMarker = { geoLocation: { lat: lat, lng: long }, icon: icon }
