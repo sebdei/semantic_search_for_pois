@@ -1,13 +1,23 @@
 import psycopg2
 import os
 from psycopg2 import sql
+import time
 
 # set-up stuff
 
 def create_connection():
-    db_connection = os.getenv('DB_CONNECTION', "dbname='admin' user='admin' host='localhost' port=5433 password='admin'")
-    conn = psycopg2.connect(db_connection)
-    cur = conn.cursor()
+    connection = False
+
+    while not connection:
+        try:
+            db_connection = os.getenv('DB_CONNECTION', "dbname='admin' user='admin' host='localhost' port=5433 password='admin'")
+            conn = psycopg2.connect(db_connection)
+            cur = conn.cursor()
+            connection = True
+        except psycopg2.OperationalError:
+            print("There was an error connecting with the database. Trying to connect again...")
+            time.sleep(1)
+            connection = False
 
     return cur, conn
 
