@@ -3,9 +3,9 @@ import os
 import pandas as pd
 import re
 
-from ..persistency import persistence_service
-from ..persistency import pandas_persistence_service
-from ..persistency.data_model import *
+from src.service.persistency import persistence_service
+from src.service.persistency import pandas_persistence_service
+from src.service.persistency.data_model import *
 
 DATA_BASE_PATH = 'data/'
 CSV_NAME = 'open_data_berlin_cultural_institutes.xlsx'

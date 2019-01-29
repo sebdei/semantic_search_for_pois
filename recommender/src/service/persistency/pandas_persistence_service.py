@@ -1,5 +1,6 @@
-from .persistence_service import *
 import pandas as pd
+
+from .persistence_service import *
 from .data_model import *
 
 # points of interests

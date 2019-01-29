@@ -6,13 +6,13 @@ from surprise.model_selection import train_test_split
 from surprise import Reader, Dataset
 from surprise import SVD
 from surprise.model_selection import KFold
-from ..persistency import persistence_service as ps
-from ..persistency import pandas_persistence_service as pps
-from ..persistency.data_model import *
-
 import pandas as pd
 import numpy as np
 import os
+
+from src.service.persistency import pandas_persistence_service as pps
+from src.service.persistency import persistence_service as ps
+from src.service.persistency.data_model import *
 
 RATING = 'rating'
 

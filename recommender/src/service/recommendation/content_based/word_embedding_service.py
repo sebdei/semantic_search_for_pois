@@ -5,9 +5,9 @@ import nltk
 nltk.download('stopwords')
 nltk.download('wordnet') # lemmatization
 
-from .model_provider import provide_glove_model
+from src.service import model_provider
 
-glove_model = provide_glove_model()
+glove_model = model_provider.provide_glove_model()
 
 def clean_userinput(userinput):
     stripped_userinput = re.sub('[-!$%^&*()_+|~=`{}\[\]:\";\'<>?,.\/\d]', ' ', userinput)

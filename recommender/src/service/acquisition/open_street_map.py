@@ -1,9 +1,9 @@
 import overpy
 import time
 import pandas as pd
-from ..persistency import pandas_persistence_service
-from ..persistency import persistence_service
-from ..persistency.data_model import *
+from src.service.persistency import pandas_persistence_service
+from src.service.persistency import persistence_service
+from src.service.persistency.data_model import *
 
 # https://taginfo.openstreetmap.org/keys/leisure#values
 
@@ -111,20 +111,20 @@ def import_osm_points_of_interest():
 
         for way in r.get_ways():
             row = pd.Series([None] * len(OSM_COLUMNS), OSM_COLUMNS)
-            
+
             for tag in way.tags.keys():
                 if tag in tag_schema_assignment.keys():
                     col = tag_schema_assignment.get(tag)
                     value = way.tags.get(tag)
                     row[col] = value
-            
+
             row[LAT] = way.center_lat
             row[LONG] = way.center_lon
             row[OSM_ID] = way.id
             row[SOURCE] = "osm:way"
 
             osm_data_frame = osm_data_frame.append([row], sort = False)
-        
+
     # query for nodes
 
     for amenity in amenities:
@@ -139,13 +139,13 @@ def import_osm_points_of_interest():
 
         for node in r.get_nodes():
             row = pd.Series([None] * len(OSM_COLUMNS), OSM_COLUMNS)
-            
+
             for tag in node.tags.keys():
                 if tag in tag_schema_assignment.keys():
                     col = tag_schema_assignment.get(tag)
                     value = node.tags.get(tag)
                     row[col] = value
-            
+
             row[LAT] = node.lat
             row[LONG] = node.lon
             row[OSM_ID] = node.id
@@ -173,7 +173,7 @@ def import_osm_points_of_interest():
                     col = tag_schema_assignment.get(tag)
                     value = node.tags.get(tag)
                     row[col] = value
-            
+
             row[LAT] = node.lat
             row[LONG] = node.lon
             row[OSM_ID] = node.id

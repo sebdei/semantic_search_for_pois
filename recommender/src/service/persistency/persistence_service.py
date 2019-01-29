@@ -1,6 +1,6 @@
 import psycopg2
-import os
 from psycopg2 import sql
+import os
 import time
 
 # set-up stuff
@@ -40,7 +40,7 @@ def create_schemata():
         cur.execute(create_query)
 
         print("Created table %s" % (schema))
-    
+
     conn.commit()
     print('Created all schemata in PostgreSQL')
 

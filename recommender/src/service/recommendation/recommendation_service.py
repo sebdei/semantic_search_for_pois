@@ -1,10 +1,10 @@
-from .similarity_service import determine_similar_items_with_cosine_similarity
-from .word_embedding_service import calculate_mean_vector_of_word_embeddings_for_text
-from .collaborative_filtering import filter_weather, filter_location, user2user_recommender
-
 import pandas as pd
-from .persistency import pandas_persistence_service
-from .persistency import persistence_service
+
+from .collaborative_filtering import filter_weather, filter_location, user2user_recommender
+from .content_based import similarity_service, word_embedding_service
+
+from src.service.persistency import pandas_persistence_service
+from src.service.persistency import persistence_service
 
 def content_based_recommendation(user_id):
     user_input_record = persistence_service.get_user_input_for_id(user_id)
@@ -15,11 +15,11 @@ def content_based_recommendation(user_id):
     else:
         user_input = user_input_record[1]
 
-        user_input_mean_word_embeddings = calculate_mean_vector_of_word_embeddings_for_text(user_input)
+        user_input_mean_word_embeddings = word_embedding_service.calculate_mean_vector_of_word_embeddings_for_text(user_input)
         articles = pandas_persistence_service.get_all_points_of_interests_as_df()
         articles = articles[articles.feature_vector.notnull()]
 
-        cos_similarities_df = determine_similar_items_with_cosine_similarity(user_input_mean_word_embeddings, articles)
+        cos_similarities_df = similarity_service.determine_similar_items_with_cosine_similarity(user_input_mean_word_embeddings, articles)
 
         return cos_similarities_df
 
@@ -58,4 +58,4 @@ def recommendation_for_user(user_id, user_lat, user_long, radius, consider_weath
         print(recommendations.reindex(columns=['name', 'is_building', 'pred_rating', 'distance_to_user']))
 
     # return best 10 results
-    return recommendations[:10], recommendation_type
+    return recommendations[:20], recommendation_type

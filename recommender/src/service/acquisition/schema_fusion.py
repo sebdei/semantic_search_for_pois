@@ -1,11 +1,12 @@
-from .persistency import pandas_persistence_service as pps
-from .persistency import persistence_service as ps
-from .persistency.data_model import *
 import math
 import string
 import pandas as pd
 import re
 from py_stringmatching import SmithWaterman
+
+from src.service.persistency import pandas_persistence_service as pps
+from src.service.persistency import persistence_service as ps
+from src.service.persistency.data_model import *
 
 def import_into_poi_table():
     # Truncate current POIs, get empty dataframe
@@ -51,7 +52,7 @@ def prepare_osm_pois(osm_df):
     after = len(osm_df)
     print('removed', before-after, 'POIs from OSM Data where the name is null.')
     return osm_df
-    
+
 def import_osm_pois(poi_df, osm_df):
     sw = SmithWaterman()
 
@@ -64,7 +65,7 @@ def import_osm_pois(poi_df, osm_df):
 
         if len(close_pois) != 0:
             name = clean_name(str(osm_row[NAME]))
-            
+
             for idx, maybe_duplicate in close_pois.iterrows():
                 dup_name = clean_name(str(maybe_duplicate[NAME]))
 
@@ -75,7 +76,7 @@ def import_osm_pois(poi_df, osm_df):
 
                     score_de = sw.get_raw_score(name_de, dup_name) / max(len(name_de), len(dup_name))
                     score = max(score, score_de)
-                
+
                 if score >= 0.6:
                     consolidated_row = merge_osm_conflict(osm_row, maybe_duplicate)
                     poi_df.loc[idx] = consolidated_row
@@ -84,7 +85,7 @@ def import_osm_pois(poi_df, osm_df):
         if not merged:
             row = convert_osm_to_poi(osm_row)
             poi_df = poi_df.append(row, ignore_index=True)
-    
+
     return poi_df
 
 def convert_osm_to_poi(osm_row):

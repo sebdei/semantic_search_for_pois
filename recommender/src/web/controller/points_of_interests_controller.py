@@ -1,6 +1,6 @@
 import simplejson as json
 
-from src.service import recommendation_service
+from src.service.recommendation import recommendation_service
 
 from src.service.persistency import pandas_persistence_service
 from src.service.persistency import persistence_service
