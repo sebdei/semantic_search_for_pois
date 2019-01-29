@@ -146,6 +146,8 @@ export default {
 
       this.listOfRecommendations = listOfRecommendations.map((recommendation) => {
         recommendation.distance = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
+        recommendation.source.text = recommendation.source.text.replace(/\s{2,}/g, '') 
+
         return recommendation
       })
 

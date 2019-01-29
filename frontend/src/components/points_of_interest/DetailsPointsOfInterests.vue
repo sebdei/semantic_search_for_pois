@@ -118,6 +118,7 @@ export default {
 
       const recommendation = response.data[0]
       this.setLocationVariables(recommendation)
+      recommendation.source.text = recommendation.source.text.replace(/\s{2,}/g, '')
 
       this.recommendation = recommendation
     },
