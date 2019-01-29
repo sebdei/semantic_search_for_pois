@@ -1,11 +1,11 @@
 import pyowm
 
 def filter_by_weather(location, recommended_places, use_weather, force_bad_weather):
-    if use_weather:
-        return filter_by_weather_api(location, recommended_places)
+    if force_bad_weather:
+        return recommended_places[recommended_places.is_building == True]
     else:
-        if force_bad_weather:
-            return recommended_places[(recommended_places.is_building is True)]
+        if use_weather:
+            return filter_by_weather_api(location, recommended_places)
         else:
             return recommended_places
 
