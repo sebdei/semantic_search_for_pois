@@ -17,7 +17,7 @@ def run():
     # import_into_poi_table()
 
     # drop all tables and import default data
-    # restore_default_database()
+    restore_default_database()
 
     flask.bind_routes()
 
