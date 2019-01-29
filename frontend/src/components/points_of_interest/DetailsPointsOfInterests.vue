@@ -56,6 +56,9 @@
           <a href="https://daten.berlin.de/">
             <img class="open-berlin-img" src="https://www.berlin.de/css/berlin_de/echo/images/logo_berlin_de.svg">
           </a>
+          <a href="https://www.visitberlin.de/de">
+            <img class="open-berlin-img" src="https://pictures.attention-ngn.com/portal/24/256207/logo/1359725519.9371_3_o.jpg">
+          </a>
           <a href="https://www.openstreetmap.org">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/1200px-Openstreetmap_logo.svg.png">
           </a>
