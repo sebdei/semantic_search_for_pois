@@ -60,10 +60,10 @@
             Your personal recommendations
           </h2>
           <h5 class="recommendation-type" v-if="recommendationType === 'content_based'">
-            Determined by your word vector
+            ...based on your input
           </h5>
           <h5 class="recommendation-type" v-if="recommendationType === 'collaborative_filtering'">
-            Determined with collaborative filtering technique
+            ...based on other user preferences
           </h5>
         </div>
         <div class="poi-list">
@@ -146,7 +146,7 @@ export default {
 
       this.listOfRecommendations = listOfRecommendations.map((recommendation) => {
         recommendation.distance = calcDistance(this.berlinMainTrainstationLeaflet, recommendation.lat, recommendation.long)
-        recommendation.source.text = recommendation.source.text.replace(/\s{2,}/g, '') 
+        recommendation.source.text = recommendation.source.text.replace(/\s{2,}/g, '')
 
         return recommendation
       })
