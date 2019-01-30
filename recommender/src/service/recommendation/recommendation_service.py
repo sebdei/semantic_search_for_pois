@@ -37,9 +37,6 @@ def recommendation_for_user(user_id, user_lat, user_long, radius, consider_weath
         rmse = user2user_recommender.eval(int(user_id))
         print('RMSE is %f' % (rmse))
 
-    # disable RMSE filtering for demo
-    rmse = 0.001
-
     if ratings_count > 3 and rmse < 0.01:
         # use CF when enough user rated enough and has a low (predicted) error
         print('Collaborative filtering for user with ID %s with RMSE %f and %d ratings' % (user_id, rmse, ratings_count))
