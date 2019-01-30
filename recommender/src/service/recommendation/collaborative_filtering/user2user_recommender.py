@@ -100,7 +100,7 @@ def get_recommendations_for_user(user_id):
         pred = algo.predict(user_id, item_id, r_ui=4, verbose=False) # execute the calculation
         predictions_list.append({'id':item_id, 'pred_rating':pred.est, 'name':poi_information[1], 'long':poi_information[5], 'lat':poi_information[6], 'opening_hours':poi_information[7], 'is_building':poi_information[8]})
 
-    predictions = pd.DataFrame(predictions_list)
+    predictions = pd.DataFrame(predictions_list).set_index('id')
 
     # Step 4: Sort locations their predicted ratings
     predictions = predictions.sort_values(by=['pred_rating'], ascending=[0])
