@@ -2,7 +2,7 @@
 # see https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/
 bing_subscription_key = "BING_SUBSCRIPTION_KEY"
 
-openWeatherMaps_api_key = "9488b414d1e6b302c301939cd46806e3"
+open_weather_maps_api_key = "OPEN_WEATHER_MAP_API_KEY"
 
 twitter_access_token = 'ACCESS_TOKEN'
 twitter_access_token_secret = 'ACCESS_TOKEN_SECRET'

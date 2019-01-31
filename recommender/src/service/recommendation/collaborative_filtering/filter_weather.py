@@ -18,7 +18,7 @@ def filter_by_weather_api(location, recommended_places):
 
     # Step 1: Connect to Weather API
     # owm = pyowm.OWM(openWeatherMaps_api_key)
-    owm = pyowm.OWM("9488b414d1e6b302c301939cd46806e3")
+    owm = pyowm.OWM(openWeatherMaps_api_key)
     observation_list = owm.weather_around_coords(lat, lng)
     if len(observation_list) > 0:
         # weather found for location
