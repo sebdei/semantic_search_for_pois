@@ -1,4 +1,5 @@
 import pyowm
+from config import *
 
 def filter_by_weather(location, recommended_places, use_weather, force_bad_weather):
     if force_bad_weather:
@@ -16,7 +17,8 @@ def filter_by_weather_api(location, recommended_places):
     lng = location['lng']
 
     # Step 1: Connect to Weather API
-    owm = pyowm.OWM('d226204f5696750985009365ee253eb2')
+    # owm = pyowm.OWM(openWeatherMaps_api_key)
+    owm = pyowm.OWM("9488b414d1e6b302c301939cd46806e3")
     observation_list = owm.weather_around_coords(lat, lng)
     if len(observation_list) > 0:
         # weather found for location
