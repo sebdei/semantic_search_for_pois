@@ -12,12 +12,10 @@ from urllib.request import urlretrieve
 import os
 import pandas
 
-# subscription key for Bing, needs to be renewed regularly
-# see https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/
-subscription_key = "e9b3e33e68e944eb9ec0ca3b7cb3af3e"
+from config import *
 
 # instantiate the client.
-client = WebSearchAPI(CognitiveServicesCredentials(subscription_key))
+client = WebSearchAPI(CognitiveServicesCredentials(bing_subscription_key))
 
 def clean_html(raw_html):
 	cleanr = re.compile('<.*?>')
